@@ -267,6 +267,7 @@ function addIncident(listId,type,data={}){
   if(data.tags&&div.querySelector('.f-tags')) div.querySelector('.f-tags').value=data.tags;
   if(data.caution) div.dataset.caution='true';
   if(data.stream) div.dataset.stream=data.stream;
+  if(data.cautionUrl) div.dataset.cautionUrl=data.cautionUrl;
   if(data.alert&&div.querySelector('.f-alert')) div.querySelector('.f-alert').value=data.alert;
   if(data.date&&div.querySelector('.f-date')) div.querySelector('.f-date').value=data.date;
   div.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',onEdit));
@@ -322,6 +323,7 @@ function getEntries(listId){
     date:e.querySelector('.f-date')?.value||'',
     caution:e.dataset.caution==='true',
     stream:e.dataset.stream||'',
+    cautionUrl:e.dataset.cautionUrl||'',
   }));
 }
 
@@ -634,9 +636,14 @@ function parseAndImport(){
         // Extract TRACK stream type before stripping
         const trackM=content.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
         const streamTag=trackM?(trackM[1].trim()+' stream'):'';
-        // Extract Caution Alert before stripping
-        const cautionM=content.match(/See Caution Alert/i);
-        const hasCaution=!!cautionM;
+        // Extract Caution Alert URL — grab full dash.samdesk.io URL if present, else fallback
+        const cautionUrlM=content.match(/See Caution Alert[.\s]*\(?(https?:\/\/dash\.samdesk\.io[^\s)]*)\)?/i)
+          || content.match(/(https?:\/\/dash\.samdesk\.io\/alerts[^\s)]*)/i)
+          || content.match(/See Caution Alert[.\s]*(dash\.samdesk\.io[^\s)]*)/i);
+        const cautionUrl=cautionUrlM
+          ? (cautionUrlM[1].startsWith('http') ? cautionUrlM[1] : 'https://'+cautionUrlM[1])
+          : (content.match(/See Caution Alert/i) ? 'https://dash.samdesk.io/alerts' : null);
+        const hasCaution=!!cautionUrl;
         // Strip REVIEW/TRACK/See suffixes
         content=content.replace(/\s*REVIEW:.*$/i,'').replace(/\s*TRACK via.*$/i,'').replace(/\s*See (also )?Caution Alert\.?/i,'').trim();
         // Split into title (first sentence) and body (rest)
@@ -650,7 +657,7 @@ function parseAndImport(){
         const isCritical=/killed|fatalities|attack|explosion|crash|fire|strike|crisis|critical|mining|drone/i.test(content);
         const sev=isCritical?'critical':'high';
         const dest=isCritical?'action':'decisions';
-        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags,caution:hasCaution});
+        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags,caution:hasCaution,cautionUrl:cautionUrl||''});
         stats[dest]++;
         continue;
       }
@@ -694,14 +701,21 @@ function parseAndImport(){
           if(s>0){eventTitle=content.substring(0,s);body=content.substring(s+2);}
         }
         // Extract caution alert
-        const cautionFwdM=body.match(/See Caution Alert\.?/i);
-        if(cautionFwdM){alert='⚠ Caution Alert';body=body.replace(cautionFwdM[0],'').trim();}
+        // Extract caution alert URL from forward planning too
+        const cautionFwdUrlM=body.match(/See Caution Alert[.\s]*\(?(https?:\/\/dash\.samdesk\.io[^\s)]*)\)?/i)
+          || body.match(/(https?:\/\/dash\.samdesk\.io\/alerts[^\s)]*)/i)
+          || body.match(/See Caution Alert[.\s]*(dash\.samdesk\.io[^\s)]*)/i);
+        const fwdCautionUrl=cautionFwdUrlM
+          ? (cautionFwdUrlM[1].startsWith('http') ? cautionFwdUrlM[1] : 'https://'+cautionFwdUrlM[1])
+          : (body.match(/See Caution Alert/i) ? 'https://dash.samdesk.io/alerts' : null);
+        const cautionFwdM=fwdCautionUrl;
+        if(cautionFwdM){alert='⚠ Caution Alert';body=body.replace(/See Caution Alert[^.]*\.?/i,'').trim();}
         // Extract TRACK stream from forward planning too
         const fwdTrackM=body.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
         const fwdStream=fwdTrackM?(fwdTrackM[1].trim()+' stream'):'';
         if(fwdStream) body=body.replace(fwdTrackM[0],'').trim();
         body=body.replace(/\s*-\s*New\s*$/i,'').trim();
-        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert,stream:fwdStream});
+        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert,stream:fwdStream,cautionUrl:fwdCautionUrl||''});
         stats.emerging++;
         continue;
       }
