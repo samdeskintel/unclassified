@@ -265,6 +265,8 @@ function addIncident(listId,type,data={}){
   if(data.title) div.querySelector('.f-title').value=data.title;
   if(data.body&&div.querySelector('.f-body')) div.querySelector('.f-body').value=data.body;
   if(data.tags&&div.querySelector('.f-tags')) div.querySelector('.f-tags').value=data.tags;
+  if(data.caution) div.dataset.caution='true';
+  if(data.stream) div.dataset.stream=data.stream;
   if(data.alert&&div.querySelector('.f-alert')) div.querySelector('.f-alert').value=data.alert;
   if(data.date&&div.querySelector('.f-date')) div.querySelector('.f-date').value=data.date;
   div.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',onEdit));
@@ -318,6 +320,8 @@ function getEntries(listId){
     tags:e.querySelector('.f-tags')?.value||'',
     alert:e.querySelector('.f-alert')?.value||'',
     date:e.querySelector('.f-date')?.value||'',
+    caution:e.dataset.caution==='true',
+    stream:e.dataset.stream||'',
   }));
 }
 
@@ -627,17 +631,26 @@ function parseAndImport(){
           j++;
         }
         i=j;
-        // Strip REVIEW/TRACK suffixes
-        content=content.replace(/\s*REVIEW:.*$/i,'').replace(/\s*TRACK via.*$/i,'').replace(/\s*See (also|Caution Alert).*$/i,'').trim();
+        // Extract TRACK stream type before stripping
+        const trackM=content.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
+        const streamTag=trackM?(trackM[1].trim()+' stream'):'';
+        // Extract Caution Alert before stripping
+        const cautionM=content.match(/See Caution Alert/i);
+        const hasCaution=!!cautionM;
+        // Strip REVIEW/TRACK/See suffixes
+        content=content.replace(/\s*REVIEW:.*$/i,'').replace(/\s*TRACK via.*$/i,'').replace(/\s*See (also )?Caution Alert\.?/i,'').trim();
         // Split into title (first sentence) and body (rest)
         const sentEnd=content.search(/[.!?]\s+[A-Z]/);
         let title=sentEnd>0?content.substring(0,sentEnd+1):content.substring(0,120);
         let body=sentEnd>0?content.substring(sentEnd+2):'';
+        // Build tags — inferred + stream type
+        let tags=inferTags(content);
+        if(streamTag) tags=tags?tags+', '+streamTag:streamTag;
         // Assign severity heuristically
         const isCritical=/killed|fatalities|attack|explosion|crash|fire|strike|crisis|critical|mining|drone/i.test(content);
         const sev=isCritical?'critical':'high';
         const dest=isCritical?'action':'decisions';
-        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags:inferTags(content)});
+        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags,caution:hasCaution});
         stats[dest]++;
         continue;
       }
@@ -681,10 +694,14 @@ function parseAndImport(){
           if(s>0){eventTitle=content.substring(0,s);body=content.substring(s+2);}
         }
         // Extract caution alert
-        const cautionM=body.match(/See Caution Alert\.?/i);
-        if(cautionM){alert='⚠ Caution Alert issued';body=body.replace(cautionM[0],'').trim();}
+        const cautionFwdM=body.match(/See Caution Alert\.?/i);
+        if(cautionFwdM){alert='⚠ Caution Alert';body=body.replace(cautionFwdM[0],'').trim();}
+        // Extract TRACK stream from forward planning too
+        const fwdTrackM=body.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
+        const fwdStream=fwdTrackM?(fwdTrackM[1].trim()+' stream'):'';
+        if(fwdStream) body=body.replace(fwdTrackM[0],'').trim();
         body=body.replace(/\s*-\s*New\s*$/i,'').trim();
-        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert});
+        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert,stream:fwdStream});
         stats.emerging++;
         continue;
       }
