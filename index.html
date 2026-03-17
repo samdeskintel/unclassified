@@ -117,6 +117,20 @@ select option{background:var(--surface)}
       </div>
     </div>
 
+    <!-- Paste Import -->
+    <div class="form-section" id="sec-paste">
+      <div class="form-section-hdr" onclick="toggleSection('sec-paste')">
+        <span class="form-section-title blue">Paste &amp; Import</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div style="font-size:9px;color:var(--dim);line-height:1.5;margin-bottom:4px">Paste your existing email text below. The importer will extract the date, notable developments, active monitoring, and forward planning items and map them into the form automatically.</div>
+        <textarea id="paste-input" rows="6" placeholder="Paste your raw email text here...&#10;&#10;e.g. Mar 16, 2026 12:00 GMT&#10;&#10;Notable Developments&#10;Iran | US President...&#10;&#10;Active and Monitoring&#10;..."></textarea>
+        <button class="btn btn-primary btn-sm" style="width:100%;padding:8px" onclick="parseAndImport()">↓ Parse &amp; Import into form</button>
+        <div id="parse-feedback" style="font-size:9px;color:var(--green);display:none;margin-top:2px"></div>
+      </div>
+    </div>
+
     <!-- API Pull -->
     <div class="form-section" id="sec-api">
       <div class="form-section-hdr" onclick="toggleSection('sec-api')">
@@ -534,6 +548,240 @@ function showToast(msg,color='#10B981'){
   t.style.background=color;
   t.style.opacity=1;
   setTimeout(()=>t.style.opacity=0,2500);
+}
+
+// ── Paste & Parse ───────────────────────────────────────────
+function parseAndImport(){
+  const raw=document.getElementById('paste-input').value.trim();
+  if(!raw) return showToast('Nothing to parse — paste your email first','#F59E0B');
+
+  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
+  let parsed={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[]};
+  let stats={action:0,decisions:0,monitoring:0,emerging:0};
+
+  // ── Date / time ──
+  // Look for patterns like "Mar 16, 2026 12:00 GMT" or "UNCLASSIFIED - Mar 16:"
+  for(const l of lines){
+    const m=l.match(/([A-Z][a-z]+ \d{1,2},?\s*\d{4})\s*(\d{1,2}:\d{2}\s*GMT)?/);
+    if(m){
+      parsed.date=m[1];
+      // Try to find full time string on same line
+      const tm=l.match(/(\d{1,2}:\d{2}\s*GMT.*)/);
+      if(tm) parsed.time=tm[1].replace(/,\s*/g,' · ');
+      break;
+    }
+  }
+
+  // ── Locate section boundaries ──
+  const sectionMap={
+    notable:    /^(Notable Developments|Situational Awareness)/i,
+    active:     /^(Active and Monitoring|Active & Monitoring)/i,
+    forward:    /^(Forward Planning)/i,
+    higheng:    /^(High Engagement Events)/i,
+  };
+
+  let currentSection=null;
+  let summaryLines=[];
+  let seenSections=new Set();
+  let i=0;
+
+  while(i<lines.length){
+    const l=lines[i];
+
+    // Detect section header
+    let matched=false;
+    for(const [key,re] of Object.entries(sectionMap)){
+      if(re.test(l)){
+        currentSection=key;
+        seenSections.add(key);
+        matched=true;
+        break;
+      }
+    }
+    if(matched){i++;continue;}
+
+    // Skip samdesk monitoring lines
+    if(/^\|\s*samdesk monitoring/i.test(l)){i++;continue;}
+    // Skip footer lines
+    if(/samdesk,|Manage preferences|What did we miss/i.test(l)){i++;continue;}
+    // Skip classification header lines
+    if(/^UNCLASSIFIED/i.test(l)){i++;continue;}
+
+    if(!currentSection){
+      // Anything before first section = potential summary material
+      if(l.length>20 && !/^\d{2}:\d{2}/.test(l)) summaryLines.push(l);
+      i++;continue;
+    }
+
+    // ── Notable Developments → Immediate Action + Decisions ──
+    if(currentSection==='notable'){
+      // Format: "Region | Content. REVIEW: ..." or "Region | Content"
+      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+      if(m){
+        const region=m[1].trim();
+        let content=m[2].trim();
+        // Gather continuation lines
+        let j=i+1;
+        while(j<lines.length && !lines[j].match(/^[A-Z][^|]{1,40}\|/) && !Object.values(sectionMap).some(r=>r.test(lines[j])) && !/^\|\s*samdesk/i.test(lines[j])){
+          if(lines[j].length>2) content+=' '+lines[j];
+          j++;
+        }
+        i=j;
+        // Strip REVIEW/TRACK suffixes
+        content=content.replace(/\s*REVIEW:.*$/i,'').replace(/\s*TRACK via.*$/i,'').replace(/\s*See (also|Caution Alert).*$/i,'').trim();
+        // Split into title (first sentence) and body (rest)
+        const sentEnd=content.search(/[.!?]\s+[A-Z]/);
+        let title=sentEnd>0?content.substring(0,sentEnd+1):content.substring(0,120);
+        let body=sentEnd>0?content.substring(sentEnd+2):'';
+        // Assign severity heuristically
+        const isCritical=/killed|fatalities|attack|explosion|crash|fire|strike|crisis|critical|mining|drone/i.test(content);
+        const sev=isCritical?'critical':'high';
+        const dest=isCritical?'action':'decisions';
+        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags:inferTags(content)});
+        stats[dest]++;
+        continue;
+      }
+    }
+
+    // ── Active and Monitoring → monitoring section ──
+    if(currentSection==='active'){
+      // Format: "Region | Short description"
+      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+      if(m){
+        parsed.monitoring.push({loc:flagEmoji(m[1].trim())+' '+m[1].trim(),title:m[2].trim()});
+        stats.monitoring++;
+      }
+      i++;continue;
+    }
+
+    // ── Forward Planning → emerging risks ──
+    if(currentSection==='forward'){
+      // Format: "Region | Event title - DateRange. Description. See Caution Alert."
+      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+      if(m){
+        const region=m[1].trim();
+        let content=m[2].trim();
+        // Gather continuation lines
+        let j=i+1;
+        while(j<lines.length && !lines[j].match(/^[A-Z][^|]{1,40}\|/) && !Object.values(sectionMap).some(r=>r.test(lines[j])) && !/^\|\s*samdesk/i.test(lines[j])){
+          if(lines[j].length>2) content+=' '+lines[j];
+          j++;
+        }
+        i=j;
+        // Extract date range from start of content
+        const dateM=content.match(/^(.*?)\s*[-–]\s*(through\s+)?([A-Z][a-z]+ \d{1,2}(?:\s+to\s+[A-Z][a-z]+ \d{1,2})?)\.\s*/i);
+        let eventTitle=content, dateStr='', body='', alert='';
+        if(dateM){
+          eventTitle=dateM[1].trim();
+          dateStr=dateM[3];
+          body=content.substring(dateM[0].length).trim();
+        } else {
+          // Try just pulling first sentence as title
+          const s=content.search(/\.\s/);
+          if(s>0){eventTitle=content.substring(0,s);body=content.substring(s+2);}
+        }
+        // Extract caution alert
+        const cautionM=body.match(/See Caution Alert\.?/i);
+        if(cautionM){alert='⚠ Caution Alert issued';body=body.replace(cautionM[0],'').trim();}
+        body=body.replace(/\s*-\s*New\s*$/i,'').trim();
+        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert});
+        stats.emerging++;
+        continue;
+      }
+    }
+
+    // Skip High Engagement Events entirely (goes to platform)
+    if(currentSection==='higheng'){i++;continue;}
+
+    i++;
+  }
+
+  // Build situation summary from summaryLines if not already set
+  if(!parsed.summary && summaryLines.length){
+    parsed.summary=summaryLines.slice(0,2).join(' ').substring(0,200);
+  }
+
+  // ── Apply to form ──
+  if(!parsed.date&&!stats.action&&!stats.decisions&&!stats.monitoring&&!stats.emerging){
+    showToast('Could not parse — check format and try again','#EF4444');
+    return;
+  }
+
+  // Clear existing entries
+  ['action','decisions','monitoring','emerging'].forEach(t=>{
+    document.getElementById(`${t}-list`).innerHTML='';
+    entryCounters[`${t}-list`]=0;
+  });
+
+  if(parsed.date) set('f-date',parsed.date);
+  if(parsed.time) set('f-time',parsed.time);
+
+  parsed.action.forEach(d=>addIncident('action-list','action',d));
+  parsed.decisions.forEach(d=>addIncident('decisions-list','decisions',d));
+  parsed.monitoring.forEach(d=>addIncident('monitoring-list','monitoring',d));
+  parsed.emerging.forEach(d=>addIncident('emerging-list','emerging',d));
+
+  // Open all populated sections
+  if(parsed.action.length) document.getElementById('sec-action').classList.remove('collapsed');
+  if(parsed.decisions.length) document.getElementById('sec-decisions').classList.remove('collapsed');
+  if(parsed.monitoring.length) document.getElementById('sec-monitoring').classList.remove('collapsed');
+  if(parsed.emerging.length) document.getElementById('sec-emerging').classList.remove('collapsed');
+
+  // Collapse paste panel
+  document.getElementById('sec-paste').classList.add('collapsed');
+
+  const total=stats.action+stats.decisions+stats.monitoring+stats.emerging;
+  const fb=document.getElementById('parse-feedback');
+  fb.style.display='block';
+  fb.textContent=`✓ Imported ${total} items — ${stats.action} action, ${stats.decisions} decisions, ${stats.monitoring} monitoring, ${stats.emerging} emerging`;
+
+  updateCounts();
+  onEdit();
+  showToast(`Imported ${total} items from email`,'#10B981');
+}
+
+// ── Helpers ─────────────────────────────────────────────────
+function flagEmoji(region){
+  const flags={
+    'US':'🇺🇸','United States':'🇺🇸','USA':'🇺🇸',
+    'UK':'🇬🇧','United Kingdom':'🇬🇧',
+    'Iran':'🇮🇷','UAE':'🇦🇪','United Arab Emirates':'🇦🇪',
+    'Iraq':'🇮🇶','Israel':'🇮🇱','Pakistan':'🇵🇰',
+    'India':'🇮🇳','China':'🇨🇳','Russia':'🇷🇺',
+    'Philippines':'🇵🇭','Australia':'🇦🇺','Japan':'🇯🇵',
+    'Canada':'🇨🇦','Germany':'🇩🇪','France':'🇫🇷',
+    'Netherlands':'🇳🇱','Belgium':'🇧🇪','Switzerland':'🇨🇭',
+    'Poland':'🇵🇱','Ukraine':'🇺🇦','South Korea':'🇰🇷',
+    'Brazil':'🇧🇷','Mexico':'🇲🇽','Argentina':'🇦🇷',
+    'Gulf States':'🌍','Global':'🌍','Middle East':'🌍',
+    'Tennessee':'🇺🇸','Georgia':'🇺🇸','Michigan':'🇺🇸',
+    'Nebraska':'🇺🇸','Hawaii':'🇺🇸','Texas':'🇺🇸',
+    'California':'🇺🇸','Virginia':'🇺🇸','Florida':'🇺🇸',
+    'New York':'🇺🇸','Illinois':'🇺🇸','Arizona':'🇺🇸',
+    'DC':'🇺🇸','North Carolina':'🇺🇸',
+    'Democratic Republic of the Congo':'🇨🇩','DR Congo':'🇨🇩',
+    'Republic of the Congo':'🇨🇬','Cyprus':'🇨🇾',
+  };
+  for(const [k,v] of Object.entries(flags)){
+    if(region.toLowerCase().includes(k.toLowerCase())) return v;
+  }
+  return '🌍';
+}
+
+function inferTags(text){
+  const tagMap=[
+    [/shipping|vessel|cargo|maritime/i,'Shipping'],
+    [/aviation|airport|flight|airline/i,'Aviation'],
+    [/energy|oil|gas|fuel|pipeline/i,'Energy'],
+    [/personnel|staff|employee|traveler/i,'Personnel safety'],
+    [/infrastructure|power|utility/i,'Infrastructure'],
+    [/supply chain/i,'Supply chain'],
+    [/protest|demonstration|civil/i,'Civil unrest'],
+    [/terror|attack|bomb|explosive/i,'Security threat'],
+    [/weather|storm|flood|wildfire|tornado/i,'Weather'],
+    [/operations|operational/i,'Operations'],
+  ];
+  return tagMap.filter(([re])=>re.test(text)).map(([,t])=>t).slice(0,3).join(', ');
 }
 
 // ── Clear form ──────────────────────────────────────────────
