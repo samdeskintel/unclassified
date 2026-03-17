@@ -1,0 +1,552 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>samdesk Brief Composer</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--bg:#0D1117;--surface:#111827;--surface2:#0A0F1A;--border:#1F2937;--border2:#1E3A5F;--text:#E5E7EB;--muted:#9CA3AF;--dim:#4B5563;--blue:#4A9EFF;--amber:#F59E0B;--red:#EF4444;--green:#10B981;--purple:#8B5CF6}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;height:100vh;overflow:hidden}
+#app{display:flex;height:100vh}
+#form-panel{width:430px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#preview-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#1a1a2e}
+
+/* Panel headers */
+.panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surface2)}
+.panel-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-right:auto}
+.btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;letter-spacing:.5px;transition:opacity .2s}
+.btn:hover{opacity:.85}
+.btn-primary{background:var(--blue);color:#060810}
+.btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--blue)}
+.btn-amber{background:var(--amber);color:#060810}
+.btn-sm{padding:4px 10px;font-size:10px}
+
+/* Status pill */
+.status-pill{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:.5px}
+.status-pill.saved{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
+.status-pill.unsaved{background:#1C1208;color:var(--amber);border:1px solid #451A00}
+
+/* Form scroll */
+#form-scroll{flex:1;overflow-y:auto;padding:14px 16px}
+#form-scroll::-webkit-scrollbar{width:4px}
+#form-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* Section blocks */
+.form-section{margin-bottom:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.form-section-hdr{padding:9px 12px;background:var(--surface2);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
+.form-section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
+.form-section-title.red{color:var(--red)}.form-section-title.amber{color:var(--amber)}.form-section-title.green{color:var(--green)}.form-section-title.purple{color:var(--purple)}.form-section-title.blue{color:var(--blue)}.form-section-title.gray{color:var(--muted)}
+.sec-count{font-size:9px;font-weight:700;background:var(--border);color:var(--muted);border-radius:8px;padding:1px 6px;margin-left:auto}
+.toggle-icon{font-size:9px;color:var(--dim);transition:transform .2s;margin-left:4px}
+.form-section-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.form-section.collapsed .form-section-body{display:none}
+.form-section.collapsed .toggle-icon{transform:rotate(-90deg)}
+
+/* Fields */
+label{font-size:9px;color:var(--dim);letter-spacing:.5px;display:block;margin-bottom:3px}
+input[type=text],textarea,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:6px 9px;font-family:inherit;resize:vertical;outline:none;transition:border-color .2s}
+input[type=text]:focus,textarea:focus,select:focus{border-color:var(--blue)}
+textarea{min-height:60px;line-height:1.5}
+select option{background:var(--surface)}
+.field-row{display:flex;gap:7px}
+.field-row>*{flex:1}
+
+/* Incident entries */
+.incident-list{display:flex;flex-direction:column;gap:7px}
+.incident-entry{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:9px}
+.incident-entry-hdr{display:flex;align-items:center;gap:7px;margin-bottom:7px}
+.entry-num{font-size:9px;color:var(--dim);font-weight:700;min-width:14px}
+.remove-btn{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;line-height:1}
+.remove-btn:hover{color:var(--red)}
+.add-btn{width:100%;padding:6px;background:transparent;border:1px dashed var(--border);border-radius:4px;color:var(--dim);font-size:10px;cursor:pointer;transition:all .2s;margin-top:2px}
+.add-btn:hover{border-color:var(--blue);color:var(--blue)}
+
+/* API pull status */
+.api-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:5px;font-size:10px;color:var(--muted)}
+.api-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+.api-label{flex:1}
+.api-spinner{width:10px;height:10px;border:1.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;display:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* Preview */
+.preview-hdr{padding:10px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;gap:10px;flex-shrink:0;background:#12122a}
+.preview-label{font-size:10px;color:#6B7280;letter-spacing:1px;text-transform:uppercase;margin-right:auto}
+.tab{padding:4px 12px;border-radius:4px;font-size:10px;cursor:pointer;border:none;font-weight:700;letter-spacing:.5px}
+.tab.active{background:var(--blue);color:#060810}
+.tab.inactive{background:transparent;color:#6B7280;border:1px solid #2a2a4a}
+#preview-scroll{flex:1;overflow-y:auto;padding:16px}
+#preview-scroll::-webkit-scrollbar{width:4px}
+#preview-scroll::-webkit-scrollbar-thumb{background:#2a2a4a;border-radius:2px}
+#email-preview{max-width:640px;margin:0 auto;background:#0F1117;border-radius:8px;overflow:hidden;border:1px solid #1a1a3a}
+#html-output{display:none;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px;font-family:monospace;font-size:10px;color:var(--muted);white-space:pre-wrap;word-break:break-all;max-width:640px;margin:0 auto;line-height:1.5}
+
+/* Draft bar */
+#draft-bar{padding:8px 16px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:10px;font-size:10px;color:var(--green);flex-shrink:0}
+#draft-bar span{margin-right:auto}
+
+/* Toast */
+#toast{position:fixed;bottom:20px;right:20px;background:#10B981;color:#fff;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- FORM PANEL -->
+<div id="form-panel">
+  <div class="panel-hdr">
+    <span class="panel-title">Brief Composer</span>
+    <span id="save-status" class="status-pill saved">Saved</span>
+    <button class="btn btn-amber btn-sm" onclick="loadExample()">Load Example</button>
+    <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Save Draft</button>
+  </div>
+  <div id="form-scroll">
+
+    <!-- Meta -->
+    <div class="form-section" id="sec-meta">
+      <div class="form-section-hdr" onclick="toggleSection('sec-meta')">
+        <span class="form-section-title gray">Brief details</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div><label>Date</label><input type="text" id="f-date" placeholder="Sunday, March 16, 2026" oninput="onEdit()"></div>
+        <div><label>Time string</label><input type="text" id="f-time" placeholder="12:00 GMT · 08:00 EDT · 05:00 PDT" oninput="onEdit()"></div>
+        <div><label>Situation summary (1–2 sentences)</label><textarea id="f-summary" rows="3" placeholder="Gulf shipping disruption dominates today's picture..." oninput="onEdit()"></textarea></div>
+      </div>
+    </div>
+
+    <!-- API Pull -->
+    <div class="form-section" id="sec-api">
+      <div class="form-section-hdr" onclick="toggleSection('sec-api')">
+        <span class="form-section-title blue">samdesk Live Feed</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div class="api-row">
+          <div class="api-dot"></div>
+          <span class="api-label">Simulated samdesk API connection active</span>
+          <div class="api-spinner" id="api-spinner"></div>
+        </div>
+        <button class="add-btn" style="border-style:solid;border-color:var(--border2);color:var(--blue)" onclick="pullFromAPI()">↓ Pull today's active incidents</button>
+        <div style="font-size:9px;color:var(--dim);line-height:1.5">Pulls current critical and high-priority incidents into the Immediate Action and Decisions sections. You can edit or remove after import.</div>
+      </div>
+    </div>
+
+    <!-- Immediate Action -->
+    <div class="form-section" id="sec-action">
+      <div class="form-section-hdr" onclick="toggleSection('sec-action')">
+        <span class="form-section-title red">Immediate Action Required</span>
+        <span class="sec-count" id="count-action">0</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div class="incident-list" id="action-list"></div>
+        <button class="add-btn" onclick="addIncident('action-list','action')">+ Add incident</button>
+      </div>
+    </div>
+
+    <!-- Decisions -->
+    <div class="form-section" id="sec-decisions">
+      <div class="form-section-hdr" onclick="toggleSection('sec-decisions')">
+        <span class="form-section-title amber">Decisions &amp; Impact Assessment</span>
+        <span class="sec-count" id="count-decisions">0</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div class="incident-list" id="decisions-list"></div>
+        <button class="add-btn" onclick="addIncident('decisions-list','decisions')">+ Add incident</button>
+      </div>
+    </div>
+
+    <!-- Monitoring -->
+    <div class="form-section" id="sec-monitoring">
+      <div class="form-section-hdr" onclick="toggleSection('sec-monitoring')">
+        <span class="form-section-title green">Active Monitoring</span>
+        <span class="sec-count" id="count-monitoring">0</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div class="incident-list" id="monitoring-list"></div>
+        <button class="add-btn" onclick="addIncident('monitoring-list','monitoring')">+ Add item</button>
+      </div>
+    </div>
+
+    <!-- Emerging -->
+    <div class="form-section" id="sec-emerging">
+      <div class="form-section-hdr" onclick="toggleSection('sec-emerging')">
+        <span class="form-section-title purple">Emerging Risks &amp; Early Signals</span>
+        <span class="sec-count" id="count-emerging">0</span>
+        <span class="toggle-icon">▾</span>
+      </div>
+      <div class="form-section-body">
+        <div class="incident-list" id="emerging-list"></div>
+        <button class="add-btn" onclick="addIncident('emerging-list','emerging')">+ Add risk</button>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Draft bar -->
+  <div id="draft-bar">
+    <span id="draft-info">No draft saved yet</span>
+    <button class="btn btn-ghost btn-sm" onclick="loadDraft()" id="load-draft-btn" style="display:none">Load Draft</button>
+  </div>
+</div>
+
+<!-- PREVIEW PANEL -->
+<div id="preview-panel">
+  <div class="preview-hdr">
+    <span class="preview-label">Live preview</span>
+    <button class="tab active" onclick="switchTab('email')">Email</button>
+    <button class="tab inactive" onclick="switchTab('html')">HTML</button>
+    <button class="btn btn-ghost btn-sm" onclick="copyHTML()" style="margin-left:8px">Copy HTML</button>
+    <button class="btn btn-primary btn-sm" onclick="openWebPage()">Preview Page ↗</button>
+  </div>
+  <div id="preview-scroll">
+    <div id="email-preview"></div>
+    <pre id="html-output"></pre>
+  </div>
+</div>
+
+</div>
+<div id="toast"></div>
+
+<script>
+let currentTab='email';
+let entryCounters={};
+let autoSaveTimer=null;
+
+// ── Section toggle ──────────────────────────────────────────
+function toggleSection(id){
+  document.getElementById(id).classList.toggle('collapsed');
+}
+
+// ── Tab switch ──────────────────────────────────────────────
+function switchTab(t){
+  currentTab=t;
+  document.getElementById('email-preview').style.display=t==='email'?'block':'none';
+  document.getElementById('html-output').style.display=t==='html'?'block':'none';
+  document.querySelectorAll('.tab').forEach(b=>b.className='tab '+(b.textContent.toLowerCase()===t?'active':'inactive'));
+  if(t==='html') document.getElementById('html-output').textContent=generateHTML();
+}
+
+// ── Field helpers ───────────────────────────────────────────
+function v(id){return(document.getElementById(id)?.value||'').trim();}
+function set(id,val){const el=document.getElementById(id);if(el)el.value=val;}
+
+// ── Add incident entry ──────────────────────────────────────
+function addIncident(listId,type,data={}){
+  const list=document.getElementById(listId);
+  const n=(entryCounters[listId]=(entryCounters[listId]||0)+1);
+  const div=document.createElement('div');
+  div.className='incident-entry';
+  div.dataset.type=type;
+  div.innerHTML=buildEntryHTML(n,type);
+  list.appendChild(div);
+  // Pre-fill if data provided
+  if(data.sev) div.querySelector('.f-sev').value=data.sev;
+  if(data.loc) div.querySelector('.f-loc').value=data.loc;
+  if(data.title) div.querySelector('.f-title').value=data.title;
+  if(data.body&&div.querySelector('.f-body')) div.querySelector('.f-body').value=data.body;
+  if(data.tags&&div.querySelector('.f-tags')) div.querySelector('.f-tags').value=data.tags;
+  if(data.alert&&div.querySelector('.f-alert')) div.querySelector('.f-alert').value=data.alert;
+  if(data.date&&div.querySelector('.f-date')) div.querySelector('.f-date').value=data.date;
+  div.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',onEdit));
+  updateCounts();
+  onEdit();
+}
+
+function buildEntryHTML(n,type){
+  const sevOpts=type==='action'
+    ?`<option value="critical">Critical</option><option value="high">High</option>`
+    :type==='decisions'
+    ?`<option value="high">High</option><option value="medium">Medium</option>`
+    :type==='monitoring'?`<option value="monitor">Monitoring</option>`
+    :`<option value="emerging">Emerging</option><option value="caution">Caution Alert</option>`;
+  const bodyField=type!=='monitoring'?`<div><label>Body text</label><textarea class="f-body" rows="2" placeholder="Describe the incident..."></textarea></div>`:'';
+  const tagsField=(type==='action'||type==='decisions')?`<div><label>Impact tags (comma separated)</label><input type="text" class="f-tags" placeholder="Global shipping, Aviation"></div>`:'';
+  const alertField=type==='emerging'?`<div><label>Caution note (optional)</label><input type="text" class="f-alert" placeholder="⚠ Caution Alert issued"></div>`:'';
+  const dateField=type==='emerging'?`<div><label>Date / window</label><input type="text" class="f-date" placeholder="Mar 28"></div>`:'';
+  return `<div class="incident-entry-hdr">
+    <span class="entry-num">#${n}</span>
+    <select class="f-sev" style="flex:1;max-width:110px">${sevOpts}</select>
+    <button class="remove-btn" onclick="removeEntry(this)">✕</button>
+  </div>
+  ${dateField}
+  <div><label>Location / region</label><input type="text" class="f-loc" placeholder="🇺🇸 United States"></div>
+  <div><label>Headline</label><input type="text" class="f-title" placeholder="Short headline..."></div>
+  ${bodyField}${tagsField}${alertField}`;
+}
+
+function removeEntry(btn){
+  btn.closest('.incident-entry').remove();
+  updateCounts();
+  onEdit();
+}
+
+function updateCounts(){
+  ['action','decisions','monitoring','emerging'].forEach(t=>{
+    const n=document.querySelectorAll(`#${t}-list .incident-entry`).length;
+    const el=document.getElementById(`count-${t}`);
+    if(el) el.textContent=n;
+  });
+}
+
+// ── Get entries ─────────────────────────────────────────────
+function getEntries(listId){
+  return Array.from(document.querySelectorAll(`#${listId} .incident-entry`)).map(e=>({
+    sev:e.querySelector('.f-sev')?.value||'',
+    loc:e.querySelector('.f-loc')?.value||'',
+    title:e.querySelector('.f-title')?.value||'',
+    body:e.querySelector('.f-body')?.value||'',
+    tags:e.querySelector('.f-tags')?.value||'',
+    alert:e.querySelector('.f-alert')?.value||'',
+    date:e.querySelector('.f-date')?.value||'',
+  }));
+}
+
+// ── On edit: mark unsaved + debounce save + re-render ───────
+function onEdit(){
+  document.getElementById('save-status').className='status-pill unsaved';
+  document.getElementById('save-status').textContent='Unsaved';
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer=setTimeout(()=>{saveDraft(true);},2000);
+  render();
+}
+
+// ── Draft save / load ───────────────────────────────────────
+function collectState(){
+  return{
+    date:v('f-date'),time:v('f-time'),summary:v('f-summary'),
+    action:getEntries('action-list'),
+    decisions:getEntries('decisions-list'),
+    monitoring:getEntries('monitoring-list'),
+    emerging:getEntries('emerging-list'),
+    savedAt:new Date().toLocaleTimeString()
+  };
+}
+
+function saveDraft(auto=false){
+  const state=collectState();
+  try{
+    localStorage.setItem('samdesk_brief_draft',JSON.stringify(state));
+    document.getElementById('save-status').className='status-pill saved';
+    document.getElementById('save-status').textContent='Saved';
+    document.getElementById('draft-info').textContent=`Draft saved at ${state.savedAt}`;
+    document.getElementById('load-draft-btn').style.display='block';
+    if(!auto) showToast('Draft saved!','#10B981');
+  }catch(e){
+    // localStorage not available in this environment — silent fail
+    document.getElementById('save-status').className='status-pill saved';
+    document.getElementById('save-status').textContent='Saved';
+    if(!auto) showToast('Draft saved this session','#10B981');
+  }
+}
+
+function loadDraft(){
+  try{
+    const raw=localStorage.getItem('samdesk_brief_draft');
+    if(!raw) return showToast('No draft found','#F59E0B');
+    applyState(JSON.parse(raw));
+    showToast('Draft loaded!','#10B981');
+  }catch(e){
+    showToast('No saved draft available','#F59E0B');
+  }
+}
+
+function applyState(s){
+  set('f-date',s.date||'');
+  set('f-time',s.time||'');
+  set('f-summary',s.summary||'');
+  ['action','decisions','monitoring','emerging'].forEach(t=>{
+    document.getElementById(`${t}-list`).innerHTML='';
+    entryCounters[`${t}-list`]=0;
+    (s[t]||[]).forEach(d=>addIncident(`${t}-list`,t,d));
+  });
+  updateCounts();
+  render();
+}
+
+// ── Load example (Mar 16 brief) ─────────────────────────────
+function loadExample(){
+  applyState({
+    date:'Sunday, March 16, 2026',
+    time:'12:00 GMT · 08:00 EDT · 05:00 PDT',
+    summary:'Gulf shipping disruption and UAE drone strikes dominate today\'s picture. US severe weather spreading east — DC, NC, and VA face tornado risk Monday. Elevated global terror threat ahead of St. Patrick\'s Day events.',
+    action:[
+      {sev:'critical',loc:'🌍 Gulf States / UAE',title:'Drone strikes hit Fujairah oil facility and Dubai Airport — Strait of Hormuz crisis escalating',body:'Drone attacks caused fires at an oil facility in Fujairah and near Dubai International Airport, prompting a temporary flight suspension. President Trump warned NATO allies of a "very bad" future if they fail to assist in reopening the strait — classified as a "critical" threat by UK maritime agencies. Australia and Japan have declined to send vessels.',tags:'Global shipping, Aviation, Energy supply'},
+      {sev:'critical',loc:'🇺🇸 United States',title:'Severe winter weather spreading east — tornado risk for DC, NC, and VA on Monday',body:'Power outages impacted hundreds of thousands across the US. Nebraska wildfires burned over 900 sq miles with one fatality. Minnesota and Wisconsin received 20+ inches of snow. Storms now moving east — DC, NC, and VA face highest risk for high winds and tornadoes Monday.',tags:'Operations, Travel, Infrastructure'},
+    ],
+    decisions:[
+      {sev:'high',loc:'🇺🇸 Tennessee',title:'Standoff with shots fired in Nashville',body:'',tags:'Personnel safety'},
+      {sev:'high',loc:'🇮🇳 India',title:'Suspicious object explosion prompts evacuation at courthouse in Jabalpur',body:'',tags:'Personnel safety'},
+      {sev:'medium',loc:'🇨🇩 DR Congo',title:'Protest with shooting in Kinshasa',body:'',tags:'Regional stability'},
+    ],
+    monitoring:[
+      {loc:'🇺🇸 Georgia',title:'Adverse weather prompts ground stop at Hartsfield-Jackson Atlanta International Airport'},
+      {loc:'🇺🇸 Tennessee',title:'Standoff with shots fired in Nashville — situation ongoing'},
+      {loc:'🇮🇳 India',title:'Suspicious object explosion, courthouse evacuation in Jabalpur'},
+      {loc:'🇨🇩 DR Congo',title:'Protest with shooting in Kinshasa'},
+    ],
+    emerging:[
+      {date:'Mar 14–17',loc:'🇺🇸 United States',title:'St. Patrick\'s Day Events',body:'High-profile parades globally. US national security agencies warn of heightened domestic terror threat due to Middle East escalations.',alert:'⚠ Caution Alert issued — elevated threat'},
+      {date:'Through Mar 17',loc:'🌍 Global',title:'2026 World Baseball Classic',body:'Games in Puerto Rico, Japan, and the US. Protest activity possible near venues hosting the Israeli national team.',alert:'⚠ Caution Alert issued'},
+      {date:'Through Mar 19',loc:'🌍 Global',title:'Ramadan',body:'Observances generally peaceful. Larger gatherings may draw heightened security in some regions.',alert:''},
+      {date:'Mar 19–22',loc:'🌍 Global',title:'Eid al-Fitr',body:'Marks end of Ramadan. Large gatherings globally — heightened security posture anticipated near major celebration sites.',alert:''},
+      {date:'Mar 28',loc:'🇬🇧 UK',title:'London Anti-Racism March',body:'Broad coalition of civil society groups and trade unions mobilizing supporters nationally.',alert:''},
+      {date:'Mar 28',loc:'🇺🇸 United States',title:'"No Kings" Protests (Nationwide)',body:'Third scheduled nationwide protest against the Trump administration. Approximately 9 million people expected across major US cities.',alert:'⚠ High attendance — monitor for operational disruption'},
+    ]
+  });
+  showToast('Example loaded — Mar 16, 2026','#4A9EFF');
+}
+
+// ── Simulated API pull ──────────────────────────────────────
+function pullFromAPI(){
+  const spinner=document.getElementById('api-spinner');
+  spinner.style.display='block';
+  setTimeout(()=>{
+    spinner.style.display='none';
+    const apiIncidents=[
+      {list:'action-list',type:'action',data:{sev:'critical',loc:'🌍 Gulf States',title:'Shipping lane disruption — Strait of Hormuz mining reports confirmed',body:'US Central Command confirms Iranian mining activity in key shipping corridors. Three commercial vessels struck by projectiles in past 24 hours.',tags:'Global shipping, Energy, Insurance'}},
+      {list:'action-list',type:'action',data:{sev:'high',loc:'🇦🇪 UAE',title:'Drone attack near Dubai International Airport — flights suspended temporarily',body:'Fuel tanker fire reported near the airport perimeter following suspected drone strike. Flights have since resumed.',tags:'Aviation, Operations'}},
+      {list:'decisions-list',type:'decisions',data:{sev:'high',loc:'🇺🇸 United States',title:'Nationwide St. Patrick\'s Day security posture — elevated terror threat',body:'US national security agencies warn of heightened risk of domestic attacks ahead of major public gatherings March 14–17.',tags:'Personnel safety, Events'}},
+    ];
+    apiIncidents.forEach(i=>{
+      addIncident(i.list,i.type,i.data);
+    });
+    showToast(`${apiIncidents.length} incidents pulled from samdesk feed`,'#10B981');
+    // Open sections
+    document.getElementById('sec-action').classList.remove('collapsed');
+    document.getElementById('sec-decisions').classList.remove('collapsed');
+  },1400);
+}
+
+// ── HTML generation ─────────────────────────────────────────
+function sevColor(s){return{critical:'red',high:'amber',medium:'blue',monitor:'green',emerging:'purple',caution:'amber'}[s]||'blue';}
+function sevLabel(s){return{critical:'Critical',high:'High',medium:'Medium',monitor:'Monitoring',emerging:'Emerging',caution:'Caution'}[s]||s;}
+
+function generateHTML(){
+  const date=v('f-date')||'[Date]';
+  const time=v('f-time')||'[Time]';
+  const summary=v('f-summary')||'';
+  const aItems=getEntries('action-list');
+  const dItems=getEntries('decisions-list');
+  const mItems=getEntries('monitoring-list');
+  const eItems=getEntries('emerging-list');
+  const cA=aItems.length,cD=dItems.length,cM=mItems.length,cE=eItems.length;
+
+  const borderCol={red:'#EF4444',amber:'#F59E0B',blue:'#4A9EFF',green:'#10B981',purple:'#8B5CF6'};
+  const sevStyle={
+    red:'background:#1A0505;color:#EF4444;border:1px solid #450A0A',
+    amber:'background:#1C1208;color:#F59E0B;border:1px solid #451A00',
+    blue:'background:#0C1A2E;color:#60A5FA;border:1px solid #1E3A5F',
+    green:'background:#0A1F0A;color:#10B981;border:1px solid #0F3A0F',
+    purple:'background:#1A1330;color:#8B5CF6;border:1px solid #2D1F5E',
+  };
+
+  function card(i,defCol){
+    if(!i.loc&&!i.title) return '';
+    const col=sevColor(i.sev)||defCol;
+    const tags=i.tags?i.tags.split(',').map(t=>`<span style="font-size:9px;color:#4B5563;background:#0A0F1A;border:1px solid #1F2937;border-radius:3px;padding:1px 6px;margin-right:4px">${t.trim()}</span>`).join(''):'';
+    const body=i.body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${i.body}</div>`:'';
+    return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${borderCol[col]};border-radius:5px;padding:14px 16px;margin-bottom:8px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
+    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${i.loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${i.title}</div></div>
+    <span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;${sevStyle[col]}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0"></span>${sevLabel(i.sev)}</span>
+  </div>
+  ${body}
+  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><a href="https://dash.samdesk.io" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a>${tags}</div>
+</div>`;}
+
+  function monitorGrid(items){
+    const cells=items.filter(i=>i.loc||i.title).map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('');
+    return cells?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${cells}</div>`:'';
+  }
+
+  function emergingList(items){
+    return items.filter(i=>i.loc||i.title).map(i=>`<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E"><div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:76px;padding-top:1px">${i.date||'TBD'}</div><div><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${i.alert?`<div style="font-size:9px;color:#F59E0B;font-weight:600;margin-top:3px">${i.alert}</div>`:''}</div></div>`).join('');}
+
+  function section(col,title,desc,content){
+    if(!content.trim()) return '';
+    return `<div style="padding:20px 28px 0"><div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${borderCol[col]};margin-bottom:12px"><span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${borderCol[col]}">${title}</span><span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span></div>${content}</div>`;}
+
+  const ac=section('red','Immediate Action Required','Events requiring immediate operational response or mitigation',aItems.map(i=>card(i,'red')).join(''));
+  const dc=section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness, judgment, or escalation',dItems.map(i=>card(i,'amber')).join(''));
+  const mc=section('green','Active Monitoring','Incidents being tracked for potential escalation or operational disruption',monitorGrid(mItems));
+  const ec=section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators that may lead to disruption',emergingList(eItems));
+
+  return `<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – ${date}</title></head>
+<body style="margin:0;padding:0;background:#0F1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#E5E7EB">
+<div style="max-width:680px;margin:0 auto;background:#0F1117">
+  <div style="background:#060810;border-bottom:1px solid #1E3A5F;padding:18px 28px;display:flex;justify-content:space-between;align-items:center">
+    <div><div style="font-size:15px;font-weight:700;color:#4A9EFF;letter-spacing:1px">samdesk</div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#374151;margin-top:3px">⚠ unclassified daily brief</div></div>
+    <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:#E5E7EB">${date}</div><div style="font-size:10px;color:#6B7280;margin-top:2px">${time}</div></div>
+  </div>
+  <div style="background:#111827;border-bottom:1px solid #1F2937;padding:12px 28px;display:flex;align-items:center;gap:16px">
+    <div style="display:flex;gap:14px;flex-shrink:0">
+      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#EF4444;line-height:1">${cA}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Action</div></div>
+      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#F59E0B;line-height:1">${cD}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Decisions</div></div>
+      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#10B981;line-height:1">${cM}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Monitoring</div></div>
+      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#8B5CF6;line-height:1">${cE}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Emerging</div></div>
+    </div>
+    <div style="width:1px;height:40px;background:#1F2937;flex-shrink:0"></div>
+    <div style="font-size:11px;color:#9CA3AF;line-height:1.6;flex:1">${summary}</div>
+  </div>
+  ${ac}${dc}${mc}${ec}
+  <div style="padding:20px 28px">
+    <div style="background:#0A0F1A;border:1px solid #1E3A5F;border-radius:6px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+      <div style="font-size:11px;color:#9CA3AF;line-height:1.5"><strong style="color:#E5E7EB;display:block;margin-bottom:2px">High-volume incident activity is now in the samdesk platform.</strong>Access the full live incident stream directly in samdesk.</div>
+      <a href="https://dash.samdesk.io" style="background:#4A9EFF;color:#060810;font-size:10px;font-weight:700;padding:8px 16px;border-radius:4px;text-decoration:none;white-space:nowrap">Open samdesk →</a>
+    </div>
+  </div>
+  <div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center">
+    <div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div>
+    <div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk dashboard →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div>
+  </div>
+</div>
+</body></html>`;}
+
+// ── Render ──────────────────────────────────────────────────
+function render(){
+  const html=generateHTML();
+  if(currentTab==='email') document.getElementById('email-preview').innerHTML=html;
+  else document.getElementById('html-output').textContent=html;
+}
+
+// ── Copy HTML ───────────────────────────────────────────────
+function copyHTML(){
+  navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied to clipboard!','#10B981')).catch(()=>showToast('Copy failed — use HTML tab','#F59E0B'));
+}
+
+// ── Open web page ───────────────────────────────────────────
+function openWebPage(){
+  const blob=new Blob([generateHTML()],{type:'text/html'});
+  window.open(URL.createObjectURL(blob),'_blank');
+}
+
+// ── Toast ───────────────────────────────────────────────────
+function showToast(msg,color='#10B981'){
+  const t=document.getElementById('toast');
+  t.textContent=msg;
+  t.style.background=color;
+  t.style.opacity=1;
+  setTimeout(()=>t.style.opacity=0,2500);
+}
+
+// ── Init: try to load draft ─────────────────────────────────
+(function init(){
+  try{
+    const raw=localStorage.getItem('samdesk_brief_draft');
+    if(raw){
+      const s=JSON.parse(raw);
+      document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown time'}`;
+      document.getElementById('load-draft-btn').style.display='block';
+    }
+  }catch(e){}
+  render();
+})();
+</script>
+</body>
+</html>
