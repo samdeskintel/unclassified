@@ -100,6 +100,7 @@ select option{background:var(--surface)}
     <span id="save-status" class="status-pill saved">Saved</span>
     <button class="btn btn-amber btn-sm" onclick="loadExample()">Load Example</button>
     <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Save Draft</button>
+    <button class="btn btn-sm" style="background:transparent;border:1px solid #374151;color:#6B7280" onclick="clearForm()">Clear</button>
   </div>
   <div id="form-scroll">
 
@@ -533,6 +534,21 @@ function showToast(msg,color='#10B981'){
   t.style.background=color;
   t.style.opacity=1;
   setTimeout(()=>t.style.opacity=0,2500);
+}
+
+// ── Clear form ──────────────────────────────────────────────
+function clearForm(){
+  if(!confirm('Clear the form and start fresh? Your saved draft will not be affected.')) return;
+  set('f-date',''); set('f-time',''); set('f-summary','');
+  ['action','decisions','monitoring','emerging'].forEach(t=>{
+    document.getElementById(`${t}-list`).innerHTML='';
+    entryCounters[`${t}-list`]=0;
+  });
+  updateCounts();
+  document.getElementById('save-status').className='status-pill unsaved';
+  document.getElementById('save-status').textContent='Unsaved';
+  render();
+  showToast('Form cleared — ready for a new brief','#4A9EFF');
 }
 
 // ── Init: try to load draft ─────────────────────────────────
