@@ -85,7 +85,7 @@ input[type=text]:focus{border-color:var(--blue)}
 <div id="left">
   <div class="panel-hdr">
     <span class="panel-title">Brief Composer</span>
-    <span style="font-size:9px;color:#374151;letter-spacing:.5px">v1.5.1</span>
+    <span style="font-size:9px;color:#374151;letter-spacing:.5px">v1.5.2</span>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="loadDraft()">Load Draft</button>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="clearAll()">Clear</button>
   </div>
@@ -96,15 +96,15 @@ input[type=text]:focus{border-color:var(--blue)}
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-1">1</div>
-        <span class="step-title">Get the HTML source from Gmail</span>
+        <span class="step-title">Copy the email from Gmail</span>
       </div>
       <div class="step-body">
         <div class="step-desc">
           Open today's UNCLASSIFIED email in Gmail, then:<br><br>
-          <strong>⋮ three dots</strong> (top right of email)<br>
-          → <strong>Show original</strong><br>
-          → <strong>Copy to clipboard</strong><br><br>
-          This copies the full HTML including all hyperlinks.
+          Click inside the email body<br>
+          → <strong>Cmd+A</strong> (select all)<br>
+          → <strong>Cmd+C</strong> (copy)<br><br>
+          That's it — no need to open source or Show Original.
         </div>
       </div>
     </div>
@@ -113,10 +113,10 @@ input[type=text]:focus{border-color:var(--blue)}
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-2">2</div>
-        <span class="step-title">Paste HTML source</span>
+        <span class="step-title">Paste &amp; parse</span>
       </div>
       <div class="step-body">
-        <textarea id="html-source" rows="6" placeholder="Paste the full Gmail HTML source here..." oninput="onSourceInput()"></textarea>
+        <textarea id="html-source" rows="6" placeholder="Paste the email text here..." oninput="onSourceInput()"></textarea>
         <button class="btn btn-green" style="width:100%;padding:8px" onclick="parseSource()">↓ Parse email</button>
         <div id="diag-box" style="display:none;margin-top:8px;background:#0A0F1A;border:1px solid #EF4444;border-radius:5px;padding:10px">
           <div style="font-size:9px;color:#EF4444;font-weight:700;letter-spacing:1px;margin-bottom:6px">DIAGNOSTIC — paste this to Claude</div>
