@@ -9,60 +9,36 @@
 :root{--bg:#0D1117;--surface:#111827;--surface2:#0A0F1A;--border:#1F2937;--border2:#1E3A5F;--text:#E5E7EB;--muted:#9CA3AF;--dim:#4B5563;--blue:#4A9EFF;--amber:#F59E0B;--red:#EF4444;--green:#10B981;--purple:#8B5CF6}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;height:100vh;overflow:hidden}
 #app{display:flex;height:100vh}
-
-/* Left panel */
-#left{width:380px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+#left{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surface2)}
 .panel-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-right:auto}
-.btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;transition:opacity .2s;letter-spacing:.5px}
-.btn:hover{opacity:.85}
+.ver{font-size:9px;color:#374151}
+.btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;letter-spacing:.5px}
 .btn-primary{background:var(--blue);color:#060810}
 .btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--blue)}
 .btn-green{background:var(--green);color:#060810}
-.btn-red{background:var(--red);color:#fff}
-
-/* Steps */
 #steps{flex:1;overflow-y:auto;padding:16px}
 #steps::-webkit-scrollbar{width:4px}
 #steps::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
-
-.step{margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.step{margin-bottom:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
 .step-hdr{padding:10px 14px;background:var(--surface2);display:flex;align-items:center;gap:10px}
 .step-num{width:20px;height:20px;border-radius:50%;background:var(--border2);color:var(--blue);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
 .step-num.done{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
 .step-title{font-size:11px;font-weight:700;color:var(--text)}
-.step-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.step-body{padding:12px 14px;display:flex;flex-direction:column;gap:8px}
 .step-desc{font-size:11px;color:var(--muted);line-height:1.6}
 .step-desc strong{color:var(--text)}
-.step-desc code{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;font-size:10px;color:var(--blue);font-family:monospace}
-
-/* Paste area */
-textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:8px 10px;font-family:monospace;outline:none;transition:border-color .2s;resize:vertical;line-height:1.5}
-textarea:focus{border-color:var(--blue)}
-textarea.has-content{border-color:var(--green)}
-
-/* Parse result */
-#parse-result{display:none;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;font-size:11px;line-height:1.7}
-.result-row{display:flex;justify-content:space-between;align-items:center}
-.result-label{color:var(--muted)}
-.result-val{font-weight:700}
-.result-val.red{color:var(--red)}
-.result-val.amber{color:var(--amber)}
-.result-val.green{color:var(--green)}
-.result-val.purple{color:var(--purple)}
-.result-val.blue{color:var(--blue)}
-
-/* Summary edit */
-#summary-wrap{display:none}
-label{font-size:9px;color:var(--dim);letter-spacing:.5px;display:block;margin-bottom:3px}
-input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:6px 9px;font-family:inherit;outline:none;transition:border-color .2s}
-input[type=text]:focus{border-color:var(--blue)}
-
-/* Draft bar */
+textarea,input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:7px 10px;font-family:inherit;outline:none;transition:border-color .2s;resize:vertical;line-height:1.5}
+textarea:focus,input[type=text]:focus{border-color:var(--blue)}
+.result-grid{display:flex;flex-direction:column;gap:3px;background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:10px;font-size:11px}
+.result-row{display:flex;justify-content:space-between}
+.result-val.red{color:var(--red);font-weight:700}
+.result-val.amber{color:var(--amber);font-weight:700}
+.result-val.green{color:var(--green);font-weight:700}
+.result-val.purple{color:var(--purple);font-weight:700}
+.result-val.blue{color:var(--blue);font-weight:700}
 #draft-bar{padding:8px 14px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:8px;font-size:10px;color:var(--green);flex-shrink:0}
-#draft-bar span{margin-right:auto;font-size:10px}
-
-/* Right panel */
+#draft-bar span{margin-right:auto}
 #right{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#12122a}
 .preview-hdr{padding:10px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .preview-label{font-size:10px;color:#6B7280;letter-spacing:1px;text-transform:uppercase;margin-right:auto}
@@ -74,25 +50,22 @@ input[type=text]:focus{border-color:var(--blue)}
 #preview-scroll::-webkit-scrollbar-thumb{background:#2a2a4a;border-radius:2px}
 #email-preview{max-width:640px;margin:0 auto;background:#0F1117;border-radius:8px;overflow:hidden;border:1px solid #1a1a3a}
 #html-output{display:none;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px;font-family:monospace;font-size:10px;color:var(--muted);white-space:pre-wrap;word-break:break-all;max-width:640px;margin:0 auto;line-height:1.5}
-
 #toast{position:fixed;bottom:20px;right:20px;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;color:#fff}
 </style>
 </head>
 <body>
 <div id="app">
 
-<!-- LEFT PANEL -->
 <div id="left">
   <div class="panel-hdr">
     <span class="panel-title">Brief Composer</span>
-    <span style="font-size:9px;color:#374151;letter-spacing:.5px">v1.5.5</span>
+    <span class="ver">v1.5.6</span>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="loadDraft()">Load Draft</button>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="clearAll()">Clear</button>
   </div>
 
   <div id="steps">
 
-    <!-- STEP 1 -->
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-1">1</div>
@@ -100,65 +73,52 @@ input[type=text]:focus{border-color:var(--blue)}
       </div>
       <div class="step-body">
         <div class="step-desc">
-          Open today's UNCLASSIFIED email in Gmail, then:<br><br>
-          Click inside the email body<br>
-          → <strong>Cmd+A</strong> (select all)<br>
-          → <strong>Cmd+C</strong> (copy)<br><br>
-          That's it — no need to open source or Show Original.
+          Open the UNCLASSIFIED email in Gmail.<br><br>
+          Click inside the email body → <strong>Cmd+A</strong> → <strong>Cmd+C</strong><br><br>
+          Paste below and click Parse.
         </div>
       </div>
     </div>
 
-    <!-- STEP 2 -->
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-2">2</div>
         <span class="step-title">Paste &amp; parse</span>
       </div>
       <div class="step-body">
-        <textarea id="html-source" rows="6" placeholder="Paste the email text here..." oninput="onSourceInput()"></textarea>
-        <button class="btn btn-green" style="width:100%;padding:8px" onclick="parseSource()">↓ Parse email</button>
-        <div id="diag-box" style="display:none;margin-top:8px;background:#0A0F1A;border:1px solid #EF4444;border-radius:5px;padding:10px">
-          <div style="font-size:9px;color:#EF4444;font-weight:700;letter-spacing:1px;margin-bottom:6px">DIAGNOSTIC — paste this to Claude</div>
-          <textarea id="diag-text" rows="6" style="width:100%;background:#060810;border:1px solid #1F2937;border-radius:4px;color:#9CA3AF;font-size:10px;font-family:monospace;padding:6px;resize:vertical" readonly></textarea>
-        </div>
-        <div id="parse-result">
-          <div class="result-row"><span class="result-label">Date</span><span class="result-val" id="r-date">—</span></div>
-          <div class="result-row"><span class="result-label">Immediate Action</span><span class="result-val red" id="r-action">—</span></div>
-          <div class="result-row"><span class="result-label">Decisions</span><span class="result-val amber" id="r-decisions">—</span></div>
-          <div class="result-row"><span class="result-label">Active Monitoring</span><span class="result-val green" id="r-monitoring">—</span></div>
-          <div class="result-row"><span class="result-label">Emerging Risks</span><span class="result-val purple" id="r-emerging">—</span></div>
-          <div class="result-row"><span class="result-label">Stream incidents</span><span class="result-val blue" id="r-stream">—</span></div>
+        <textarea id="paste-input" rows="7" placeholder="Paste email text here..."></textarea>
+        <button class="btn btn-green" style="width:100%;padding:8px" onclick="runParse()">↓ Parse email</button>
+        <div id="parse-result" style="display:none" class="result-grid">
+          <div class="result-row"><span style="color:var(--muted)">Date</span><span class="result-val blue" id="r-date">—</span></div>
+          <div class="result-row"><span style="color:var(--muted)">Immediate Action</span><span class="result-val red" id="r-action">—</span></div>
+          <div class="result-row"><span style="color:var(--muted)">Decisions</span><span class="result-val amber" id="r-decisions">—</span></div>
+          <div class="result-row"><span style="color:var(--muted)">Active Monitoring</span><span class="result-val green" id="r-monitoring">—</span></div>
+          <div class="result-row"><span style="color:var(--muted)">Emerging Risks</span><span class="result-val purple" id="r-emerging">—</span></div>
+          <div class="result-row"><span style="color:var(--muted)">Stream</span><span class="result-val blue" id="r-stream">—</span></div>
         </div>
       </div>
     </div>
 
-    <!-- STEP 3 -->
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-3">3</div>
-        <span class="step-title">Review &amp; edit summary</span>
+        <span class="step-title">Edit situation summary</span>
       </div>
       <div class="step-body">
-        <div class="step-desc">The brief is auto-generated from your email. Optionally edit the situation summary below — everything else is pulled directly from your source.</div>
-        <div id="summary-wrap">
-          <label>Situation summary</label>
-          <textarea id="f-summary" rows="3" placeholder="1–2 sentence overview of today's picture..." oninput="render()"></textarea>
-        </div>
+        <div class="step-desc">Everything is auto-generated. Optionally tweak the summary.</div>
+        <textarea id="f-summary" rows="3" placeholder="1–2 sentence overview..." oninput="render()"></textarea>
       </div>
     </div>
 
-    <!-- STEP 4 -->
     <div class="step">
       <div class="step-hdr">
         <div class="step-num" id="num-4">4</div>
         <span class="step-title">Copy HTML &amp; send</span>
       </div>
       <div class="step-body">
-        <div class="step-desc">Review the preview on the right, then copy the HTML and paste it into HubSpot to send.</div>
         <div style="display:flex;gap:8px">
           <button class="btn btn-primary" style="flex:1;padding:8px" onclick="copyHTML()">Copy HTML</button>
-          <button class="btn btn-ghost" style="flex:1;padding:8px" onclick="openWebPage()">Preview page ↗</button>
+          <button class="btn btn-ghost" style="flex:1;padding:8px" onclick="openPage()">Preview ↗</button>
         </div>
       </div>
     </div>
@@ -171,21 +131,16 @@ input[type=text]:focus{border-color:var(--blue)}
   </div>
 </div>
 
-<!-- RIGHT PANEL -->
 <div id="right">
   <div class="preview-hdr">
     <span class="preview-label">Live preview</span>
     <button class="tab active" onclick="switchTab('email')">Email</button>
     <button class="tab inactive" onclick="switchTab('html')">HTML</button>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;margin-left:8px" onclick="copyHTML()">Copy HTML</button>
-    <button class="btn btn-primary" style="font-size:9px;padding:4px 10px" onclick="openWebPage()">Preview ↗</button>
+    <button class="btn btn-primary" style="font-size:9px;padding:4px 10px" onclick="openPage()">Preview ↗</button>
   </div>
   <div id="preview-scroll">
-    <div id="email-preview">
-      <div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">
-        Paste your Gmail HTML source and click<br><strong style="color:#4A9EFF">Parse email</strong> to see the brief here.
-      </div>
-    </div>
+    <div id="email-preview"><div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">Paste email and click <strong style="color:#4A9EFF">Parse email</strong> to preview.</div></div>
     <pre id="html-output"></pre>
   </div>
 </div>
@@ -193,413 +148,268 @@ input[type=text]:focus{border-color:var(--blue)}
 <div id="toast"></div>
 
 <script>
-let currentTab='email';
+// ── Globals ──────────────────────────────────────────────────
 let parsedData=null;
+let currentTab='email';
 
 // ── Helpers ──────────────────────────────────────────────────
-function v(id){return(document.getElementById(id)?.value||'').trim();}
-function set(id,val){const el=document.getElementById(id);if(el)el.value=val||'';}
-function showToast(msg,color='#10B981'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=color;t.style.opacity=1;setTimeout(()=>t.style.opacity=0,2500);}
-function markDone(n){const el=document.getElementById(`num-${n}`);el.textContent='✓';el.className='step-num done';}
-
-function onSourceInput(){
-  const ta=document.getElementById('html-source');
-  ta.className=ta.value.trim().length>100?'has-content':'';
+function v(id){return(document.getElementById(id)||{}).value||'';}
+function set(id,val){var el=document.getElementById(id);if(el)el.value=val||'';}
+function toast(msg,color){
+  var t=document.getElementById('toast');
+  t.textContent=msg;t.style.background=color||'#10B981';t.style.opacity=1;
+  setTimeout(function(){t.style.opacity=0;},2500);
+}
+function markDone(n){
+  var el=document.getElementById('num-'+n);
+  el.textContent='✓';el.className='step-num done';
 }
 
-// ── HTML SOURCE PARSER ───────────────────────────────────────
-// ── Decode quoted-printable ──
-function decodeQP(str){
-  return str
-    .replace(/=\r?\n/g,'')
-    .replace(/=([0-9A-Fa-f]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)))
-    .replace(/\u2019/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[\u2013\u2014]/g,'-');
-}
-
-function parseSource(){
-  let source=v('html-source');
-  if(!source) return showToast('Paste the HTML source first','#F59E0B');
-
-  try{
-    // ── Step 1: Decode quoted-printable encoding ──
-    // Gmail "Show original" uses quoted-printable: =3D → =, =E2=80=9C → " etc.
-    // Also handle soft line breaks: trailing = means line continues
-    function decodeQP(str){
-      return str
-        .replace(/=\r?\n/g,'')           // soft line breaks
-        .replace(/=([0-9A-Fa-f]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)))
-        .replace(/\u2019/g,"'")          // curly apostrophe
-        .replace(/\u201c|\u201d/g,'"')   // curly quotes
-        .replace(/\u2013|\u2014/g,'-');  // em/en dash
-    }
-
-    // ── Step 2: Extract the HTML part from multipart MIME ──
-    // Look for Content-Type: text/html and grab everything after it
-    let htmlPart='';
-    const htmlPartMatch=source.match(/Content-Type:\s*text\/html[^\n]*\n(?:Content-Transfer-Encoding:[^\n]*\n)?(?:Content-[^\n]*\n)*\n([\s\S]*?)(?=\n------=_Part|\n--[\w]+--|$)/i);
-    if(htmlPartMatch){
-      htmlPart=decodeQP(htmlPartMatch[1]);
-    } else {
-      // Fallback: find first <html or <!DOCTYPE tag after decoding
-      const decoded=decodeQP(source);
-      const htmlStart=decoded.search(/<html|<!DOCTYPE/i);
-      if(htmlStart>=0){
-        htmlPart=decoded.substring(htmlStart);
-      } else {
-        // Last resort: try plain text part
-        const plainMatch=source.match(/Content-Type:\s*text\/plain[^\n]*\n(?:Content-Transfer-Encoding:[^\n]*\n)?\n([\s\S]*?)(?=\n------=_Part|\n--[\w]+--|Content-Type: text\/html)/i);
-        if(plainMatch){
-          htmlPart='<body>'+decodeQP(plainMatch[1])+'</body>';
-        } else {
-          htmlPart=decodeQP(source);
-        }
-      }
-    }
-
-    if(!htmlPart.trim()) return showToast('Could not extract HTML — try again','#EF4444');
-
-    // ── Step 3: Parse the extracted HTML ──
-    const parser=new DOMParser();
-    const doc=parser.parseFromString(htmlPart,'text/html');
-    if(!doc||!doc.body) return showToast('Could not parse HTML body','#EF4444');
-
-    const data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
-
-  // ── Extract full text with link preservation ──
-  // Get all text nodes and anchor tags
-  function extractLinksFromEl(el){
-    // Returns array of {text, href} for all links in element
-    const links=[];
-    el.querySelectorAll('a[href]').forEach(a=>{
-      const href=a.href||a.getAttribute('href')||'';
-      const text=(a.textContent||'').trim();
-      if(href&&text) links.push({text,href});
-    });
-    return links;
-  }
-
-  function getCleanText(el){
-    return(el.textContent||'').replace(/\s+/g,' ').trim();
-  }
-
-  // ── Find date/time ──
-  const allText=doc.body?getCleanText(doc.body):'';
-  const dateM=allText.match(/([A-Z][a-z]+ \d{1,2},?\s*\d{4})/);
-  if(dateM) data.date=dateM[1];
-  const timeM=allText.match(/(\d{1,2}:\d{2}\s*GMT[^,\n]*)/);
-  if(timeM) data.time=timeM[1].replace(/,\s*/g,' · ').trim();
-
-  // ── Find all links in document — we'll match them to incidents ──
-  const allLinks={};
-  doc.querySelectorAll('a[href]').forEach(a=>{
-    const href=a.getAttribute('href')||'';
-    const text=(a.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
-    if(href.includes('dash.samdesk.io')||href.includes('samdesk')){
-      // Store by anchor text
-      allLinks[text]=href;
-      // Also store by partial match
-      if(text.includes('caution')) allLinks['caution']=href;
-      if(text.includes('review')) allLinks['review']=href;
-    }
-  });
-
-  // ── Split body text into sections ──
-  const bodyText=allText;
-  const sections={notable:'',active:'',forward:'',higheng:''};
-  const sectionRe={
-    notable:/(?:Notable Developments|Situational Awareness)/i,
-    active:/(?:Active and Monitoring|Active\s*&\s*Monitoring)/i,
-    forward:/Forward Planning/i,
-    higheng:/High Engagement Events/i,
-  };
-
-  const lines=bodyText.split(/\n|(?<=\.)\s{2,}/).map(l=>l.replace(/\s+/g,' ').trim()).filter(l=>l.length>2);
-  let curSection=null;
-  const sectionLines={notable:[],active:[],forward:[],higheng:[]};
-
-  lines.forEach(l=>{
-    for(const[k,re] of Object.entries(sectionRe)){
-      if(re.test(l)){curSection=k;return;}
-    }
-    if(/^\|?\s*samdesk monitoring/i.test(l)) return;
-    if(/samdesk,|Manage preferences|What did we miss|hello@samdesk/i.test(l)) return;
-    if(/^UNCLASSIFIED/i.test(l)) return;
-    if(/unclassified-\d/i.test(l)) return;
-    if(curSection) sectionLines[curSection].push(l);
-  });
-
-  // ── Helper: find best link for an incident ──
-  function findLink(text,isCaution){
-    if(isCaution){
-      // Look for caution alert link
-      for(const[k,v] of Object.entries(allLinks)){
-        if(k.includes('caution')) return v;
-      }
-      return 'https://dash.samdesk.io/alerts';
-    }
-    // Look for dash.samdesk.io link
-    for(const[k,v] of Object.entries(allLinks)){
-      if(k.includes('review')||k.includes('track')) return v;
-    }
-    return 'https://dash.samdesk.io';
-  }
-
-  // ── Parse Notable Developments → Action + Decisions ──
-  let i=0;
-  const notableLines=sectionLines.notable;
-  while(i<notableLines.length){
-    const l=notableLines[i];
-    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-    if(m){
-      const region=m[1].trim();
-      let content=m[2].trim();
-      // Gather continuation lines
-      let j=i+1;
-      while(j<notableLines.length&&!notableLines[j].match(/^[A-Z][^|]{1,40}\|/)){
-        content+=' '+notableLines[j];j++;
-      }
-      i=j;
-      // Find caution link
-      const hasCaution=/See Caution Alert/i.test(content);
-      const cautionUrl=hasCaution?findLink(content,true):'';
-      const reviewUrl=findLink(content,false);
-      // Strip suffixes
-      content=content.replace(/REVIEW:\s*(Caution Alert|dash\.samdesk\.io[^\s]*)/gi,'').replace(/TRACK via[^.]+\./gi,'').replace(/See Caution Alert\.?/gi,'').replace(/See also[^.]+\./gi,'').trim();
-      // Extract stream type
-      const streamM=content.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
-      const streamTag=streamM?streamM[1].trim()+' stream':'';
-      content=content.replace(/TRACK via[^.]+/gi,'').trim();
-      // Split title / body
-      const sentEnd=content.search(/[.!?]\s+[A-Z]/);
-      const title=sentEnd>0?content.substring(0,sentEnd+1).trim():content.substring(0,120).trim();
-      const body=sentEnd>0?content.substring(sentEnd+2).trim():'';
-      const isCritical=/killed|fatal|attack|explosion|crash|fire at|strike|crisis|critical|mining|drone|shooting|active shoot/i.test(content);
-      const tags=inferTags(content);
-      if(streamTag&&!tags.includes(streamTag)) tags.push(streamTag);
-      const inc={loc:flagEmoji(region)+' '+region,title,body,tags,cautionUrl,reviewUrl,sev:isCritical?'critical':'high'};
-      if(isCritical) data.action.push(inc);
-      else data.decisions.push(inc);
-    } else {i++;}
-  }
-
-  // ── Parse Active Monitoring ──
-  sectionLines.active.forEach(l=>{
-    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-    if(m) data.monitoring.push({loc:flagEmoji(m[1].trim())+' '+m[1].trim(),title:m[2].trim()});
-  });
-
-  // ── Parse Forward Planning → Emerging ──
-  i=0;
-  const fwdLines=sectionLines.forward;
-  while(i<fwdLines.length){
-    const l=fwdLines[i];
-    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-    if(m){
-      const region=m[1].trim();
-      let content=m[2].trim();
-      let j=i+1;
-      while(j<fwdLines.length&&!fwdLines[j].match(/^[A-Z][^|]{1,40}\|/)){
-        content+=' '+fwdLines[j];j++;
-      }
-      i=j;
-      // Caution
-      const hasCaution=/See Caution Alert/i.test(content);
-      const cautionUrl=hasCaution?findLink(content,true):'';
-      const isNew=/\-\s*New\s*$/i.test(content);
-      const isUpdate=/\-\s*Update\s*$/i.test(content);
-      content=content.replace(/See Caution Alert\.?/gi,'').replace(/\-\s*(New|Update)\s*$/i,'').trim();
-      // Date
-      const dateM2=content.match(/[-–]\s*(through\s+)?([A-Z][a-z]+ \d{1,2}(?:\s+to\s+[A-Z][a-z]+ \d{1,2})?)\.\s*/i);
-      let dateStr='',title=content,body='';
-      if(dateM2){dateStr=dateM2[2];title=content.substring(0,content.indexOf(dateM2[0])).trim();body=content.substring(content.indexOf(dateM2[0])+dateM2[0].length).trim();}
-      else{const s=content.search(/\.\s/);if(s>0){title=content.substring(0,s);body=content.substring(s+2);}}
-      data.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title,body,cautionUrl,isNew,isUpdate});
-    } else {i++;}
-  }
-
-  // ── Parse High Engagement → Stream ──
-  sectionLines.higheng.forEach((l,idx)=>{
-    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-    if(!m) return;
-    const region=guessRegion(m[1].trim());
-    const loc=flagEmoji(m[1].trim())+' '+m[1].trim();
-    const desc=m[2].trim().replace(/^(All clear after |Reports of |Suspects in custody following )/i,match=>match);
-    const status=getStatus(desc);
-    data.stream.push({region,loc,desc:cleanDesc(desc),status,id:''});
-  });
-
-    parsedData=data;
-
-    // ── Update result panel ──
-    document.getElementById('r-date').textContent=data.date||'Not found';
-    document.getElementById('r-action').textContent=data.action.length+' incidents';
-    document.getElementById('r-decisions').textContent=data.decisions.length+' incidents';
-    document.getElementById('r-monitoring').textContent=data.monitoring.length+' items';
-    document.getElementById('r-emerging').textContent=data.emerging.length+' items';
-    document.getElementById('r-stream').textContent=data.stream.length+' incidents';
-    document.getElementById('parse-result').style.display='block';
-    document.getElementById('summary-wrap').style.display='block';
-
-    markDone(1);markDone(2);markDone(3);
-
-    // Auto-generate summary
-    const sumParts=[];
-    if(data.action.length) sumParts.push(data.action[0].title);
-    if(data.action.length>1) sumParts.push(data.action[1].title);
-    set('f-summary',sumParts.join('. ')+(sumParts.length?'.':''));
-
-    render();
-    saveDraft(true);
-    const total=data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length;
-    if(total===0){
-      // Show parsed lines around the Notable Developments section
-      const allLinesDebug=rawText
-        .split('\n')
-        .map(l=>l.replace(/\s+/g,' ').trim())
-        .filter(l=>l.length>1);
-      const notableIdx=allLinesDebug.findIndex(l=>/Notable Developments/i.test(l));
-      const debugSlice=notableIdx>=0
-        ? allLinesDebug.slice(Math.max(0,notableIdx-2), notableIdx+10)
-        : allLinesDebug.slice(0,20);
-      document.getElementById('diag-box').style.display='block';
-      document.getElementById('diag-text').textContent=
-        'Total lines: '+allLinesDebug.length+'\n'+
-        'Notable Developments at line: '+notableIdx+'\n\n'+
-        debugSlice.map((l,i)=>`[${notableIdx-2+i}] ${l}`).join('\n');
-      showToast('Parsed but no incidents — see diagnostic below','#F59E0B');
-    } else {
-      showToast(`Parsed — ${total} items found`,'#10B981');
-    }
-
-  } catch(err){
-    console.error('Parse error:',err);
-    showToast('Parse error: '+err.message,'#EF4444');
-  }
-}
-
-// ── Infer tags ───────────────────────────────────────────────
-function inferTags(text){
-  const map=[[/shipping|vessel|cargo|maritime/i,'Shipping'],[/aviation|airport|flight/i,'Aviation'],[/energy|oil|gas|fuel/i,'Energy'],[/personnel|staff|traveler/i,'Personnel safety'],[/infrastructure|power|utility/i,'Infrastructure'],[/supply chain/i,'Supply chain'],[/protest|demonstration/i,'Civil unrest'],[/terror|attack|bomb|explosive/i,'Security threat'],[/weather|storm|flood|wildfire|tornado/i,'Weather'],[/embassy|diplomatic/i,'Diplomatic facilities']];
-  return map.filter(([re])=>re.test(text)).map(([,t])=>t).slice(0,3);
-}
-
-// ── Flag emoji ───────────────────────────────────────────────
-function flagEmoji(r){
-  const f={'US':'🇺🇸','United States':'🇺🇸','UK':'🇬🇧','United Kingdom':'🇬🇧','Iran':'🇮🇷','UAE':'🇦🇪','Iraq':'🇮🇶','Israel':'🇮🇱','Pakistan':'🇵🇰','India':'🇮🇳','China':'🇨🇳','Russia':'🇷🇺','Philippines':'🇵🇭','Australia':'🇦🇺','Japan':'🇯🇵','Canada':'🇨🇦','Germany':'🇩🇪','France':'🇫🇷','Netherlands':'🇳🇱','Belgium':'🇧🇪','Switzerland':'🇨🇭','Poland':'🇵🇱','Ukraine':'🇺🇦','South Korea':'🇰🇷','Brazil':'🇧🇷','Mexico':'🇲🇽','Sweden':'🇸🇪','Italy':'🇮🇹','Lebanon':'🇱🇧','Spain':'🇪🇸','Gulf States':'🌍','Global':'🌍','Middle East':'🌍','Tennessee':'🇺🇸','Georgia':'🇺🇸','Michigan':'🇺🇸','Nebraska':'🇺🇸','Hawaii':'🇺🇸','Texas':'🇺🇸','California':'🇺🇸','Virginia':'🇺🇸','Florida':'🇺🇸','New York':'🇺🇸','Illinois':'🇺🇸','Arizona':'🇺🇸','DC':'🇺🇸','North Carolina':'🇺🇸','New Mexico':'🇺🇸','Oregon':'🇺🇸','Maryland':'🇺🇸','New Jersey':'🇺🇸','North Dakota':'🇺🇸','Wyoming':'🇺🇸','Colorado':'🇺🇸','DR Congo':'🇨🇩','Democratic Republic of the Congo':'🇨🇩','Cyprus':'🇨🇾','Saudi Arabia':'🇸🇦'};
-  for(const[k,v] of Object.entries(f)){if(r.toLowerCase().includes(k.toLowerCase())) return v;}
+// ── Flag emoji lookup ─────────────────────────────────────────
+function flag(r){
+  var f={'US':'🇺🇸','United States':'🇺🇸','UK':'🇬🇧','United Kingdom':'🇬🇧',
+    'Iran':'🇮🇷','UAE':'🇦🇪','Iraq':'🇮🇶','Israel':'🇮🇱','Pakistan':'🇵🇰',
+    'India':'🇮🇳','China':'🇨🇳','Russia':'🇷🇺','Japan':'🇯🇵','Canada':'🇨🇦',
+    'Germany':'🇩🇪','France':'🇫🇷','Netherlands':'🇳🇱','Belgium':'🇧🇪',
+    'Switzerland':'🇨🇭','Poland':'🇵🇱','Ukraine':'🇺🇦','Sweden':'🇸🇪',
+    'Italy':'🇮🇹','Lebanon':'🇱🇧','Spain':'🇪🇸','Australia':'🇦🇺',
+    'South Korea':'🇰🇷','Brazil':'🇧🇷','Mexico':'🇲🇽','Philippines':'🇵🇭',
+    'Saudi Arabia':'🇸🇦','Gulf States':'🌍','Global':'🌍','Middle East':'🌍',
+    'Tennessee':'🇺🇸','Georgia':'🇺🇸','Michigan':'🇺🇸','Nebraska':'🇺🇸',
+    'Hawaii':'🇺🇸','Texas':'🇺🇸','California':'🇺🇸','Virginia':'🇺🇸',
+    'Florida':'🇺🇸','New York':'🇺🇸','Illinois':'🇺🇸','Arizona':'🇺🇸',
+    'DC':'🇺🇸','North Carolina':'🇺🇸','New Mexico':'🇺🇸','Oregon':'🇺🇸',
+    'Maryland':'🇺🇸','New Jersey':'🇺🇸','North Dakota':'🇺🇸','Colorado':'🇺🇸',
+    'Wyoming':'🇺🇸','DR Congo':'🇨🇩','Cyprus':'🇨🇾'};
+  for(var k in f){if(r.toLowerCase().indexOf(k.toLowerCase())>=0) return f[k];}
   return '🌍';
 }
 
-// ── Region guess for stream ──────────────────────────────────
-function guessRegion(loc){
-  const americas=['US','Tennessee','Georgia','Michigan','Nebraska','Hawaii','Texas','California','Virginia','Florida','New York','Illinois','Arizona','DC','North Carolina','New Mexico','Oregon','Maryland','New Jersey','North Dakota','Colorado','Wyoming','Canada','Brazil','Mexico','Argentina','Puerto Rico'];
-  const apac=['Japan','China','Australia','India','Philippines','South Korea','Indonesia','Singapore','New Zealand','Pakistan'];
-  for(const a of americas){if(loc.toLowerCase().includes(a.toLowerCase())) return 'Americas';}
-  for(const a of apac){if(loc.toLowerCase().includes(a.toLowerCase())) return 'APAC';}
+// ── Region guess ──────────────────────────────────────────────
+function region(loc){
+  var am=['US','Tennessee','Georgia','Michigan','Nebraska','Hawaii','Texas','California',
+    'Virginia','Florida','New York','Illinois','Arizona','DC','North Carolina','New Mexico',
+    'Oregon','Maryland','New Jersey','North Dakota','Colorado','Wyoming','Canada','Brazil','Mexico'];
+  var ap=['Japan','China','Australia','India','Philippines','South Korea','Indonesia','Singapore','Pakistan'];
+  for(var i=0;i<am.length;i++){if(loc.toLowerCase().indexOf(am[i].toLowerCase())>=0) return 'Americas';}
+  for(var i=0;i<ap.length;i++){if(loc.toLowerCase().indexOf(ap[i].toLowerCase())>=0) return 'APAC';}
   return 'EMEA';
 }
 
-// ── Status from description ──────────────────────────────────
-function getStatus(desc){
-  if(/all clear/i.test(desc)) return 'allclear';
-  if(/in custody|resolved|resumed|expired/i.test(desc)) return 'resolved';
-  if(/active|ongoing|developing/i.test(desc)) return 'active';
+// ── Status from text ──────────────────────────────────────────
+function status(s){
+  if(/all clear/i.test(s)) return 'allclear';
+  if(/in custody|resolved|resumed/i.test(s)) return 'resolved';
+  if(/active|ongoing/i.test(s)) return 'active';
   return 'monitoring';
 }
 
-function cleanDesc(d){return d.replace(/^(All clear after |Reports of )/i,'').replace(/\.$/, '').trim();}
+// ── Tags ──────────────────────────────────────────────────────
+function tags(text){
+  var map=[
+    [/shipping|vessel|maritime/i,'Shipping'],[/aviation|airport|flight/i,'Aviation'],
+    [/energy|oil|gas|fuel/i,'Energy'],[/personnel|staff|traveler/i,'Personnel safety'],
+    [/protest|demonstration/i,'Civil unrest'],[/terror|bomb|explosive/i,'Security threat'],
+    [/weather|storm|flood|wildfire/i,'Weather'],[/embassy|diplomatic/i,'Diplomatic facilities'],
+    [/supply chain/i,'Supply chain']
+  ];
+  return map.filter(function(x){return x[0].test(text);}).map(function(x){return x[1];}).slice(0,3);
+}
 
-// ── Status badge ─────────────────────────────────────────────
+// ── PARSE ─────────────────────────────────────────────────────
+function runParse(){
+  var src=v('paste-input');
+  if(!src){toast('Paste email text first','#F59E0B');return;}
+
+  var data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
+
+  var lines=src.split('\n');
+  var clean=[];
+  for(var i=0;i<lines.length;i++){
+    var l=lines[i].replace(/\s+/g,' ').replace(/\u00a0/g,' ').trim();
+    if(l.length>1) clean.push(l);
+  }
+
+  // Date / time
+  for(var i=0;i<clean.length;i++){
+    var l=clean[i];
+    if(!data.date){var m=l.match(/([A-Z][a-z]+ \d{1,2},?\s*\d{4})/);if(m) data.date=m[1];}
+    if(!data.time){var m=l.match(/(\d{1,2}:\d{2}\s*GMT[^,\n\r]*)/);if(m) data.time=m[1].replace(/,\s*/g,' · ');}
+    if(data.date&&data.time) break;
+  }
+
+  var sec=null;
+  var i=0;
+  while(i<clean.length){
+    var l=clean[i];
+
+    if(/^Notable Developments$/i.test(l)||/^Situational Awareness$/i.test(l)){sec='notable';i++;continue;}
+    if(/^Active and Monitoring$/i.test(l)){sec='active';i++;continue;}
+    if(/^Forward Planning$/i.test(l)){sec='forward';i++;continue;}
+    if(/^High Engagement Events$/i.test(l)){sec='higheng';i++;continue;}
+    if(/^\|/.test(l)||/^samdesk,/i.test(l)||/^What did we miss/i.test(l)||/^Manage preferences/i.test(l)||/^Contains active/i.test(l)||/^Conversation opened/i.test(l)||/^Skip to content/i.test(l)||/^Using SAM Mail/i.test(l)||/^Inbox$/i.test(l)||/^Team samdesk/i.test(l)){i++;continue;}
+    if(!sec){i++;continue;}
+
+    var m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+    if(!m){i++;continue;}
+
+    var r=m[1].trim();
+    var content=m[2].trim();
+
+    var j=i+1;
+    while(j<clean.length){
+      var next=clean[j];
+      if(/^[A-Z][^|]{1,40}\s*\|/.test(next)) break;
+      if(/^(Notable Developments|Active and Monitoring|Forward Planning|High Engagement Events|Situational Awareness)$/i.test(next)) break;
+      if(/^\|/.test(next)){j++;break;}
+      content+=' '+next;
+      j++;
+    }
+    i=j;
+
+    content=content.replace(/\s+/g,' ').trim();
+
+    var isNew=/[-–]\s*New\s*$/.test(content);
+    var isUpdate=/[-–]\s*Update\s*$/.test(content);
+    var hasCaution=/See\s+Caution\s+Alert|REVIEW:\s*Caution/i.test(content);
+
+    content=content
+      .replace(/REVIEW:\s*(Caution\s+Alert|dash\.samdesk\.io)\S*/gi,'')
+      .replace(/\(https?:\/\/[^\)]+\)/g,'')
+      .replace(/https?:\/\/\S+/g,'')
+      .replace(/See\s+Caution\s+Alert\.?/gi,'')
+      .replace(/[-–]\s*(New|Update)\s*$/i,'')
+      .replace(/\s+/g,' ').trim();
+
+    var sentEnd=content.search(/[.!?]\s+[A-Z]/);
+    var title=sentEnd>0?content.substring(0,sentEnd+1).trim():content.substring(0,140).trim();
+    var body=sentEnd>0?content.substring(sentEnd+2).trim():'';
+
+    var dateStr='';
+    var dm=content.match(/[-–]\s*((?:through\s+)?(?:March|April|May|June|July|August|September|October|November|December|January|February)\s+\d{1,2}(?:\s+to\s+\d{1,2})?)/i);
+    if(dm) dateStr=dm[1].trim();
+
+    var isCrit=/killed|fatal|attack|explosion|crash|strike|crisis|mining|drone|shooting|active shoot|embassy|air force|lockdown/i.test(content);
+    var sev=isCrit?'critical':'high';
+    var loc=flag(r)+' '+r;
+    var cautionUrl=hasCaution?'https://dash.samdesk.io/alerts':'';
+
+    if(sec==='notable'){
+      var inc={loc:loc,title:title,body:body,tags:tags(content),cautionUrl:cautionUrl,reviewUrl:'https://dash.samdesk.io',sev:sev};
+      if(sev==='critical') data.action.push(inc);
+      else data.decisions.push(inc);
+    } else if(sec==='active'){
+      data.monitoring.push({loc:loc,title:title,href:'https://dash.samdesk.io'});
+    } else if(sec==='forward'){
+      data.emerging.push({loc:loc,title:title,body:body,cautionUrl:cautionUrl,isNew:isNew,isUpdate:isUpdate,date:dateStr});
+    } else if(sec==='higheng'){
+      var st=status(content);
+      var desc=content.replace(/^(All clear after |Reports of )/i,'').replace(/\.\s*$/,'').trim();
+      data.stream.push({region:region(r),loc:loc,desc:desc,status:st,href:'https://dash.samdesk.io',id:''});
+    }
+  }
+
+  parsedData=data;
+  var total=data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length;
+
+  document.getElementById('r-date').textContent=data.date||'Not found';
+  document.getElementById('r-action').textContent=data.action.length+' incidents';
+  document.getElementById('r-decisions').textContent=data.decisions.length+' incidents';
+  document.getElementById('r-monitoring').textContent=data.monitoring.length+' items';
+  document.getElementById('r-emerging').textContent=data.emerging.length+' items';
+  document.getElementById('r-stream').textContent=data.stream.length+' incidents';
+  document.getElementById('parse-result').style.display='block';
+  markDone(1);markDone(2);markDone(3);
+
+  var sum=[];
+  if(data.action.length) sum.push(data.action[0].title);
+  if(data.action.length>1) sum.push(data.action[1].title);
+  set('f-summary',sum.join('. ')+(sum.length?'.':''));
+
+  if(total>0){
+    render();
+    saveDraft(true);
+    toast('Parsed — '+total+' items found','#10B981');
+  } else {
+    toast('Parsed but 0 items found — check email format','#F59E0B');
+  }
+}
+
+// ── STATUS BADGE HTML ─────────────────────────────────────────
 function statusBadge(s){
-  const m={active:{bg:'#1A0505',c:'#EF4444',b:'#450A0A',l:'Active'},monitoring:{bg:'#1C1208',c:'#F59E0B',b:'#451A00',l:'Monitoring'},allclear:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'All clear'},resolved:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'Resolved'}};
-  const k=(s||'monitoring').toLowerCase().replace(/\s/g,'');
-  const st=m[k]||m.monitoring;
-  return `<span style="color:${st.c};font-size:9px;background:${st.bg};border:1px solid ${st.b};border-radius:3px;padding:1px 5px;flex-shrink:0">${st.l}</span>`;}
+  var map={
+    active:{bg:'#1A0505',c:'#EF4444',b:'#450A0A',l:'Active'},
+    monitoring:{bg:'#1C1208',c:'#F59E0B',b:'#451A00',l:'Monitoring'},
+    allclear:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'All clear'},
+    resolved:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'Resolved'}
+  };
+  var k=(s||'monitoring').replace(/\s/g,'');
+  var st=map[k]||map.monitoring;
+  return '<span style="color:'+st.c+';font-size:9px;background:'+st.bg+';border:1px solid '+st.b+';border-radius:3px;padding:1px 5px;flex-shrink:0">'+st.l+'</span>';
+}
 
-// ── Generate HTML ────────────────────────────────────────────
+// ── GENERATE HTML ─────────────────────────────────────────────
 function generateHTML(){
-  if(!parsedData) return '<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px">Parse an email to generate the brief.</div>';
-  const d=parsedData;
-  const date=d.date||'[Date]';
-  const time=d.time||'[Time]';
-  const summary=v('f-summary')||'';
-  const cA=d.action.length,cD=d.decisions.length,cM=d.monitoring.length,cE=d.emerging.length;
+  if(!parsedData) return '<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px">Parse an email first.</div>';
+  var d=parsedData;
+  var date=d.date||'[Date]';
+  var time=d.time||'[Time]';
+  var summary=v('f-summary')||'';
+  var cA=d.action.length,cD=d.decisions.length,cM=d.monitoring.length,cE=d.emerging.length;
 
   function card(i){
-    const border=i.sev==='critical'?'#EF4444':'#F59E0B';
-    const sevBg=i.sev==='critical'?'background:#1A0505;color:#EF4444;border:1px solid #450A0A':'background:#1C1208;color:#F59E0B;border:1px solid #451A00';
-    const sevLabel=i.sev==='critical'?'Critical':'High';
-    const bodyHtml=i.body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${i.body}</div>`:'';
-    const caution=i.cautionUrl?`<a href="${i.cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px;margin-right:6px">⚠ See Caution Alert →</a>`:'';
-    const tags=(i.tags||[]).map(t=>`<span style="font-size:9px;color:#4B5563;background:#0A0F1A;border:1px solid #1F2937;border-radius:3px;padding:1px 6px;margin-right:4px">${t}</span>`).join('');
-    return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${border};border-radius:5px;padding:14px 16px;margin-bottom:8px">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
-    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${i.loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${i.title}</div></div>
-    <span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;${sevBg}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0"></span>${sevLabel}</span>
-  </div>
-  ${bodyHtml}
-  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${caution}<a href="${i.reviewUrl||'https://dash.samdesk.io'}" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a>${tags}</div>
-</div>`;}
+    var border=i.sev==='critical'?'#EF4444':'#F59E0B';
+    var sbg=i.sev==='critical'?'background:#1A0505;color:#EF4444;border:1px solid #450A0A':'background:#1C1208;color:#F59E0B;border:1px solid #451A00';
+    var slbl=i.sev==='critical'?'Critical':'High';
+    var bodyHtml=i.body?'<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">'+i.body+'</div>':'';
+    var caution=i.cautionUrl?'<a href="'+i.cautionUrl+'" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px;margin-right:6px">⚠ See Caution Alert →</a>':'';
+    var tagHtml=(i.tags||[]).map(function(t){return '<span style="font-size:9px;color:#4B5563;background:#0A0F1A;border:1px solid #1F2937;border-radius:3px;padding:1px 6px;margin-right:4px">'+t+'</span>';}).join('');
+    return '<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid '+border+';border-radius:5px;padding:14px 16px;margin-bottom:8px"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px"><div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">'+i.loc+'</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">'+i.title+'</div></div><span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;'+sbg+'"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0"></span>'+slbl+'</span></div>'+bodyHtml+'<div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">'+caution+'<a href="'+i.reviewUrl+'" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a>'+tagHtml+'</div></div>';
+  }
 
-  function monitorGrid(){
+  function monGrid(){
     if(!d.monitoring.length) return '';
-    return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${d.monitoring.map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('')}</div>`;}
+    return '<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">'+d.monitoring.map(function(i){return '<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">'+i.loc+'</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">'+i.title+'</div></div>';}).join('')+'</div>';
+  }
 
-  function emergingList(){
-    return d.emerging.map(i=>{
-      const badge=i.isNew?`<span style="font-size:8px;font-weight:700;color:#10B981;background:#0A1F0A;border:1px solid #0F3A0F;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">New</span>`:i.isUpdate?`<span style="font-size:8px;font-weight:700;color:#8B5CF6;background:#1A1330;border:1px solid #2D1F5E;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">Update</span>`:'';
-      const caution=i.cautionUrl?`<div style="margin-top:4px"><a href="${i.cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px">⚠ See Caution Alert →</a></div>`:'';
-      return `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E"><div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:80px;padding-top:2px">${i.date||'TBD'}</div><div style="flex:1"><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}${badge}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${caution}</div></div>`;}).join('');}
+  function emergList(){
+    return d.emerging.map(function(i){
+      var badge=i.isNew?'<span style="font-size:8px;font-weight:700;color:#10B981;background:#0A1F0A;border:1px solid #0F3A0F;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">New</span>':i.isUpdate?'<span style="font-size:8px;font-weight:700;color:#8B5CF6;background:#1A1330;border:1px solid #2D1F5E;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">Update</span>':'';
+      var caution=i.cautionUrl?'<div style="margin-top:4px"><a href="'+i.cautionUrl+'" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px">⚠ See Caution Alert →</a></div>':'';
+      return '<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E"><div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:80px;padding-top:2px">'+(i.date||'TBD')+'</div><div style="flex:1"><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">'+i.loc+badge+'</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">'+i.title+(i.body?' — '+i.body:'')+'</div>'+caution+'</div></div>';
+    }).join('');
+  }
 
-  function streamSection(){
+  function streamSec(){
     if(!d.stream.length) return '';
-    const regions={};
-    d.stream.forEach(i=>{if(!regions[i.region])regions[i.region]=[];regions[i.region].push(i);});
-    const inner=Object.entries(regions).map(([region,items])=>`
-  <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4B5563;margin-bottom:6px">${region}</div>
-  <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">${items.map((i,idx)=>{
-    const url=i.href||i.id?`https://dash.samdesk.io/incidents/${i.id}`:'https://dash.samdesk.io';
-    const idTag=i.id?`<span style="font-size:9px;color:#374151;flex-shrink:0">${i.id}</span>`:'';
-    const bg=idx%2===0?'#111827':'#0D1117';
-    return `<div style="display:flex;align-items:baseline;gap:10px;padding:5px 8px;background:${bg};border-radius:4px;font-size:11px"><span style="color:#6B7280;min-width:100px;flex-shrink:0;font-size:10px">${i.loc}</span>${statusBadge(i.status)}<a href="${url}" style="color:#9CA3AF;text-decoration:none;flex:1">${i.desc}</a>${idTag}</div>`;}).join('')}</div>`).join('');
-    return section('blue','Global Incident Stream','24h activity log',inner);}
+    var regions={};
+    d.stream.forEach(function(i){if(!regions[i.region])regions[i.region]=[];regions[i.region].push(i);});
+    var inner=Object.keys(regions).map(function(rg){
+      return '<div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4B5563;margin-bottom:6px">'+rg+'</div><div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">'+regions[rg].map(function(i,idx){
+        var bg=idx%2===0?'#111827':'#0D1117';
+        return '<div style="display:flex;align-items:baseline;gap:10px;padding:5px 8px;background:'+bg+';border-radius:4px;font-size:11px"><span style="color:#6B7280;min-width:100px;flex-shrink:0;font-size:10px">'+i.loc+'</span>'+statusBadge(i.status)+'<a href="'+i.href+'" style="color:#9CA3AF;text-decoration:none;flex:1">'+i.desc+'</a></div>';
+      }).join('')+'</div>';
+    }).join('');
+    return sec('blue','Global Incident Stream','24h activity log',inner);
+  }
 
-  function section(col,title,desc,content){
-    if(!content.trim()) return '';
-    const cols={red:'#EF4444',amber:'#F59E0B',green:'#10B981',purple:'#8B5CF6',blue:'#4A9EFF'};
-    return `<div style="padding:20px 28px 0"><div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${cols[col]};margin-bottom:12px"><span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${cols[col]}">${title}</span><span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span></div>${content}</div>`;}
+  function sec(col,title,desc,content){
+    if(!content||!content.trim()) return '';
+    var cols={red:'#EF4444',amber:'#F59E0B',green:'#10B981',purple:'#8B5CF6',blue:'#4A9EFF'};
+    return '<div style="padding:20px 28px 0"><div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid '+cols[col]+';margin-bottom:12px"><span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:'+cols[col]+'">'+title+'</span><span style="font-size:10px;color:#4B5563;margin-left:auto">'+desc+'</span></div>'+content+'</div>';
+  }
 
-  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – ${date}</title></head>
-<body style="margin:0;padding:0;background:#0F1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#E5E7EB">
-<div style="max-width:680px;margin:0 auto;background:#0F1117">
-  <div style="background:#060810;border-bottom:1px solid #1E3A5F;padding:18px 28px;display:flex;justify-content:space-between;align-items:center">
-    <div><div style="font-size:15px;font-weight:700;color:#4A9EFF;letter-spacing:1px">samdesk</div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#374151;margin-top:3px">⚠ unclassified daily brief</div></div>
-    <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:#E5E7EB">${date}</div><div style="font-size:10px;color:#6B7280;margin-top:2px">${time}</div></div>
-  </div>
-  <div style="background:#111827;border-bottom:1px solid #1F2937;padding:12px 28px;display:flex;align-items:center;gap:16px">
-    <div style="display:flex;gap:14px;flex-shrink:0">
-      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#EF4444;line-height:1">${cA}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Action</div></div>
-      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#F59E0B;line-height:1">${cD}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Decisions</div></div>
-      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#10B981;line-height:1">${cM}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Monitoring</div></div>
-      <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#8B5CF6;line-height:1">${cE}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Emerging</div></div>
-    </div>
-    <div style="width:1px;height:40px;background:#1F2937;flex-shrink:0"></div>
-    <div style="font-size:11px;color:#9CA3AF;line-height:1.6;flex:1">${summary}</div>
-  </div>
-  ${section('red','Immediate Action Required','Events requiring immediate operational response',d.action.map(card).join(''))}
-  ${section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness or escalation',d.decisions.map(card).join(''))}
-  ${section('green','Active Monitoring','Incidents tracked for potential escalation',monitorGrid())}
-  ${section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators of disruption',emergingList())}
-  ${streamSection()}
-  <div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center;margin-top:20px">
-    <div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div>
-    <div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div>
-  </div>
-</div></body></html>`;}
+  var ac=sec('red','Immediate Action Required','Events requiring immediate operational response',d.action.map(card).join(''));
+  var dc=sec('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness or escalation',d.decisions.map(card).join(''));
+  var mc=sec('green','Active Monitoring','Incidents tracked for potential escalation',monGrid());
+  var ec=sec('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators of disruption',emergList());
 
-// ── Render ───────────────────────────────────────────────────
+  return '<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – '+date+'</title></head><body style="margin:0;padding:0;background:#0F1117;font-family:-apple-system,BlinkMacSystemFont,\'Segoe UI\',Arial,sans-serif;color:#E5E7EB"><div style="max-width:680px;margin:0 auto;background:#0F1117"><div style="background:#060810;border-bottom:1px solid #1E3A5F;padding:18px 28px;display:flex;justify-content:space-between;align-items:center"><div><div style="font-size:15px;font-weight:700;color:#4A9EFF;letter-spacing:1px">samdesk</div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#374151;margin-top:3px">⚠ unclassified daily brief</div></div><div style="text-align:right"><div style="font-size:13px;font-weight:600;color:#E5E7EB">'+date+'</div><div style="font-size:10px;color:#6B7280;margin-top:2px">'+time+'</div></div></div><div style="background:#111827;border-bottom:1px solid #1F2937;padding:12px 28px;display:flex;align-items:center;gap:16px"><div style="display:flex;gap:14px;flex-shrink:0"><div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#EF4444;line-height:1">'+cA+'</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Action</div></div><div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#F59E0B;line-height:1">'+cD+'</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Decisions</div></div><div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#10B981;line-height:1">'+cM+'</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Monitoring</div></div><div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#8B5CF6;line-height:1">'+cE+'</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Emerging</div></div></div><div style="width:1px;height:40px;background:#1F2937;flex-shrink:0"></div><div style="font-size:11px;color:#9CA3AF;line-height:1.6;flex:1">'+summary+'</div></div>'+ac+dc+mc+ec+streamSec()+'<div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center;margin-top:20px"><div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div><div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div></div></div></body></html>';
+}
+
+// ── Render ────────────────────────────────────────────────────
 function render(){
-  const html=generateHTML();
+  var html=generateHTML();
   if(currentTab==='email') document.getElementById('email-preview').innerHTML=html;
   else document.getElementById('html-output').textContent=html;
 }
@@ -608,58 +418,52 @@ function switchTab(t){
   currentTab=t;
   document.getElementById('email-preview').style.display=t==='email'?'block':'none';
   document.getElementById('html-output').style.display=t==='html'?'block':'none';
-  document.querySelectorAll('.tab').forEach(b=>b.className='tab '+(b.textContent.toLowerCase()===t?'active':'inactive'));
+  document.querySelectorAll('.tab').forEach(function(b){b.className='tab '+(b.textContent.toLowerCase()===t?'active':'inactive');});
   if(t==='html') document.getElementById('html-output').textContent=generateHTML();
 }
 
-// ── Draft ────────────────────────────────────────────────────
-function saveDraft(auto=false){
-  const state={source:v('html-source'),summary:v('f-summary'),parsed:parsedData,savedAt:new Date().toLocaleTimeString()};
-  try{localStorage.setItem('samdesk_brief_v3',JSON.stringify(state));}catch(e){}
-  document.getElementById('draft-info').textContent=`Draft saved at ${state.savedAt}`;
-  if(!auto) showToast('Draft saved','#10B981');
+// ── Draft ─────────────────────────────────────────────────────
+function saveDraft(auto){
+  var s={text:v('paste-input'),summary:v('f-summary'),parsed:parsedData,savedAt:new Date().toLocaleTimeString()};
+  try{localStorage.setItem('sd_brief_v2',JSON.stringify(s));}catch(e){}
+  document.getElementById('draft-info').textContent='Draft saved at '+s.savedAt;
+  if(!auto) toast('Draft saved','#10B981');
 }
 
 function loadDraft(){
   try{
-    const raw=localStorage.getItem('samdesk_brief_v3');
-    if(!raw) return showToast('No draft found','#F59E0B');
-    const s=JSON.parse(raw);
-    set('html-source',s.source||'');
+    var raw=localStorage.getItem('sd_brief_v2');
+    if(!raw){toast('No draft found','#F59E0B');return;}
+    var s=JSON.parse(raw);
+    set('paste-input',s.text||'');
     set('f-summary',s.summary||'');
-    if(s.parsed){
-      parsedData=s.parsed;
-      document.getElementById('parse-result').style.display='block';
-      document.getElementById('summary-wrap').style.display='block';
-      document.getElementById('r-date').textContent=parsedData.date||'—';
-      document.getElementById('r-action').textContent=parsedData.action.length+' incidents';
-      document.getElementById('r-decisions').textContent=parsedData.decisions.length+' incidents';
-      document.getElementById('r-monitoring').textContent=parsedData.monitoring.length+' items';
-      document.getElementById('r-emerging').textContent=parsedData.emerging.length+' items';
-      document.getElementById('r-stream').textContent=parsedData.stream.length+' incidents';
-      markDone(1);markDone(2);markDone(3);
-      render();
-    }
-    showToast('Draft loaded','#10B981');
-  }catch(e){showToast('Could not load draft','#F59E0B');}
+    if(s.parsed){parsedData=s.parsed;render();}
+    toast('Draft loaded','#10B981');
+  }catch(e){toast('No draft found','#F59E0B');}
 }
 
 function clearAll(){
-  if(!confirm('Clear everything?')) return;
-  set('html-source','');set('f-summary','');
+  if(!confirm('Clear the form?')) return;
+  set('paste-input','');set('f-summary','');
   parsedData=null;
   document.getElementById('parse-result').style.display='none';
-  document.getElementById('summary-wrap').style.display='none';
-  document.getElementById('email-preview').innerHTML='<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">Paste your Gmail HTML source and click<br><strong style="color:#4A9EFF">Parse email</strong> to see the brief here.</div>';
-  ['num-1','num-2','num-3','num-4'].forEach((id,i)=>{const el=document.getElementById(id);el.textContent=i+1;el.className='step-num';});
-  showToast('Cleared','#4A9EFF');
+  document.getElementById('email-preview').innerHTML='<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">Paste email and click <strong style="color:#4A9EFF">Parse email</strong> to preview.</div>';
+  ['num-1','num-2','num-3','num-4'].forEach(function(id,n){var el=document.getElementById(id);el.textContent=n+1;el.className='step-num';});
+  toast('Cleared','#4A9EFF');
 }
 
-function copyHTML(){navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied','#10B981')).catch(()=>showToast('Use HTML tab','#F59E0B'));}
-function openWebPage(){const blob=new Blob([generateHTML()],{type:'text/html'});window.open(URL.createObjectURL(blob),'_blank');}
+// ── Output ────────────────────────────────────────────────────
+function copyHTML(){
+  navigator.clipboard.writeText(generateHTML()).then(function(){toast('HTML copied','#10B981');}).catch(function(){toast('Copy failed','#F59E0B');});
+}
+function openPage(){
+  var blob=new Blob([generateHTML()],{type:'text/html'});
+  window.open(URL.createObjectURL(blob),'_blank');
+}
 
+// ── Init ──────────────────────────────────────────────────────
 (function(){
-  try{const raw=localStorage.getItem('samdesk_brief_v3');if(raw){const s=JSON.parse(raw);document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown'}`;}}catch(e){}
+  try{var raw=localStorage.getItem('sd_brief_v2');if(raw){var s=JSON.parse(raw);document.getElementById('draft-info').textContent='Draft available — saved at '+(s.savedAt||'unknown');}}catch(e){}
 })();
 </script>
 </body>
