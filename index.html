@@ -10,52 +10,60 @@
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;height:100vh;overflow:hidden}
 #app{display:flex;height:100vh}
 
-/* Form panel */
-#form-panel{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
+/* Left panel */
+#left{width:380px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surface2)}
 .panel-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-right:auto}
 .btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;transition:opacity .2s;letter-spacing:.5px}
 .btn:hover{opacity:.85}
 .btn-primary{background:var(--blue);color:#060810}
 .btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--blue)}
-.btn-amber{background:var(--amber);color:#060810}
-.status{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
-.status.saved{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
-.status.unsaved{background:#1C1208;color:var(--amber);border:1px solid #451A00}
+.btn-green{background:var(--green);color:#060810}
+.btn-red{background:var(--red);color:#fff}
 
-/* Form scroll */
-#form-scroll{flex:1;overflow-y:auto;padding:16px}
-#form-scroll::-webkit-scrollbar{width:4px}
-#form-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+/* Steps */
+#steps{flex:1;overflow-y:auto;padding:16px}
+#steps::-webkit-scrollbar{width:4px}
+#steps::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
-/* Section blocks */
-.fsec{margin-bottom:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.fsec-hdr{padding:9px 12px;background:var(--surface2);display:flex;align-items:center;gap:8px}
-.fsec-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-.fsec-dot.red{background:var(--red)}
-.fsec-dot.amber{background:var(--amber)}
-.fsec-dot.green{background:var(--green)}
-.fsec-dot.purple{background:var(--purple)}
-.fsec-dot.blue{background:var(--blue)}
-.fsec-dot.gray{background:var(--dim)}
-.fsec-title{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--text)}
-.fsec-hint{font-size:9px;color:var(--dim);margin-left:auto}
-.fsec-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
+.step{margin-bottom:16px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.step-hdr{padding:10px 14px;background:var(--surface2);display:flex;align-items:center;gap:10px}
+.step-num{width:20px;height:20px;border-radius:50%;background:var(--border2);color:var(--blue);font-size:10px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.step-num.done{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
+.step-title{font-size:11px;font-weight:700;color:var(--text)}
+.step-body{padding:12px 14px;display:flex;flex-direction:column;gap:10px}
+.step-desc{font-size:11px;color:var(--muted);line-height:1.6}
+.step-desc strong{color:var(--text)}
+.step-desc code{background:var(--surface2);border:1px solid var(--border);border-radius:3px;padding:1px 6px;font-size:10px;color:var(--blue);font-family:monospace}
 
-/* Fields */
+/* Paste area */
+textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:8px 10px;font-family:monospace;outline:none;transition:border-color .2s;resize:vertical;line-height:1.5}
+textarea:focus{border-color:var(--blue)}
+textarea.has-content{border-color:var(--green)}
+
+/* Parse result */
+#parse-result{display:none;padding:10px 12px;background:var(--bg);border:1px solid var(--border);border-radius:5px;font-size:11px;line-height:1.7}
+.result-row{display:flex;justify-content:space-between;align-items:center}
+.result-label{color:var(--muted)}
+.result-val{font-weight:700}
+.result-val.red{color:var(--red)}
+.result-val.amber{color:var(--amber)}
+.result-val.green{color:var(--green)}
+.result-val.purple{color:var(--purple)}
+.result-val.blue{color:var(--blue)}
+
+/* Summary edit */
+#summary-wrap{display:none}
 label{font-size:9px;color:var(--dim);letter-spacing:.5px;display:block;margin-bottom:3px}
-input[type=text],textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:7px 10px;font-family:inherit;outline:none;transition:border-color .2s;resize:vertical;line-height:1.5}
-input[type=text]:focus,textarea:focus{border-color:var(--blue)}
-.field-row{display:flex;gap:8px}
-.field-row>*{flex:1}
-.hint{font-size:9px;color:var(--dim);line-height:1.5;margin-top:2px}
+input[type=text]{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:6px 9px;font-family:inherit;outline:none;transition:border-color .2s}
+input[type=text]:focus{border-color:var(--blue)}
 
 /* Draft bar */
-#draft-bar{padding:8px 14px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:10px;font-size:10px;color:var(--green);flex-shrink:0}
-#draft-bar span{margin-right:auto}
+#draft-bar{padding:8px 14px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:8px;font-size:10px;color:var(--green);flex-shrink:0}
+#draft-bar span{margin-right:auto;font-size:10px}
 
-/* Preview panel */
-#preview-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#12122a}
+/* Right panel */
+#right{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#12122a}
 .preview-hdr{padding:10px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .preview-label{font-size:10px;color:#6B7280;letter-spacing:1px;text-transform:uppercase;margin-right:auto}
 .tab{padding:4px 12px;border-radius:4px;font-size:10px;cursor:pointer;border:none;font-weight:700}
@@ -73,116 +81,79 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue)}
 <body>
 <div id="app">
 
-<!-- FORM PANEL -->
-<div id="form-panel">
+<!-- LEFT PANEL -->
+<div id="left">
   <div class="panel-hdr">
     <span class="panel-title">Brief Composer</span>
-    <span id="save-status" class="status saved">Saved</span>
-    <button class="btn btn-amber" style="font-size:9px;padding:4px 10px" onclick="loadExample()">Example</button>
-    <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px" onclick="clearForm()">Clear</button>
-    <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px" onclick="saveDraft()">Save</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="loadDraft()">Load Draft</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="clearAll()">Clear</button>
   </div>
 
-  <div id="form-scroll">
+  <div id="steps">
 
-    <!-- Brief details -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot gray"></div>
-        <span class="fsec-title">Brief details</span>
+    <!-- STEP 1 -->
+    <div class="step">
+      <div class="step-hdr">
+        <div class="step-num" id="num-1">1</div>
+        <span class="step-title">Get the HTML source from Gmail</span>
       </div>
-      <div class="fsec-body">
-        <div class="field-row">
-          <div>
-            <label>Date</label>
-            <input type="text" id="f-date" placeholder="Tuesday, March 18, 2026" oninput="onEdit()">
-          </div>
-          <div>
-            <label>Time</label>
-            <input type="text" id="f-time" placeholder="12:00 GMT · 08:00 EDT" oninput="onEdit()">
-          </div>
+      <div class="step-body">
+        <div class="step-desc">
+          Open today's UNCLASSIFIED email in Gmail, then:<br><br>
+          <strong>⋮ three dots</strong> (top right of email)<br>
+          → <strong>Show original</strong><br>
+          → <strong>Copy to clipboard</strong><br><br>
+          This copies the full HTML including all hyperlinks.
         </div>
-        <div>
+      </div>
+    </div>
+
+    <!-- STEP 2 -->
+    <div class="step">
+      <div class="step-hdr">
+        <div class="step-num" id="num-2">2</div>
+        <span class="step-title">Paste HTML source</span>
+      </div>
+      <div class="step-body">
+        <textarea id="html-source" rows="6" placeholder="Paste the full Gmail HTML source here..." oninput="onSourceInput()"></textarea>
+        <button class="btn btn-green" style="width:100%;padding:8px" onclick="parseSource()">↓ Parse email</button>
+        <div id="parse-result">
+          <div class="result-row"><span class="result-label">Date</span><span class="result-val" id="r-date">—</span></div>
+          <div class="result-row"><span class="result-label">Immediate Action</span><span class="result-val red" id="r-action">—</span></div>
+          <div class="result-row"><span class="result-label">Decisions</span><span class="result-val amber" id="r-decisions">—</span></div>
+          <div class="result-row"><span class="result-label">Active Monitoring</span><span class="result-val green" id="r-monitoring">—</span></div>
+          <div class="result-row"><span class="result-label">Emerging Risks</span><span class="result-val purple" id="r-emerging">—</span></div>
+          <div class="result-row"><span class="result-label">Stream incidents</span><span class="result-val blue" id="r-stream">—</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- STEP 3 -->
+    <div class="step">
+      <div class="step-hdr">
+        <div class="step-num" id="num-3">3</div>
+        <span class="step-title">Review &amp; edit summary</span>
+      </div>
+      <div class="step-body">
+        <div class="step-desc">The brief is auto-generated from your email. Optionally edit the situation summary below — everything else is pulled directly from your source.</div>
+        <div id="summary-wrap">
           <label>Situation summary</label>
-          <textarea id="f-summary" rows="2" placeholder="1–2 sentence overview of today's picture..." oninput="onEdit()"></textarea>
+          <textarea id="f-summary" rows="3" placeholder="1–2 sentence overview of today's picture..." oninput="render()"></textarea>
         </div>
       </div>
     </div>
 
-    <!-- Immediate Action -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot red"></div>
-        <span class="fsec-title">Immediate Action Required</span>
-        <span class="fsec-hint">One incident per line</span>
+    <!-- STEP 4 -->
+    <div class="step">
+      <div class="step-hdr">
+        <div class="step-num" id="num-4">4</div>
+        <span class="step-title">Copy HTML &amp; send</span>
       </div>
-      <div class="fsec-body">
-        <div>
-          <label>Paste incidents — format: Location | Headline | Body text</label>
-          <textarea id="f-action" rows="5" placeholder="🇮🇶 Iraq | US embassy attacked in Baghdad | Multiple drones downed, fires reported in Green Zone. State Dept orders global embassy security reviews.&#10;🇺🇸 New Mexico | Active shooting at Holloman AFB | One dead, one injured. Base in lockdown." oninput="onEdit()"></textarea>
-          <div class="hint">Each line = one incident card. Use | to separate location, headline, and body.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Decisions -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot amber"></div>
-        <span class="fsec-title">Decisions &amp; Impact Assessment</span>
-        <span class="fsec-hint">One incident per line</span>
-      </div>
-      <div class="fsec-body">
-        <div>
-          <label>Paste incidents — format: Location | Headline | Body text</label>
-          <textarea id="f-decisions" rows="4" placeholder="🇮🇷 Iran | Israel reports assassination of Iran intelligence minister | Regional escalation risk. Monitor for retaliatory action." oninput="onEdit()"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- Active Monitoring -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot green"></div>
-        <span class="fsec-title">Active Monitoring</span>
-        <span class="fsec-hint">One item per line</span>
-      </div>
-      <div class="fsec-body">
-        <div>
-          <label>Paste items — format: Location | Description</label>
-          <textarea id="f-monitoring" rows="4" placeholder="🇮🇹 Italy | Bomb threat at city hall in Palermo&#10;🇯🇵 Japan | Suspicious object prompts evacuation at Katata Station" oninput="onEdit()"></textarea>
-        </div>
-      </div>
-    </div>
-
-    <!-- Emerging Risks -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot purple"></div>
-        <span class="fsec-title">Emerging Risks &amp; Early Signals</span>
-        <span class="fsec-hint">One item per line</span>
-      </div>
-      <div class="fsec-body">
-        <div>
-          <label>Paste items — format: Date | Location | Headline | Detail | caution (optional)</label>
-          <textarea id="f-emerging" rows="5" placeholder="Mar 18 | 🇩🇪 Germany | Brandenburg Airport strike | All passenger flights suspended. ~2,000 employees participating. | caution&#10;Mar 28 | 🇺🇸 United States | No Kings protests nationwide | 9 million expected across major cities." oninput="onEdit()"></textarea>
-          <div class="hint">Add "caution" at the end of a line to show a Caution Alert button.</div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Global Incident Stream -->
-    <div class="fsec">
-      <div class="fsec-hdr">
-        <div class="fsec-dot blue"></div>
-        <span class="fsec-title">Global Incident Stream</span>
-        <span class="fsec-hint">One item per line</span>
-      </div>
-      <div class="fsec-body">
-        <div>
-          <label>Paste items — format: Region | Location | Status | Description | incident-id</label>
-          <textarea id="f-stream" rows="6" placeholder="Americas | 🇺🇸 New York | allclear | Fire in New York City | sd-26031801&#10;EMEA | 🇮🇱 Israel | active | Missile strikes kill at least 2 in Tel Aviv | sd-26031812&#10;EMEA | 🇱🇧 Lebanon | active | Missile strikes kill at least 6 in Beirut | sd-26031814" oninput="onEdit()"></textarea>
-          <div class="hint">Status options: active · monitoring · allclear · resolved</div>
+      <div class="step-body">
+        <div class="step-desc">Review the preview on the right, then copy the HTML and paste it into HubSpot to send.</div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-primary" style="flex:1;padding:8px" onclick="copyHTML()">Copy HTML</button>
+          <button class="btn btn-ghost" style="flex:1;padding:8px" onclick="openWebPage()">Preview page ↗</button>
         </div>
       </div>
     </div>
@@ -191,12 +162,12 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue)}
 
   <div id="draft-bar">
     <span id="draft-info">No draft saved</span>
-    <button class="btn btn-ghost" style="font-size:9px;padding:3px 9px;display:none" id="load-draft-btn" onclick="loadDraft()">Load Draft</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:3px 9px" onclick="saveDraft()">Save Draft</button>
   </div>
 </div>
 
-<!-- PREVIEW PANEL -->
-<div id="preview-panel">
+<!-- RIGHT PANEL -->
+<div id="right">
   <div class="preview-hdr">
     <span class="preview-label">Live preview</span>
     <button class="tab active" onclick="switchTab('email')">Email</button>
@@ -205,7 +176,11 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue)}
     <button class="btn btn-primary" style="font-size:9px;padding:4px 10px" onclick="openWebPage()">Preview ↗</button>
   </div>
   <div id="preview-scroll">
-    <div id="email-preview"></div>
+    <div id="email-preview">
+      <div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">
+        Paste your Gmail HTML source and click<br><strong style="color:#4A9EFF">Parse email</strong> to see the brief here.
+      </div>
+    </div>
     <pre id="html-output"></pre>
   </div>
 </div>
@@ -214,137 +189,317 @@ input[type=text]:focus,textarea:focus{border-color:var(--blue)}
 
 <script>
 let currentTab='email';
-let autoSaveTimer=null;
+let parsedData=null;
 
-// ── Helpers ─────────────────────────────────────────────────
+// ── Helpers ──────────────────────────────────────────────────
 function v(id){return(document.getElementById(id)?.value||'').trim();}
 function set(id,val){const el=document.getElementById(id);if(el)el.value=val||'';}
 function showToast(msg,color='#10B981'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=color;t.style.opacity=1;setTimeout(()=>t.style.opacity=0,2500);}
+function markDone(n){const el=document.getElementById(`num-${n}`);el.textContent='✓';el.className='step-num done';}
 
-// ── Parse pipe-delimited lines ───────────────────────────────
-function parseLines(text,fields){
-  return text.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
-    const parts=l.split('|').map(p=>p.trim());
-    const obj={};
-    fields.forEach((f,i)=>obj[f]=parts[i]||'');
-    obj._raw=l;
-    return obj;
-  });
+function onSourceInput(){
+  const ta=document.getElementById('html-source');
+  ta.className=ta.value.trim().length>100?'has-content':'';
 }
+
+// ── HTML SOURCE PARSER ───────────────────────────────────────
+function parseSource(){
+  const source=v('html-source');
+  if(!source) return showToast('Paste the HTML source first','#F59E0B');
+
+  // Parse HTML into a DOM
+  const parser=new DOMParser();
+  const doc=parser.parseFromString(source,'text/html');
+
+  const data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
+
+  // ── Extract full text with link preservation ──
+  // Get all text nodes and anchor tags
+  function extractLinksFromEl(el){
+    // Returns array of {text, href} for all links in element
+    const links=[];
+    el.querySelectorAll('a[href]').forEach(a=>{
+      const href=a.href||a.getAttribute('href')||'';
+      const text=(a.textContent||'').trim();
+      if(href&&text) links.push({text,href});
+    });
+    return links;
+  }
+
+  function getCleanText(el){
+    return(el.textContent||'').replace(/\s+/g,' ').trim();
+  }
+
+  // ── Find date/time ──
+  const allText=doc.body?getCleanText(doc.body):'';
+  const dateM=allText.match(/([A-Z][a-z]+ \d{1,2},?\s*\d{4})/);
+  if(dateM) data.date=dateM[1];
+  const timeM=allText.match(/(\d{1,2}:\d{2}\s*GMT[^,\n]*)/);
+  if(timeM) data.time=timeM[1].replace(/,\s*/g,' · ').trim();
+
+  // ── Find all links in document — we'll match them to incidents ──
+  const allLinks={};
+  doc.querySelectorAll('a[href]').forEach(a=>{
+    const href=a.getAttribute('href')||'';
+    const text=(a.textContent||'').replace(/\s+/g,' ').trim().toLowerCase();
+    if(href.includes('dash.samdesk.io')||href.includes('samdesk')){
+      // Store by anchor text
+      allLinks[text]=href;
+      // Also store by partial match
+      if(text.includes('caution')) allLinks['caution']=href;
+      if(text.includes('review')) allLinks['review']=href;
+    }
+  });
+
+  // ── Split body text into sections ──
+  const bodyText=allText;
+  const sections={notable:'',active:'',forward:'',higheng:''};
+  const sectionRe={
+    notable:/(?:Notable Developments|Situational Awareness)/i,
+    active:/(?:Active and Monitoring|Active\s*&\s*Monitoring)/i,
+    forward:/Forward Planning/i,
+    higheng:/High Engagement Events/i,
+  };
+
+  const lines=bodyText.split(/\n|(?<=\.)\s{2,}/).map(l=>l.replace(/\s+/g,' ').trim()).filter(l=>l.length>2);
+  let curSection=null;
+  const sectionLines={notable:[],active:[],forward:[],higheng:[]};
+
+  lines.forEach(l=>{
+    for(const[k,re] of Object.entries(sectionRe)){
+      if(re.test(l)){curSection=k;return;}
+    }
+    if(/^\|?\s*samdesk monitoring/i.test(l)) return;
+    if(/samdesk,|Manage preferences|What did we miss|hello@samdesk/i.test(l)) return;
+    if(/^UNCLASSIFIED/i.test(l)) return;
+    if(/unclassified-\d/i.test(l)) return;
+    if(curSection) sectionLines[curSection].push(l);
+  });
+
+  // ── Helper: find best link for an incident ──
+  function findLink(text,isCaution){
+    if(isCaution){
+      // Look for caution alert link
+      for(const[k,v] of Object.entries(allLinks)){
+        if(k.includes('caution')) return v;
+      }
+      return 'https://dash.samdesk.io/alerts';
+    }
+    // Look for dash.samdesk.io link
+    for(const[k,v] of Object.entries(allLinks)){
+      if(k.includes('review')||k.includes('track')) return v;
+    }
+    return 'https://dash.samdesk.io';
+  }
+
+  // ── Parse Notable Developments → Action + Decisions ──
+  let i=0;
+  const notableLines=sectionLines.notable;
+  while(i<notableLines.length){
+    const l=notableLines[i];
+    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+    if(m){
+      const region=m[1].trim();
+      let content=m[2].trim();
+      // Gather continuation lines
+      let j=i+1;
+      while(j<notableLines.length&&!notableLines[j].match(/^[A-Z][^|]{1,40}\|/)){
+        content+=' '+notableLines[j];j++;
+      }
+      i=j;
+      // Find caution link
+      const hasCaution=/See Caution Alert/i.test(content);
+      const cautionUrl=hasCaution?findLink(content,true):'';
+      const reviewUrl=findLink(content,false);
+      // Strip suffixes
+      content=content.replace(/REVIEW:\s*(Caution Alert|dash\.samdesk\.io[^\s]*)/gi,'').replace(/TRACK via[^.]+\./gi,'').replace(/See Caution Alert\.?/gi,'').replace(/See also[^.]+\./gi,'').trim();
+      // Extract stream type
+      const streamM=content.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
+      const streamTag=streamM?streamM[1].trim()+' stream':'';
+      content=content.replace(/TRACK via[^.]+/gi,'').trim();
+      // Split title / body
+      const sentEnd=content.search(/[.!?]\s+[A-Z]/);
+      const title=sentEnd>0?content.substring(0,sentEnd+1).trim():content.substring(0,120).trim();
+      const body=sentEnd>0?content.substring(sentEnd+2).trim():'';
+      const isCritical=/killed|fatal|attack|explosion|crash|fire at|strike|crisis|critical|mining|drone|shooting|active shoot/i.test(content);
+      const tags=inferTags(content);
+      if(streamTag&&!tags.includes(streamTag)) tags.push(streamTag);
+      const inc={loc:flagEmoji(region)+' '+region,title,body,tags,cautionUrl,reviewUrl,sev:isCritical?'critical':'high'};
+      if(isCritical) data.action.push(inc);
+      else data.decisions.push(inc);
+    } else {i++;}
+  }
+
+  // ── Parse Active Monitoring ──
+  sectionLines.active.forEach(l=>{
+    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+    if(m) data.monitoring.push({loc:flagEmoji(m[1].trim())+' '+m[1].trim(),title:m[2].trim()});
+  });
+
+  // ── Parse Forward Planning → Emerging ──
+  i=0;
+  const fwdLines=sectionLines.forward;
+  while(i<fwdLines.length){
+    const l=fwdLines[i];
+    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+    if(m){
+      const region=m[1].trim();
+      let content=m[2].trim();
+      let j=i+1;
+      while(j<fwdLines.length&&!fwdLines[j].match(/^[A-Z][^|]{1,40}\|/)){
+        content+=' '+fwdLines[j];j++;
+      }
+      i=j;
+      // Caution
+      const hasCaution=/See Caution Alert/i.test(content);
+      const cautionUrl=hasCaution?findLink(content,true):'';
+      const isNew=/\-\s*New\s*$/i.test(content);
+      const isUpdate=/\-\s*Update\s*$/i.test(content);
+      content=content.replace(/See Caution Alert\.?/gi,'').replace(/\-\s*(New|Update)\s*$/i,'').trim();
+      // Date
+      const dateM2=content.match(/[-–]\s*(through\s+)?([A-Z][a-z]+ \d{1,2}(?:\s+to\s+[A-Z][a-z]+ \d{1,2})?)\.\s*/i);
+      let dateStr='',title=content,body='';
+      if(dateM2){dateStr=dateM2[2];title=content.substring(0,content.indexOf(dateM2[0])).trim();body=content.substring(content.indexOf(dateM2[0])+dateM2[0].length).trim();}
+      else{const s=content.search(/\.\s/);if(s>0){title=content.substring(0,s);body=content.substring(s+2);}}
+      data.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title,body,cautionUrl,isNew,isUpdate});
+    } else {i++;}
+  }
+
+  // ── Parse High Engagement → Stream ──
+  sectionLines.higheng.forEach((l,idx)=>{
+    const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
+    if(!m) return;
+    const region=guessRegion(m[1].trim());
+    const loc=flagEmoji(m[1].trim())+' '+m[1].trim();
+    const desc=m[2].trim().replace(/^(All clear after |Reports of |Suspects in custody following )/i,match=>match);
+    const status=getStatus(desc);
+    data.stream.push({region,loc,desc:cleanDesc(desc),status,id:''});
+  });
+
+  parsedData=data;
+
+  // ── Update result panel ──
+  document.getElementById('r-date').textContent=data.date||'Not found';
+  document.getElementById('r-action').textContent=data.action.length+' incidents';
+  document.getElementById('r-decisions').textContent=data.decisions.length+' incidents';
+  document.getElementById('r-monitoring').textContent=data.monitoring.length+' items';
+  document.getElementById('r-emerging').textContent=data.emerging.length+' items';
+  document.getElementById('r-stream').textContent=data.stream.length+' incidents';
+  document.getElementById('parse-result').style.display='block';
+  document.getElementById('summary-wrap').style.display='block';
+
+  markDone(1);markDone(2);markDone(3);
+
+  // Auto-generate summary
+  const sumParts=[];
+  if(data.action.length) sumParts.push(data.action[0].title);
+  if(data.action.length>1) sumParts.push(data.action[1].title);
+  set('f-summary',sumParts.join('. ')+'.');
+
+  render();
+  saveDraft(true);
+  showToast(`Parsed — ${data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length} items found`,'#10B981');
+}
+
+// ── Infer tags ───────────────────────────────────────────────
+function inferTags(text){
+  const map=[[/shipping|vessel|cargo|maritime/i,'Shipping'],[/aviation|airport|flight/i,'Aviation'],[/energy|oil|gas|fuel/i,'Energy'],[/personnel|staff|traveler/i,'Personnel safety'],[/infrastructure|power|utility/i,'Infrastructure'],[/supply chain/i,'Supply chain'],[/protest|demonstration/i,'Civil unrest'],[/terror|attack|bomb|explosive/i,'Security threat'],[/weather|storm|flood|wildfire|tornado/i,'Weather'],[/embassy|diplomatic/i,'Diplomatic facilities']];
+  return map.filter(([re])=>re.test(text)).map(([,t])=>t).slice(0,3);
+}
+
+// ── Flag emoji ───────────────────────────────────────────────
+function flagEmoji(r){
+  const f={'US':'🇺🇸','United States':'🇺🇸','UK':'🇬🇧','United Kingdom':'🇬🇧','Iran':'🇮🇷','UAE':'🇦🇪','Iraq':'🇮🇶','Israel':'🇮🇱','Pakistan':'🇵🇰','India':'🇮🇳','China':'🇨🇳','Russia':'🇷🇺','Philippines':'🇵🇭','Australia':'🇦🇺','Japan':'🇯🇵','Canada':'🇨🇦','Germany':'🇩🇪','France':'🇫🇷','Netherlands':'🇳🇱','Belgium':'🇧🇪','Switzerland':'🇨🇭','Poland':'🇵🇱','Ukraine':'🇺🇦','South Korea':'🇰🇷','Brazil':'🇧🇷','Mexico':'🇲🇽','Sweden':'🇸🇪','Italy':'🇮🇹','Lebanon':'🇱🇧','Spain':'🇪🇸','Gulf States':'🌍','Global':'🌍','Middle East':'🌍','Tennessee':'🇺🇸','Georgia':'🇺🇸','Michigan':'🇺🇸','Nebraska':'🇺🇸','Hawaii':'🇺🇸','Texas':'🇺🇸','California':'🇺🇸','Virginia':'🇺🇸','Florida':'🇺🇸','New York':'🇺🇸','Illinois':'🇺🇸','Arizona':'🇺🇸','DC':'🇺🇸','North Carolina':'🇺🇸','New Mexico':'🇺🇸','Oregon':'🇺🇸','Maryland':'🇺🇸','New Jersey':'🇺🇸','North Dakota':'🇺🇸','Wyoming':'🇺🇸','Colorado':'🇺🇸','DR Congo':'🇨🇩','Democratic Republic of the Congo':'🇨🇩','Cyprus':'🇨🇾','Saudi Arabia':'🇸🇦'};
+  for(const[k,v] of Object.entries(f)){if(r.toLowerCase().includes(k.toLowerCase())) return v;}
+  return '🌍';
+}
+
+// ── Region guess for stream ──────────────────────────────────
+function guessRegion(loc){
+  const americas=['US','Tennessee','Georgia','Michigan','Nebraska','Hawaii','Texas','California','Virginia','Florida','New York','Illinois','Arizona','DC','North Carolina','New Mexico','Oregon','Maryland','New Jersey','North Dakota','Colorado','Wyoming','Canada','Brazil','Mexico','Argentina','Puerto Rico'];
+  const apac=['Japan','China','Australia','India','Philippines','South Korea','Indonesia','Singapore','New Zealand','Pakistan'];
+  for(const a of americas){if(loc.toLowerCase().includes(a.toLowerCase())) return 'Americas';}
+  for(const a of apac){if(loc.toLowerCase().includes(a.toLowerCase())) return 'APAC';}
+  return 'EMEA';
+}
+
+// ── Status from description ──────────────────────────────────
+function getStatus(desc){
+  if(/all clear/i.test(desc)) return 'allclear';
+  if(/in custody|resolved|resumed|expired/i.test(desc)) return 'resolved';
+  if(/active|ongoing|developing/i.test(desc)) return 'active';
+  return 'monitoring';
+}
+
+function cleanDesc(d){return d.replace(/^(All clear after |Reports of )/i,'').replace(/\.$/, '').trim();}
 
 // ── Status badge ─────────────────────────────────────────────
 function statusBadge(s){
-  const map={
-    active:{bg:'#1A0505',color:'#EF4444',border:'#450A0A',label:'Active'},
-    monitoring:{bg:'#1C1208',color:'#F59E0B',border:'#451A00',label:'Monitoring'},
-    allclear:{bg:'#0A0F1A',color:'#6B7280',border:'#1F2937',label:'All clear'},
-    resolved:{bg:'#0A0F1A',color:'#6B7280',border:'#1F2937',label:'Resolved'},
-  };
-  const k=(s||'').toLowerCase().replace(/\s/g,'');
-  const m=map[k]||map.allclear;
-  return `<span style="color:${m.color};font-size:9px;background:${m.bg};border:1px solid ${m.border};border-radius:3px;padding:1px 5px;flex-shrink:0">${m.label}</span>`;
-}
-
-// ── Severity from position ───────────────────────────────────
-function sevBadge(sev){
-  const s=sev==='critical'?{bg:'#1A0505',color:'#EF4444',border:'#450A0A',label:'Critical'}:{bg:'#1C1208',color:'#F59E0B',border:'#451A00',label:'High'};
-  return `<span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;background:${s.bg};color:${s.color};border:1px solid ${s.border}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>${s.label}</span>`;
-}
-
-// ── Build incident card ──────────────────────────────────────
-function buildCard(loc,title,body,sev,cautionUrl){
-  const borderCol=sev==='critical'?'#EF4444':'#F59E0B';
-  const caution=cautionUrl?`<a href="${cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px;margin-right:6px">⚠ See Caution Alert →</a>`:'';
-  const bodyHtml=body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${body}</div>`:'';
-  return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${borderCol};border-radius:5px;padding:14px 16px;margin-bottom:8px">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
-    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${title}</div></div>
-    ${sevBadge(sev)}
-  </div>
-  ${bodyHtml}
-  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${caution}<a href="https://dash.samdesk.io" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a></div>
-</div>`;}
-
-// ── Build stream row ─────────────────────────────────────────
-function buildStreamRow(loc,status,desc,id,alt){
-  const url=id?`https://dash.samdesk.io/incidents/${id}`:'https://dash.samdesk.io';
-  const idTag=id?`<span style="font-size:9px;color:#374151;flex-shrink:0">${id}</span>`:'';
-  const bg=alt?'#111827':'#0D1117';
-  return `<div style="display:flex;align-items:baseline;gap:10px;padding:5px 8px;background:${bg};border-radius:4px;font-size:11px">
-  <span style="color:#6B7280;min-width:100px;flex-shrink:0;font-size:10px">${loc}</span>
-  ${statusBadge(status)}
-  <a href="${url}" style="color:#9CA3AF;text-decoration:none;flex:1">${desc}</a>
-  ${idTag}
-</div>`;}
+  const m={active:{bg:'#1A0505',c:'#EF4444',b:'#450A0A',l:'Active'},monitoring:{bg:'#1C1208',c:'#F59E0B',b:'#451A00',l:'Monitoring'},allclear:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'All clear'},resolved:{bg:'#0A0F1A',c:'#6B7280',b:'#1F2937',l:'Resolved'}};
+  const k=(s||'monitoring').toLowerCase().replace(/\s/g,'');
+  const st=m[k]||m.monitoring;
+  return `<span style="color:${st.c};font-size:9px;background:${st.bg};border:1px solid ${st.b};border-radius:3px;padding:1px 5px;flex-shrink:0">${st.l}</span>`;}
 
 // ── Generate HTML ────────────────────────────────────────────
 function generateHTML(){
-  const date=v('f-date')||'[Date]';
-  const time=v('f-time')||'[Time]';
+  if(!parsedData) return '<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px">Parse an email to generate the brief.</div>';
+  const d=parsedData;
+  const date=d.date||'[Date]';
+  const time=d.time||'[Time]';
   const summary=v('f-summary')||'';
+  const cA=d.action.length,cD=d.decisions.length,cM=d.monitoring.length,cE=d.emerging.length;
 
-  // Parse sections
-  const actionLines=parseLines(v('f-action'),['loc','title','body']);
-  const decisionLines=parseLines(v('f-decisions'),['loc','title','body']);
-  const monitorLines=parseLines(v('f-monitoring'),['loc','title']);
-  const emergingLines=parseLines(v('f-emerging'),['date','loc','title','body','flag']);
-  const streamLines=parseLines(v('f-stream'),['region','loc','status','desc','id']);
+  function card(i){
+    const border=i.sev==='critical'?'#EF4444':'#F59E0B';
+    const sevBg=i.sev==='critical'?'background:#1A0505;color:#EF4444;border:1px solid #450A0A':'background:#1C1208;color:#F59E0B;border:1px solid #451A00';
+    const sevLabel=i.sev==='critical'?'Critical':'High';
+    const bodyHtml=i.body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${i.body}</div>`:'';
+    const caution=i.cautionUrl?`<a href="${i.cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px;margin-right:6px">⚠ See Caution Alert →</a>`:'';
+    const tags=(i.tags||[]).map(t=>`<span style="font-size:9px;color:#4B5563;background:#0A0F1A;border:1px solid #1F2937;border-radius:3px;padding:1px 6px;margin-right:4px">${t}</span>`).join('');
+    return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${border};border-radius:5px;padding:14px 16px;margin-bottom:8px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
+    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${i.loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${i.title}</div></div>
+    <span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;${sevBg}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0"></span>${sevLabel}</span>
+  </div>
+  ${bodyHtml}
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${caution}<a href="${i.reviewUrl||'https://dash.samdesk.io'}" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a>${tags}</div>
+</div>`;}
 
-  const cA=actionLines.length,cD=decisionLines.length,cM=monitorLines.length,cE=emergingLines.length;
+  function monitorGrid(){
+    if(!d.monitoring.length) return '';
+    return `<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${d.monitoring.map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('')}</div>`;}
 
-  // Action cards
-  const actionHTML=actionLines.map((i,idx)=>buildCard(i.loc,i.title,i.body,idx===0&&cA>=2?'critical':'critical','')).join('');
+  function emergingList(){
+    return d.emerging.map(i=>{
+      const badge=i.isNew?`<span style="font-size:8px;font-weight:700;color:#10B981;background:#0A1F0A;border:1px solid #0F3A0F;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">New</span>`:i.isUpdate?`<span style="font-size:8px;font-weight:700;color:#8B5CF6;background:#1A1330;border:1px solid #2D1F5E;border-radius:3px;padding:1px 5px;margin-left:6px;text-transform:uppercase">Update</span>`:'';
+      const caution=i.cautionUrl?`<div style="margin-top:4px"><a href="${i.cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px">⚠ See Caution Alert →</a></div>`:'';
+      return `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E"><div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:80px;padding-top:2px">${i.date||'TBD'}</div><div style="flex:1"><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}${badge}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${caution}</div></div>`;}).join('');}
 
-  // Decision cards
-  const decisionsHTML=decisionLines.map(i=>buildCard(i.loc,i.title,i.body,'high','')).join('');
-
-  // Monitor grid
-  const monitorHTML=monitorLines.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${
-    monitorLines.map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('')
-  }</div>`:'';
-
-  // Emerging list
-  const emergingHTML=emergingLines.map(i=>{
-    const hasCaution=/^caution$/i.test((i.flag||'').trim());
-    const cautionBtn=hasCaution?`<div style="margin-top:4px"><a href="https://dash.samdesk.io/alerts" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px">⚠ See Caution Alert →</a></div>`:'';
-    return `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E">
-  <div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:80px;padding-top:2px">${i.date||'TBD'}</div>
-  <div style="flex:1"><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${cautionBtn}</div>
-</div>`;}).join('');
-
-  // Stream — group by region
-  const regions={};
-  streamLines.forEach(i=>{
-    const r=(i.region||'Other').trim();
-    if(!regions[r]) regions[r]=[];
-    regions[r].push(i);
-  });
-  const streamHTML=Object.entries(regions).map(([region,items])=>`
+  function streamSection(){
+    if(!d.stream.length) return '';
+    const regions={};
+    d.stream.forEach(i=>{if(!regions[i.region])regions[i.region]=[];regions[i.region].push(i);});
+    const inner=Object.entries(regions).map(([region,items])=>`
   <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4B5563;margin-bottom:6px">${region}</div>
-  <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
-    ${items.map((i,idx)=>buildStreamRow(i.loc,i.status,i.desc,i.id,idx%2===0)).join('')}
-  </div>`).join('');
+  <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">${items.map((i,idx)=>{
+    const url=i.id?`https://dash.samdesk.io/incidents/${i.id}`:'https://dash.samdesk.io';
+    const idTag=i.id?`<span style="font-size:9px;color:#374151;flex-shrink:0">${i.id}</span>`:'';
+    const bg=idx%2===0?'#111827':'#0D1117';
+    return `<div style="display:flex;align-items:baseline;gap:10px;padding:5px 8px;background:${bg};border-radius:4px;font-size:11px"><span style="color:#6B7280;min-width:100px;flex-shrink:0;font-size:10px">${i.loc}</span>${statusBadge(i.status)}<a href="${url}" style="color:#9CA3AF;text-decoration:none;flex:1">${i.desc}</a>${idTag}</div>`;}).join('')}</div>`).join('');
+    return section('blue','Global Incident Stream','24h activity log',inner);}
 
-  // Section wrapper
   function section(col,title,desc,content){
     if(!content.trim()) return '';
     const cols={red:'#EF4444',amber:'#F59E0B',green:'#10B981',purple:'#8B5CF6',blue:'#4A9EFF'};
-    return `<div style="padding:20px 28px 0">
-  <div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${cols[col]};margin-bottom:12px">
-    <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${cols[col]}">${title}</span>
-    <span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span>
-  </div>${content}</div>`;}
+    return `<div style="padding:20px 28px 0"><div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${cols[col]};margin-bottom:12px"><span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${cols[col]}">${title}</span><span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span></div>${content}</div>`;}
 
-  return `<!DOCTYPE html>
-<html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – ${date}</title></head>
+  return `<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – ${date}</title></head>
 <body style="margin:0;padding:0;background:#0F1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#E5E7EB">
 <div style="max-width:680px;margin:0 auto;background:#0F1117">
-
   <div style="background:#060810;border-bottom:1px solid #1E3A5F;padding:18px 28px;display:flex;justify-content:space-between;align-items:center">
     <div><div style="font-size:15px;font-weight:700;color:#4A9EFF;letter-spacing:1px">samdesk</div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#374151;margin-top:3px">⚠ unclassified daily brief</div></div>
     <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:#E5E7EB">${date}</div><div style="font-size:10px;color:#6B7280;margin-top:2px">${time}</div></div>
   </div>
-
   <div style="background:#111827;border-bottom:1px solid #1F2937;padding:12px 28px;display:flex;align-items:center;gap:16px">
     <div style="display:flex;gap:14px;flex-shrink:0">
       <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#EF4444;line-height:1">${cA}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Action</div></div>
@@ -355,18 +510,15 @@ function generateHTML(){
     <div style="width:1px;height:40px;background:#1F2937;flex-shrink:0"></div>
     <div style="font-size:11px;color:#9CA3AF;line-height:1.6;flex:1">${summary}</div>
   </div>
-
-  ${section('red','Immediate Action Required','Events requiring immediate operational response',actionHTML)}
-  ${section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness or escalation',decisionsHTML)}
-  ${section('green','Active Monitoring','Incidents tracked for potential escalation',monitorHTML)}
-  ${section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators of disruption',emergingHTML)}
-  ${streamHTML?section('blue','Global Incident Stream','24h activity log',streamHTML):''}
-
+  ${section('red','Immediate Action Required','Events requiring immediate operational response',d.action.map(card).join(''))}
+  ${section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness or escalation',d.decisions.map(card).join(''))}
+  ${section('green','Active Monitoring','Incidents tracked for potential escalation',monitorGrid())}
+  ${section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators of disruption',emergingList())}
+  ${streamSection()}
   <div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center;margin-top:20px">
     <div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div>
     <div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div>
   </div>
-
 </div></body></html>`;}
 
 // ── Render ───────────────────────────────────────────────────
@@ -376,15 +528,6 @@ function render(){
   else document.getElementById('html-output').textContent=html;
 }
 
-function onEdit(){
-  document.getElementById('save-status').className='status unsaved';
-  document.getElementById('save-status').textContent='Unsaved';
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer=setTimeout(()=>saveDraft(true),2000);
-  render();
-}
-
-// ── Tab switch ───────────────────────────────────────────────
 function switchTab(t){
   currentTab=t;
   document.getElementById('email-preview').style.display=t==='email'?'block':'none';
@@ -394,78 +537,53 @@ function switchTab(t){
 }
 
 // ── Draft ────────────────────────────────────────────────────
-function collectState(){
-  return{date:v('f-date'),time:v('f-time'),summary:v('f-summary'),action:v('f-action'),decisions:v('f-decisions'),monitoring:v('f-monitoring'),emerging:v('f-emerging'),stream:v('f-stream'),savedAt:new Date().toLocaleTimeString()};}
-
 function saveDraft(auto=false){
-  const s=collectState();
-  try{localStorage.setItem('samdesk_brief_v2',JSON.stringify(s));}catch(e){}
-  document.getElementById('save-status').className='status saved';
-  document.getElementById('save-status').textContent='Saved';
-  document.getElementById('draft-info').textContent=`Draft saved at ${s.savedAt}`;
-  document.getElementById('load-draft-btn').style.display='block';
+  const state={source:v('html-source'),summary:v('f-summary'),parsed:parsedData,savedAt:new Date().toLocaleTimeString()};
+  try{localStorage.setItem('samdesk_brief_v3',JSON.stringify(state));}catch(e){}
+  document.getElementById('draft-info').textContent=`Draft saved at ${state.savedAt}`;
   if(!auto) showToast('Draft saved','#10B981');
 }
 
 function loadDraft(){
   try{
-    const raw=localStorage.getItem('samdesk_brief_v2');
+    const raw=localStorage.getItem('samdesk_brief_v3');
     if(!raw) return showToast('No draft found','#F59E0B');
     const s=JSON.parse(raw);
-    set('f-date',s.date);set('f-time',s.time);set('f-summary',s.summary);
-    set('f-action',s.action);set('f-decisions',s.decisions);
-    set('f-monitoring',s.monitoring);set('f-emerging',s.emerging);set('f-stream',s.stream);
-    render();showToast('Draft loaded','#10B981');
-  }catch(e){showToast('No saved draft','#F59E0B');}
+    set('html-source',s.source||'');
+    set('f-summary',s.summary||'');
+    if(s.parsed){
+      parsedData=s.parsed;
+      document.getElementById('parse-result').style.display='block';
+      document.getElementById('summary-wrap').style.display='block';
+      document.getElementById('r-date').textContent=parsedData.date||'—';
+      document.getElementById('r-action').textContent=parsedData.action.length+' incidents';
+      document.getElementById('r-decisions').textContent=parsedData.decisions.length+' incidents';
+      document.getElementById('r-monitoring').textContent=parsedData.monitoring.length+' items';
+      document.getElementById('r-emerging').textContent=parsedData.emerging.length+' items';
+      document.getElementById('r-stream').textContent=parsedData.stream.length+' incidents';
+      markDone(1);markDone(2);markDone(3);
+      render();
+    }
+    showToast('Draft loaded','#10B981');
+  }catch(e){showToast('Could not load draft','#F59E0B');}
 }
 
-function clearForm(){
-  if(!confirm('Clear the form?')) return;
-  ['f-date','f-time','f-summary','f-action','f-decisions','f-monitoring','f-emerging','f-stream'].forEach(id=>set(id,''));
-  render();showToast('Form cleared','#4A9EFF');
+function clearAll(){
+  if(!confirm('Clear everything?')) return;
+  set('html-source','');set('f-summary','');
+  parsedData=null;
+  document.getElementById('parse-result').style.display='none';
+  document.getElementById('summary-wrap').style.display='none';
+  document.getElementById('email-preview').innerHTML='<div style="padding:40px;text-align:center;color:#4B5563;font-size:12px;line-height:1.8">Paste your Gmail HTML source and click<br><strong style="color:#4A9EFF">Parse email</strong> to see the brief here.</div>';
+  ['num-1','num-2','num-3','num-4'].forEach((id,i)=>{const el=document.getElementById(id);el.textContent=i+1;el.className='step-num';});
+  showToast('Cleared','#4A9EFF');
 }
 
-// ── Example ──────────────────────────────────────────────────
-function loadExample(){
-  set('f-date','Tuesday, March 18, 2026');
-  set('f-time','12:00 GMT · 08:00 EDT · 05:00 PDT');
-  set('f-summary','Eid al-Fitr security elevated globally amid Iran conflict tensions. US embassy attacked in Baghdad. Active shooter at Holloman AFB, New Mexico. Travel disruption across Germany and Italy due to airport strikes today.');
-  set('f-action',`🌍 Global | Eid al-Fitr security elevated — US issues domestic threat warning | DHS and State Dept warn of potential threats tied to Iran conflict. Heightened security at religious sites March 19–22.
-🇮🇶 Iraq | US embassy attacked in Baghdad — worldwide security reviews ordered | Iran-backed militants downed by US forces. Fires reported in Green Zone. Second strike near Baghdad airport.
-🇺🇸 New Mexico | Active shooting at Holloman Air Force Base — 1 dead, 1 injured | Base placed into lockdown at 5:30pm local. Details not yet released.`);
-  set('f-decisions',`🇮🇷 Iran | Israel reports assassination of Iran intelligence minister Ismail Khatib | Significant regional escalation risk. Monitor for retaliatory action across Middle East.`);
-  set('f-monitoring',`🇮🇹 Italy | Bomb threat at city hall in Palermo
-🇯🇵 Japan | Suspicious object prompts evacuation at Katata Station in Yamashina
-🇮🇳 India | Bomb threat prompts evacuations at hospitals in Bhopal`);
-  set('f-emerging',`Mar 18 | 🇩🇪 Germany | Brandenburg Airport warning strike | All passenger flights suspended. ~2,000 Verdi union employees participating. | caution
-Mar 18 | 🇮🇹 Italy | 24-hour airport strike across Italy | Check-in, baggage, and ramp assistance affected across multiple airlines. | caution
-Mar 19–22 | 🌍 Global | Eid al-Fitr | Large gatherings globally. Heightened security near major celebration sites. | caution
-Mar 23 | 🇺🇸 Texas | Protest at CERAWeek energy conference in Houston | Hundreds of climate advocates and student groups expected. | caution
-Mar 28 | 🇬🇧 UK | London anti-racism march | Broad coalition mobilizing supporters nationally.
-Mar 28 | 🇺🇸 United States | No Kings protests nationwide | ~9 million expected across major US cities.`);
-  set('f-stream',`Americas | 🇺🇸 New York | allclear | Fire in New York City | sd-26031801
-Americas | 🇺🇸 Oregon | allclear | Suspicious package near Moda Center in Portland | sd-26031802
-Americas | 🇺🇸 Maryland | active | Shooting investigation in Camp Springs | sd-26031803
-Americas | 🇺🇸 Virginia | allclear | Bomb threat at hospital in Richmond | sd-26031804
-Americas | 🇺🇸 Tennessee | monitoring | Fire prompts road closures in Nashville | sd-26031807
-Americas | 🇺🇸 DC | allclear | Vehicle fire near Washington Monument | sd-26031808
-Americas | 🇺🇸 Florida | resolved | Suspects in custody following shooting in Alachua | sd-26031809
-EMEA | 🇮🇱 Israel | active | Missile strikes kill at least 2 in Tel Aviv | sd-26031812
-EMEA | 🇮🇷 Iran | active | Strike kills senior Iranian security chief Ali Larijani | sd-26031813
-EMEA | 🇱🇧 Lebanon | active | Missile strikes kill at least 6 in Beirut | sd-26031814
-EMEA | 🇸🇪 Sweden | allclear | Suspected dangerous object in Malmo | sd-26031815
-EMEA | 🇮🇱 Israel | resolved | Missile shrapnel prompts closure at train station in Holon | sd-26031816`);
-  render();showToast('Example loaded — Mar 18, 2026','#4A9EFF');
-}
-
-// ── Copy / Open ──────────────────────────────────────────────
-function copyHTML(){navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied','#10B981')).catch(()=>showToast('Use HTML tab to copy','#F59E0B'));}
+function copyHTML(){navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied','#10B981')).catch(()=>showToast('Use HTML tab','#F59E0B'));}
 function openWebPage(){const blob=new Blob([generateHTML()],{type:'text/html'});window.open(URL.createObjectURL(blob),'_blank');}
 
-// ── Init ─────────────────────────────────────────────────────
 (function(){
-  try{const raw=localStorage.getItem('samdesk_brief_v2');if(raw){const s=JSON.parse(raw);document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown'}`;document.getElementById('load-draft-btn').style.display='block';}}catch(e){}
-  render();
+  try{const raw=localStorage.getItem('samdesk_brief_v3');if(raw){const s=JSON.parse(raw);document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown'}`;}}catch(e){}
 })();
 </script>
 </body>
