@@ -208,30 +208,44 @@ function parseSource(){
   if(!source) return showToast('Paste the HTML source first','#F59E0B');
 
   try{
-    // ── Strip Gmail email headers ──
-    // "Show original" prepends headers like From:, To:, Subject:, MIME-Version: etc.
-    // Find the start of the actual HTML content
-    const htmlStart=source.search(/<html|<!DOCTYPE|<div|<table|<body/i);
-    if(htmlStart>0) source=source.substring(htmlStart);
-
-    // If no HTML tags found at all, try treating as plain text fallback
-    if(!/[<>]/.test(source)){
-      return showToast('No HTML found — try plain text paste instead','#F59E0B');
+    // ── Step 1: Decode quoted-printable encoding ──
+    // Gmail "Show original" uses quoted-printable: =3D → =, =E2=80=9C → " etc.
+    // Also handle soft line breaks: trailing = means line continues
+    function decodeQP(str){
+      return str
+        .replace(/=\r?\n/g,'')           // soft line breaks
+        .replace(/=([0-9A-Fa-f]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));
     }
 
-    // ── Parse HTML into a DOM ──
+    // ── Step 2: Extract the HTML part from multipart MIME ──
+    // Look for Content-Type: text/html and grab everything after it
+    let htmlPart='';
+    const htmlPartMatch=source.match(/Content-Type:\s*text\/html[^\n]*\n(?:Content-Transfer-Encoding:[^\n]*\n)?(?:Content-[^\n]*\n)*\n([\s\S]*?)(?=\n------=_Part|\n--[\w]+--|$)/i);
+    if(htmlPartMatch){
+      htmlPart=decodeQP(htmlPartMatch[1]);
+    } else {
+      // Fallback: find first <html or <!DOCTYPE tag after decoding
+      const decoded=decodeQP(source);
+      const htmlStart=decoded.search(/<html|<!DOCTYPE/i);
+      if(htmlStart>=0){
+        htmlPart=decoded.substring(htmlStart);
+      } else {
+        // Last resort: try plain text part
+        const plainMatch=source.match(/Content-Type:\s*text\/plain[^\n]*\n(?:Content-Transfer-Encoding:[^\n]*\n)?\n([\s\S]*?)(?=\n------=_Part|\n--[\w]+--|Content-Type: text\/html)/i);
+        if(plainMatch){
+          htmlPart='<body>'+decodeQP(plainMatch[1])+'</body>';
+        } else {
+          htmlPart=decodeQP(source);
+        }
+      }
+    }
+
+    if(!htmlPart.trim()) return showToast('Could not extract HTML — try again','#EF4444');
+
+    // ── Step 3: Parse the extracted HTML ──
     const parser=new DOMParser();
-    let doc;
-    try{
-      doc=parser.parseFromString(source,'text/html');
-    }catch(e){
-      return showToast('Could not parse HTML — try again','#EF4444');
-    }
-
-    // Check parse worked
-    if(!doc||!doc.body){
-      return showToast('Could not read email body — try again','#EF4444');
-    }
+    const doc=parser.parseFromString(htmlPart,'text/html');
+    if(!doc||!doc.body) return showToast('Could not parse HTML body','#EF4444');
 
     const data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
 
@@ -422,7 +436,11 @@ function parseSource(){
     saveDraft(true);
     const total=data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length;
     if(total===0){
-      showToast('Parsed but no incidents found — check source format','#F59E0B');
+      // Diagnostic — show first 500 chars of extracted text so we can see what the parser sees
+      const extracted=doc.body?doc.body.innerText||doc.body.textContent||'':'';
+      console.log('EXTRACTED TEXT (first 2000 chars):\n', extracted.substring(0,2000));
+      console.log('SECTION LINES:', JSON.stringify(sectionLines));
+      showToast('Parsed but no incidents — check browser console (F12) for diagnostic','#F59E0B');
     } else {
       showToast(`Parsed — ${total} items found`,'#10B981');
     }
