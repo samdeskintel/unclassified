@@ -9,71 +9,56 @@
 :root{--bg:#0D1117;--surface:#111827;--surface2:#0A0F1A;--border:#1F2937;--border2:#1E3A5F;--text:#E5E7EB;--muted:#9CA3AF;--dim:#4B5563;--blue:#4A9EFF;--amber:#F59E0B;--red:#EF4444;--green:#10B981;--purple:#8B5CF6}
 body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13px;height:100vh;overflow:hidden}
 #app{display:flex;height:100vh}
-#form-panel{width:430px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
-#preview-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#1a1a2e}
 
-/* Panel headers */
+/* Form panel */
+#form-panel{width:400px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden}
 .panel-hdr{padding:12px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:8px;flex-shrink:0;background:var(--surface2)}
 .panel-title{font-size:11px;font-weight:700;color:var(--blue);letter-spacing:1px;text-transform:uppercase;margin-right:auto}
-.btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;letter-spacing:.5px;transition:opacity .2s}
+.btn{padding:5px 12px;border-radius:4px;font-size:10px;font-weight:700;cursor:pointer;border:none;transition:opacity .2s;letter-spacing:.5px}
 .btn:hover{opacity:.85}
 .btn-primary{background:var(--blue);color:#060810}
 .btn-ghost{background:transparent;border:1px solid var(--border2);color:var(--blue)}
 .btn-amber{background:var(--amber);color:#060810}
-.btn-sm{padding:4px 10px;font-size:10px}
-
-/* Status pill */
-.status-pill{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700;letter-spacing:.5px}
-.status-pill.saved{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
-.status-pill.unsaved{background:#1C1208;color:var(--amber);border:1px solid #451A00}
+.status{font-size:9px;padding:2px 8px;border-radius:10px;font-weight:700}
+.status.saved{background:#0A1F0A;color:var(--green);border:1px solid #0F3A0F}
+.status.unsaved{background:#1C1208;color:var(--amber);border:1px solid #451A00}
 
 /* Form scroll */
-#form-scroll{flex:1;overflow-y:auto;padding:14px 16px}
+#form-scroll{flex:1;overflow-y:auto;padding:16px}
 #form-scroll::-webkit-scrollbar{width:4px}
 #form-scroll::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
 
 /* Section blocks */
-.form-section{margin-bottom:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
-.form-section-hdr{padding:9px 12px;background:var(--surface2);display:flex;align-items:center;gap:8px;cursor:pointer;user-select:none}
-.form-section-title{font-size:9px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase}
-.form-section-title.red{color:var(--red)}.form-section-title.amber{color:var(--amber)}.form-section-title.green{color:var(--green)}.form-section-title.purple{color:var(--purple)}.form-section-title.blue{color:var(--blue)}.form-section-title.gray{color:var(--muted)}
-.sec-count{font-size:9px;font-weight:700;background:var(--border);color:var(--muted);border-radius:8px;padding:1px 6px;margin-left:auto}
-.toggle-icon{font-size:9px;color:var(--dim);transition:transform .2s;margin-left:4px}
-.form-section-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
-.form-section.collapsed .form-section-body{display:none}
-.form-section.collapsed .toggle-icon{transform:rotate(-90deg)}
+.fsec{margin-bottom:14px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+.fsec-hdr{padding:9px 12px;background:var(--surface2);display:flex;align-items:center;gap:8px}
+.fsec-dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.fsec-dot.red{background:var(--red)}
+.fsec-dot.amber{background:var(--amber)}
+.fsec-dot.green{background:var(--green)}
+.fsec-dot.purple{background:var(--purple)}
+.fsec-dot.blue{background:var(--blue)}
+.fsec-dot.gray{background:var(--dim)}
+.fsec-title{font-size:10px;font-weight:700;letter-spacing:.5px;color:var(--text)}
+.fsec-hint{font-size:9px;color:var(--dim);margin-left:auto}
+.fsec-body{padding:10px 12px;display:flex;flex-direction:column;gap:8px}
 
 /* Fields */
 label{font-size:9px;color:var(--dim);letter-spacing:.5px;display:block;margin-bottom:3px}
-input[type=text],textarea,select{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:6px 9px;font-family:inherit;resize:vertical;outline:none;transition:border-color .2s}
-input[type=text]:focus,textarea:focus,select:focus{border-color:var(--blue)}
-textarea{min-height:60px;line-height:1.5}
-select option{background:var(--surface)}
-.field-row{display:flex;gap:7px}
+input[type=text],textarea{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:4px;color:var(--text);font-size:11px;padding:7px 10px;font-family:inherit;outline:none;transition:border-color .2s;resize:vertical;line-height:1.5}
+input[type=text]:focus,textarea:focus{border-color:var(--blue)}
+.field-row{display:flex;gap:8px}
 .field-row>*{flex:1}
+.hint{font-size:9px;color:var(--dim);line-height:1.5;margin-top:2px}
 
-/* Incident entries */
-.incident-list{display:flex;flex-direction:column;gap:7px}
-.incident-entry{background:var(--bg);border:1px solid var(--border);border-radius:5px;padding:9px}
-.incident-entry-hdr{display:flex;align-items:center;gap:7px;margin-bottom:7px}
-.entry-num{font-size:9px;color:var(--dim);font-weight:700;min-width:14px}
-.remove-btn{margin-left:auto;background:none;border:none;color:var(--dim);cursor:pointer;font-size:13px;line-height:1}
-.remove-btn:hover{color:var(--red)}
-.add-btn{width:100%;padding:6px;background:transparent;border:1px dashed var(--border);border-radius:4px;color:var(--dim);font-size:10px;cursor:pointer;transition:all .2s;margin-top:2px}
-.add-btn:hover{border-color:var(--blue);color:var(--blue)}
+/* Draft bar */
+#draft-bar{padding:8px 14px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:10px;font-size:10px;color:var(--green);flex-shrink:0}
+#draft-bar span{margin-right:auto}
 
-/* API pull status */
-.api-row{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--bg);border:1px solid var(--border2);border-radius:5px;font-size:10px;color:var(--muted)}
-.api-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite;flex-shrink:0}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.api-label{flex:1}
-.api-spinner{width:10px;height:10px;border:1.5px solid var(--border);border-top-color:var(--blue);border-radius:50%;animation:spin .7s linear infinite;display:none}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* Preview */
-.preview-hdr{padding:10px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;gap:10px;flex-shrink:0;background:#12122a}
+/* Preview panel */
+#preview-panel{flex:1;display:flex;flex-direction:column;overflow:hidden;background:#12122a}
+.preview-hdr{padding:10px 16px;border-bottom:1px solid #2a2a4a;display:flex;align-items:center;gap:8px;flex-shrink:0}
 .preview-label{font-size:10px;color:#6B7280;letter-spacing:1px;text-transform:uppercase;margin-right:auto}
-.tab{padding:4px 12px;border-radius:4px;font-size:10px;cursor:pointer;border:none;font-weight:700;letter-spacing:.5px}
+.tab{padding:4px 12px;border-radius:4px;font-size:10px;cursor:pointer;border:none;font-weight:700}
 .tab.active{background:var(--blue);color:#060810}
 .tab.inactive{background:transparent;color:#6B7280;border:1px solid #2a2a4a}
 #preview-scroll{flex:1;overflow-y:auto;padding:16px}
@@ -82,12 +67,7 @@ select option{background:var(--surface)}
 #email-preview{max-width:640px;margin:0 auto;background:#0F1117;border-radius:8px;overflow:hidden;border:1px solid #1a1a3a}
 #html-output{display:none;background:var(--bg);border:1px solid var(--border);border-radius:6px;padding:14px;font-family:monospace;font-size:10px;color:var(--muted);white-space:pre-wrap;word-break:break-all;max-width:640px;margin:0 auto;line-height:1.5}
 
-/* Draft bar */
-#draft-bar{padding:8px 16px;background:#0A1A0A;border-top:1px solid #0F3A0F;display:flex;align-items:center;gap:10px;font-size:10px;color:var(--green);flex-shrink:0}
-#draft-bar span{margin-right:auto}
-
-/* Toast */
-#toast{position:fixed;bottom:20px;right:20px;background:#10B981;color:#fff;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999}
+#toast{position:fixed;bottom:20px;right:20px;padding:7px 14px;border-radius:4px;font-size:11px;font-weight:700;opacity:0;transition:opacity .3s;pointer-events:none;z-index:9999;color:#fff}
 </style>
 </head>
 <body>
@@ -97,115 +77,121 @@ select option{background:var(--surface)}
 <div id="form-panel">
   <div class="panel-hdr">
     <span class="panel-title">Brief Composer</span>
-    <span id="save-status" class="status-pill saved">Saved</span>
-    <button class="btn btn-amber btn-sm" onclick="loadExample()">Load Example</button>
-    <button class="btn btn-ghost btn-sm" onclick="saveDraft()">Save Draft</button>
-    <button class="btn btn-sm" style="background:transparent;border:1px solid #374151;color:#6B7280" onclick="clearForm()">Clear</button>
+    <span id="save-status" class="status saved">Saved</span>
+    <button class="btn btn-amber" style="font-size:9px;padding:4px 10px" onclick="loadExample()">Example</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px" onclick="clearForm()">Clear</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px" onclick="saveDraft()">Save</button>
   </div>
+
   <div id="form-scroll">
 
-    <!-- Meta -->
-    <div class="form-section" id="sec-meta">
-      <div class="form-section-hdr" onclick="toggleSection('sec-meta')">
-        <span class="form-section-title gray">Brief details</span>
-        <span class="toggle-icon">▾</span>
+    <!-- Brief details -->
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot gray"></div>
+        <span class="fsec-title">Brief details</span>
       </div>
-      <div class="form-section-body">
-        <div><label>Date</label><input type="text" id="f-date" placeholder="Sunday, March 16, 2026" oninput="onEdit()"></div>
-        <div><label>Time string</label><input type="text" id="f-time" placeholder="12:00 GMT · 08:00 EDT · 05:00 PDT" oninput="onEdit()"></div>
-        <div><label>Situation summary (1–2 sentences)</label><textarea id="f-summary" rows="3" placeholder="Gulf shipping disruption dominates today's picture..." oninput="onEdit()"></textarea></div>
-      </div>
-    </div>
-
-    <!-- Paste Import -->
-    <div class="form-section" id="sec-paste">
-      <div class="form-section-hdr" onclick="toggleSection('sec-paste')">
-        <span class="form-section-title blue">Paste &amp; Import</span>
-        <span class="toggle-icon">▾</span>
-      </div>
-      <div class="form-section-body">
-        <div style="font-size:9px;color:var(--dim);line-height:1.5;margin-bottom:4px">Paste your existing email text below. The importer will extract the date, notable developments, active monitoring, and forward planning items and map them into the form automatically.</div>
-        <textarea id="paste-input" rows="6" placeholder="Paste your raw email text here...&#10;&#10;e.g. Mar 16, 2026 12:00 GMT&#10;&#10;Notable Developments&#10;Iran | US President...&#10;&#10;Active and Monitoring&#10;..."></textarea>
-        <button class="btn btn-primary btn-sm" style="width:100%;padding:8px" onclick="parseAndImport()">↓ Parse &amp; Import into form</button>
-        <div id="parse-feedback" style="font-size:9px;color:var(--green);display:none;margin-top:2px"></div>
-      </div>
-    </div>
-
-    <!-- API Pull -->
-    <div class="form-section" id="sec-api">
-      <div class="form-section-hdr" onclick="toggleSection('sec-api')">
-        <span class="form-section-title blue">samdesk Live Feed</span>
-        <span class="toggle-icon">▾</span>
-      </div>
-      <div class="form-section-body">
-        <div class="api-row">
-          <div class="api-dot"></div>
-          <span class="api-label">Simulated samdesk API connection active</span>
-          <div class="api-spinner" id="api-spinner"></div>
+      <div class="fsec-body">
+        <div class="field-row">
+          <div>
+            <label>Date</label>
+            <input type="text" id="f-date" placeholder="Tuesday, March 18, 2026" oninput="onEdit()">
+          </div>
+          <div>
+            <label>Time</label>
+            <input type="text" id="f-time" placeholder="12:00 GMT · 08:00 EDT" oninput="onEdit()">
+          </div>
         </div>
-        <button class="add-btn" style="border-style:solid;border-color:var(--border2);color:var(--blue)" onclick="pullFromAPI()">↓ Pull today's active incidents</button>
-        <div style="font-size:9px;color:var(--dim);line-height:1.5">Pulls current critical and high-priority incidents into the Immediate Action and Decisions sections. You can edit or remove after import.</div>
+        <div>
+          <label>Situation summary</label>
+          <textarea id="f-summary" rows="2" placeholder="1–2 sentence overview of today's picture..." oninput="onEdit()"></textarea>
+        </div>
       </div>
     </div>
 
     <!-- Immediate Action -->
-    <div class="form-section" id="sec-action">
-      <div class="form-section-hdr" onclick="toggleSection('sec-action')">
-        <span class="form-section-title red">Immediate Action Required</span>
-        <span class="sec-count" id="count-action">0</span>
-        <span class="toggle-icon">▾</span>
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot red"></div>
+        <span class="fsec-title">Immediate Action Required</span>
+        <span class="fsec-hint">One incident per line</span>
       </div>
-      <div class="form-section-body">
-        <div class="incident-list" id="action-list"></div>
-        <button class="add-btn" onclick="addIncident('action-list','action')">+ Add incident</button>
+      <div class="fsec-body">
+        <div>
+          <label>Paste incidents — format: Location | Headline | Body text</label>
+          <textarea id="f-action" rows="5" placeholder="🇮🇶 Iraq | US embassy attacked in Baghdad | Multiple drones downed, fires reported in Green Zone. State Dept orders global embassy security reviews.&#10;🇺🇸 New Mexico | Active shooting at Holloman AFB | One dead, one injured. Base in lockdown." oninput="onEdit()"></textarea>
+          <div class="hint">Each line = one incident card. Use | to separate location, headline, and body.</div>
+        </div>
       </div>
     </div>
 
     <!-- Decisions -->
-    <div class="form-section" id="sec-decisions">
-      <div class="form-section-hdr" onclick="toggleSection('sec-decisions')">
-        <span class="form-section-title amber">Decisions &amp; Impact Assessment</span>
-        <span class="sec-count" id="count-decisions">0</span>
-        <span class="toggle-icon">▾</span>
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot amber"></div>
+        <span class="fsec-title">Decisions &amp; Impact Assessment</span>
+        <span class="fsec-hint">One incident per line</span>
       </div>
-      <div class="form-section-body">
-        <div class="incident-list" id="decisions-list"></div>
-        <button class="add-btn" onclick="addIncident('decisions-list','decisions')">+ Add incident</button>
-      </div>
-    </div>
-
-    <!-- Monitoring -->
-    <div class="form-section" id="sec-monitoring">
-      <div class="form-section-hdr" onclick="toggleSection('sec-monitoring')">
-        <span class="form-section-title green">Active Monitoring</span>
-        <span class="sec-count" id="count-monitoring">0</span>
-        <span class="toggle-icon">▾</span>
-      </div>
-      <div class="form-section-body">
-        <div class="incident-list" id="monitoring-list"></div>
-        <button class="add-btn" onclick="addIncident('monitoring-list','monitoring')">+ Add item</button>
+      <div class="fsec-body">
+        <div>
+          <label>Paste incidents — format: Location | Headline | Body text</label>
+          <textarea id="f-decisions" rows="4" placeholder="🇮🇷 Iran | Israel reports assassination of Iran intelligence minister | Regional escalation risk. Monitor for retaliatory action." oninput="onEdit()"></textarea>
+        </div>
       </div>
     </div>
 
-    <!-- Emerging -->
-    <div class="form-section" id="sec-emerging">
-      <div class="form-section-hdr" onclick="toggleSection('sec-emerging')">
-        <span class="form-section-title purple">Emerging Risks &amp; Early Signals</span>
-        <span class="sec-count" id="count-emerging">0</span>
-        <span class="toggle-icon">▾</span>
+    <!-- Active Monitoring -->
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot green"></div>
+        <span class="fsec-title">Active Monitoring</span>
+        <span class="fsec-hint">One item per line</span>
       </div>
-      <div class="form-section-body">
-        <div class="incident-list" id="emerging-list"></div>
-        <button class="add-btn" onclick="addIncident('emerging-list','emerging')">+ Add risk</button>
+      <div class="fsec-body">
+        <div>
+          <label>Paste items — format: Location | Description</label>
+          <textarea id="f-monitoring" rows="4" placeholder="🇮🇹 Italy | Bomb threat at city hall in Palermo&#10;🇯🇵 Japan | Suspicious object prompts evacuation at Katata Station" oninput="onEdit()"></textarea>
+        </div>
+      </div>
+    </div>
+
+    <!-- Emerging Risks -->
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot purple"></div>
+        <span class="fsec-title">Emerging Risks &amp; Early Signals</span>
+        <span class="fsec-hint">One item per line</span>
+      </div>
+      <div class="fsec-body">
+        <div>
+          <label>Paste items — format: Date | Location | Headline | Detail | caution (optional)</label>
+          <textarea id="f-emerging" rows="5" placeholder="Mar 18 | 🇩🇪 Germany | Brandenburg Airport strike | All passenger flights suspended. ~2,000 employees participating. | caution&#10;Mar 28 | 🇺🇸 United States | No Kings protests nationwide | 9 million expected across major cities." oninput="onEdit()"></textarea>
+          <div class="hint">Add "caution" at the end of a line to show a Caution Alert button.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Global Incident Stream -->
+    <div class="fsec">
+      <div class="fsec-hdr">
+        <div class="fsec-dot blue"></div>
+        <span class="fsec-title">Global Incident Stream</span>
+        <span class="fsec-hint">One item per line</span>
+      </div>
+      <div class="fsec-body">
+        <div>
+          <label>Paste items — format: Region | Location | Status | Description | incident-id</label>
+          <textarea id="f-stream" rows="6" placeholder="Americas | 🇺🇸 New York | allclear | Fire in New York City | sd-26031801&#10;EMEA | 🇮🇱 Israel | active | Missile strikes kill at least 2 in Tel Aviv | sd-26031812&#10;EMEA | 🇱🇧 Lebanon | active | Missile strikes kill at least 6 in Beirut | sd-26031814" oninput="onEdit()"></textarea>
+          <div class="hint">Status options: active · monitoring · allclear · resolved</div>
+        </div>
       </div>
     </div>
 
   </div>
 
-  <!-- Draft bar -->
   <div id="draft-bar">
-    <span id="draft-info">No draft saved yet</span>
-    <button class="btn btn-ghost btn-sm" onclick="loadDraft()" id="load-draft-btn" style="display:none">Load Draft</button>
+    <span id="draft-info">No draft saved</span>
+    <button class="btn btn-ghost" style="font-size:9px;padding:3px 9px;display:none" id="load-draft-btn" onclick="loadDraft()">Load Draft</button>
   </div>
 </div>
 
@@ -215,296 +201,150 @@ select option{background:var(--surface)}
     <span class="preview-label">Live preview</span>
     <button class="tab active" onclick="switchTab('email')">Email</button>
     <button class="tab inactive" onclick="switchTab('html')">HTML</button>
-    <button class="btn btn-ghost btn-sm" onclick="copyHTML()" style="margin-left:8px">Copy HTML</button>
-    <button class="btn btn-primary btn-sm" onclick="openWebPage()">Preview Page ↗</button>
+    <button class="btn btn-ghost" style="font-size:9px;padding:4px 10px;margin-left:8px" onclick="copyHTML()">Copy HTML</button>
+    <button class="btn btn-primary" style="font-size:9px;padding:4px 10px" onclick="openWebPage()">Preview ↗</button>
   </div>
   <div id="preview-scroll">
     <div id="email-preview"></div>
     <pre id="html-output"></pre>
   </div>
 </div>
-
 </div>
 <div id="toast"></div>
 
 <script>
 let currentTab='email';
-let entryCounters={};
 let autoSaveTimer=null;
 
-// ── Section toggle ──────────────────────────────────────────
-function toggleSection(id){
-  document.getElementById(id).classList.toggle('collapsed');
-}
-
-// ── Tab switch ──────────────────────────────────────────────
-function switchTab(t){
-  currentTab=t;
-  document.getElementById('email-preview').style.display=t==='email'?'block':'none';
-  document.getElementById('html-output').style.display=t==='html'?'block':'none';
-  document.querySelectorAll('.tab').forEach(b=>b.className='tab '+(b.textContent.toLowerCase()===t?'active':'inactive'));
-  if(t==='html') document.getElementById('html-output').textContent=generateHTML();
-}
-
-// ── Field helpers ───────────────────────────────────────────
+// ── Helpers ─────────────────────────────────────────────────
 function v(id){return(document.getElementById(id)?.value||'').trim();}
-function set(id,val){const el=document.getElementById(id);if(el)el.value=val;}
+function set(id,val){const el=document.getElementById(id);if(el)el.value=val||'';}
+function showToast(msg,color='#10B981'){const t=document.getElementById('toast');t.textContent=msg;t.style.background=color;t.style.opacity=1;setTimeout(()=>t.style.opacity=0,2500);}
 
-// ── Add incident entry ──────────────────────────────────────
-function addIncident(listId,type,data={}){
-  const list=document.getElementById(listId);
-  const n=(entryCounters[listId]=(entryCounters[listId]||0)+1);
-  const div=document.createElement('div');
-  div.className='incident-entry';
-  div.dataset.type=type;
-  div.innerHTML=buildEntryHTML(n,type);
-  list.appendChild(div);
-  // Pre-fill if data provided
-  if(data.sev) div.querySelector('.f-sev').value=data.sev;
-  if(data.loc) div.querySelector('.f-loc').value=data.loc;
-  if(data.title) div.querySelector('.f-title').value=data.title;
-  if(data.body&&div.querySelector('.f-body')) div.querySelector('.f-body').value=data.body;
-  if(data.tags&&div.querySelector('.f-tags')) div.querySelector('.f-tags').value=data.tags;
-  if(data.caution) div.dataset.caution='true';
-  if(data.stream) div.dataset.stream=data.stream;
-  if(data.cautionUrl) div.dataset.cautionUrl=data.cautionUrl;
-  if(data.alert&&div.querySelector('.f-alert')) div.querySelector('.f-alert').value=data.alert;
-  if(data.date&&div.querySelector('.f-date')) div.querySelector('.f-date').value=data.date;
-  div.querySelectorAll('input,textarea,select').forEach(el=>el.addEventListener('input',onEdit));
-  updateCounts();
-  onEdit();
-}
-
-function buildEntryHTML(n,type){
-  const sevOpts=type==='action'
-    ?`<option value="critical">Critical</option><option value="high">High</option>`
-    :type==='decisions'
-    ?`<option value="high">High</option><option value="medium">Medium</option>`
-    :type==='monitoring'?`<option value="monitor">Monitoring</option>`
-    :`<option value="emerging">Emerging</option><option value="caution">Caution Alert</option>`;
-  const bodyField=type!=='monitoring'?`<div><label>Body text</label><textarea class="f-body" rows="2" placeholder="Describe the incident..."></textarea></div>`:'';
-  const tagsField=(type==='action'||type==='decisions')?`<div><label>Impact tags (comma separated)</label><input type="text" class="f-tags" placeholder="Global shipping, Aviation"></div>`:'';
-  const alertField=type==='emerging'?`<div><label>Caution note (optional)</label><input type="text" class="f-alert" placeholder="⚠ Caution Alert issued"></div>`:'';
-  const dateField=type==='emerging'?`<div><label>Date / window</label><input type="text" class="f-date" placeholder="Mar 28"></div>`:'';
-  return `<div class="incident-entry-hdr">
-    <span class="entry-num">#${n}</span>
-    <select class="f-sev" style="flex:1;max-width:110px">${sevOpts}</select>
-    <button class="remove-btn" onclick="removeEntry(this)">✕</button>
-  </div>
-  ${dateField}
-  <div><label>Location / region</label><input type="text" class="f-loc" placeholder="🇺🇸 United States"></div>
-  <div><label>Headline</label><input type="text" class="f-title" placeholder="Short headline..."></div>
-  ${bodyField}${tagsField}${alertField}`;
-}
-
-function removeEntry(btn){
-  btn.closest('.incident-entry').remove();
-  updateCounts();
-  onEdit();
-}
-
-function updateCounts(){
-  ['action','decisions','monitoring','emerging'].forEach(t=>{
-    const n=document.querySelectorAll(`#${t}-list .incident-entry`).length;
-    const el=document.getElementById(`count-${t}`);
-    if(el) el.textContent=n;
+// ── Parse pipe-delimited lines ───────────────────────────────
+function parseLines(text,fields){
+  return text.split('\n').map(l=>l.trim()).filter(Boolean).map(l=>{
+    const parts=l.split('|').map(p=>p.trim());
+    const obj={};
+    fields.forEach((f,i)=>obj[f]=parts[i]||'');
+    obj._raw=l;
+    return obj;
   });
 }
 
-// ── Get entries ─────────────────────────────────────────────
-function getEntries(listId){
-  return Array.from(document.querySelectorAll(`#${listId} .incident-entry`)).map(e=>({
-    sev:e.querySelector('.f-sev')?.value||'',
-    loc:e.querySelector('.f-loc')?.value||'',
-    title:e.querySelector('.f-title')?.value||'',
-    body:e.querySelector('.f-body')?.value||'',
-    tags:e.querySelector('.f-tags')?.value||'',
-    alert:e.querySelector('.f-alert')?.value||'',
-    date:e.querySelector('.f-date')?.value||'',
-    caution:e.dataset.caution==='true',
-    stream:e.dataset.stream||'',
-    cautionUrl:e.dataset.cautionUrl||'',
-  }));
-}
-
-// ── On edit: mark unsaved + debounce save + re-render ───────
-function onEdit(){
-  document.getElementById('save-status').className='status-pill unsaved';
-  document.getElementById('save-status').textContent='Unsaved';
-  clearTimeout(autoSaveTimer);
-  autoSaveTimer=setTimeout(()=>{saveDraft(true);},2000);
-  render();
-}
-
-// ── Draft save / load ───────────────────────────────────────
-function collectState(){
-  return{
-    date:v('f-date'),time:v('f-time'),summary:v('f-summary'),
-    action:getEntries('action-list'),
-    decisions:getEntries('decisions-list'),
-    monitoring:getEntries('monitoring-list'),
-    emerging:getEntries('emerging-list'),
-    savedAt:new Date().toLocaleTimeString()
+// ── Status badge ─────────────────────────────────────────────
+function statusBadge(s){
+  const map={
+    active:{bg:'#1A0505',color:'#EF4444',border:'#450A0A',label:'Active'},
+    monitoring:{bg:'#1C1208',color:'#F59E0B',border:'#451A00',label:'Monitoring'},
+    allclear:{bg:'#0A0F1A',color:'#6B7280',border:'#1F2937',label:'All clear'},
+    resolved:{bg:'#0A0F1A',color:'#6B7280',border:'#1F2937',label:'Resolved'},
   };
+  const k=(s||'').toLowerCase().replace(/\s/g,'');
+  const m=map[k]||map.allclear;
+  return `<span style="color:${m.color};font-size:9px;background:${m.bg};border:1px solid ${m.border};border-radius:3px;padding:1px 5px;flex-shrink:0">${m.label}</span>`;
 }
 
-function saveDraft(auto=false){
-  const state=collectState();
-  try{
-    localStorage.setItem('samdesk_brief_draft',JSON.stringify(state));
-    document.getElementById('save-status').className='status-pill saved';
-    document.getElementById('save-status').textContent='Saved';
-    document.getElementById('draft-info').textContent=`Draft saved at ${state.savedAt}`;
-    document.getElementById('load-draft-btn').style.display='block';
-    if(!auto) showToast('Draft saved!','#10B981');
-  }catch(e){
-    // localStorage not available in this environment — silent fail
-    document.getElementById('save-status').className='status-pill saved';
-    document.getElementById('save-status').textContent='Saved';
-    if(!auto) showToast('Draft saved this session','#10B981');
-  }
+// ── Severity from position ───────────────────────────────────
+function sevBadge(sev){
+  const s=sev==='critical'?{bg:'#1A0505',color:'#EF4444',border:'#450A0A',label:'Critical'}:{bg:'#1C1208',color:'#F59E0B',border:'#451A00',label:'High'};
+  return `<span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;background:${s.bg};color:${s.color};border:1px solid ${s.border}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block"></span>${s.label}</span>`;
 }
 
-function loadDraft(){
-  try{
-    const raw=localStorage.getItem('samdesk_brief_draft');
-    if(!raw) return showToast('No draft found','#F59E0B');
-    applyState(JSON.parse(raw));
-    showToast('Draft loaded!','#10B981');
-  }catch(e){
-    showToast('No saved draft available','#F59E0B');
-  }
-}
+// ── Build incident card ──────────────────────────────────────
+function buildCard(loc,title,body,sev,cautionUrl){
+  const borderCol=sev==='critical'?'#EF4444':'#F59E0B';
+  const caution=cautionUrl?`<a href="${cautionUrl}" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px;margin-right:6px">⚠ See Caution Alert →</a>`:'';
+  const bodyHtml=body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${body}</div>`:'';
+  return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${borderCol};border-radius:5px;padding:14px 16px;margin-bottom:8px">
+  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
+    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${title}</div></div>
+    ${sevBadge(sev)}
+  </div>
+  ${bodyHtml}
+  <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">${caution}<a href="https://dash.samdesk.io" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a></div>
+</div>`;}
 
-function applyState(s){
-  set('f-date',s.date||'');
-  set('f-time',s.time||'');
-  set('f-summary',s.summary||'');
-  ['action','decisions','monitoring','emerging'].forEach(t=>{
-    document.getElementById(`${t}-list`).innerHTML='';
-    entryCounters[`${t}-list`]=0;
-    (s[t]||[]).forEach(d=>addIncident(`${t}-list`,t,d));
-  });
-  updateCounts();
-  render();
-}
+// ── Build stream row ─────────────────────────────────────────
+function buildStreamRow(loc,status,desc,id,alt){
+  const url=id?`https://dash.samdesk.io/incidents/${id}`:'https://dash.samdesk.io';
+  const idTag=id?`<span style="font-size:9px;color:#374151;flex-shrink:0">${id}</span>`:'';
+  const bg=alt?'#111827':'#0D1117';
+  return `<div style="display:flex;align-items:baseline;gap:10px;padding:5px 8px;background:${bg};border-radius:4px;font-size:11px">
+  <span style="color:#6B7280;min-width:100px;flex-shrink:0;font-size:10px">${loc}</span>
+  ${statusBadge(status)}
+  <a href="${url}" style="color:#9CA3AF;text-decoration:none;flex:1">${desc}</a>
+  ${idTag}
+</div>`;}
 
-// ── Load example (Mar 16 brief) ─────────────────────────────
-function loadExample(){
-  applyState({
-    date:'Sunday, March 16, 2026',
-    time:'12:00 GMT · 08:00 EDT · 05:00 PDT',
-    summary:'Gulf shipping disruption and UAE drone strikes dominate today\'s picture. US severe weather spreading east — DC, NC, and VA face tornado risk Monday. Elevated global terror threat ahead of St. Patrick\'s Day events.',
-    action:[
-      {sev:'critical',loc:'🌍 Gulf States / UAE',title:'Drone strikes hit Fujairah oil facility and Dubai Airport — Strait of Hormuz crisis escalating',body:'Drone attacks caused fires at an oil facility in Fujairah and near Dubai International Airport, prompting a temporary flight suspension. President Trump warned NATO allies of a "very bad" future if they fail to assist in reopening the strait — classified as a "critical" threat by UK maritime agencies. Australia and Japan have declined to send vessels.',tags:'Global shipping, Aviation, Energy supply'},
-      {sev:'critical',loc:'🇺🇸 United States',title:'Severe winter weather spreading east — tornado risk for DC, NC, and VA on Monday',body:'Power outages impacted hundreds of thousands across the US. Nebraska wildfires burned over 900 sq miles with one fatality. Minnesota and Wisconsin received 20+ inches of snow. Storms now moving east — DC, NC, and VA face highest risk for high winds and tornadoes Monday.',tags:'Operations, Travel, Infrastructure'},
-    ],
-    decisions:[
-      {sev:'high',loc:'🇺🇸 Tennessee',title:'Standoff with shots fired in Nashville',body:'',tags:'Personnel safety'},
-      {sev:'high',loc:'🇮🇳 India',title:'Suspicious object explosion prompts evacuation at courthouse in Jabalpur',body:'',tags:'Personnel safety'},
-      {sev:'medium',loc:'🇨🇩 DR Congo',title:'Protest with shooting in Kinshasa',body:'',tags:'Regional stability'},
-    ],
-    monitoring:[
-      {loc:'🇺🇸 Georgia',title:'Adverse weather prompts ground stop at Hartsfield-Jackson Atlanta International Airport'},
-      {loc:'🇺🇸 Tennessee',title:'Standoff with shots fired in Nashville — situation ongoing'},
-      {loc:'🇮🇳 India',title:'Suspicious object explosion, courthouse evacuation in Jabalpur'},
-      {loc:'🇨🇩 DR Congo',title:'Protest with shooting in Kinshasa'},
-    ],
-    emerging:[
-      {date:'Mar 14–17',loc:'🇺🇸 United States',title:'St. Patrick\'s Day Events',body:'High-profile parades globally. US national security agencies warn of heightened domestic terror threat due to Middle East escalations.',alert:'⚠ Caution Alert issued — elevated threat'},
-      {date:'Through Mar 17',loc:'🌍 Global',title:'2026 World Baseball Classic',body:'Games in Puerto Rico, Japan, and the US. Protest activity possible near venues hosting the Israeli national team.',alert:'⚠ Caution Alert issued'},
-      {date:'Through Mar 19',loc:'🌍 Global',title:'Ramadan',body:'Observances generally peaceful. Larger gatherings may draw heightened security in some regions.',alert:''},
-      {date:'Mar 19–22',loc:'🌍 Global',title:'Eid al-Fitr',body:'Marks end of Ramadan. Large gatherings globally — heightened security posture anticipated near major celebration sites.',alert:''},
-      {date:'Mar 28',loc:'🇬🇧 UK',title:'London Anti-Racism March',body:'Broad coalition of civil society groups and trade unions mobilizing supporters nationally.',alert:''},
-      {date:'Mar 28',loc:'🇺🇸 United States',title:'"No Kings" Protests (Nationwide)',body:'Third scheduled nationwide protest against the Trump administration. Approximately 9 million people expected across major US cities.',alert:'⚠ High attendance — monitor for operational disruption'},
-    ]
-  });
-  showToast('Example loaded — Mar 16, 2026','#4A9EFF');
-}
-
-// ── Simulated API pull ──────────────────────────────────────
-function pullFromAPI(){
-  const spinner=document.getElementById('api-spinner');
-  spinner.style.display='block';
-  setTimeout(()=>{
-    spinner.style.display='none';
-    const apiIncidents=[
-      {list:'action-list',type:'action',data:{sev:'critical',loc:'🌍 Gulf States',title:'Shipping lane disruption — Strait of Hormuz mining reports confirmed',body:'US Central Command confirms Iranian mining activity in key shipping corridors. Three commercial vessels struck by projectiles in past 24 hours.',tags:'Global shipping, Energy, Insurance'}},
-      {list:'action-list',type:'action',data:{sev:'high',loc:'🇦🇪 UAE',title:'Drone attack near Dubai International Airport — flights suspended temporarily',body:'Fuel tanker fire reported near the airport perimeter following suspected drone strike. Flights have since resumed.',tags:'Aviation, Operations'}},
-      {list:'decisions-list',type:'decisions',data:{sev:'high',loc:'🇺🇸 United States',title:'Nationwide St. Patrick\'s Day security posture — elevated terror threat',body:'US national security agencies warn of heightened risk of domestic attacks ahead of major public gatherings March 14–17.',tags:'Personnel safety, Events'}},
-    ];
-    apiIncidents.forEach(i=>{
-      addIncident(i.list,i.type,i.data);
-    });
-    showToast(`${apiIncidents.length} incidents pulled from samdesk feed`,'#10B981');
-    // Open sections
-    document.getElementById('sec-action').classList.remove('collapsed');
-    document.getElementById('sec-decisions').classList.remove('collapsed');
-  },1400);
-}
-
-// ── HTML generation ─────────────────────────────────────────
-function sevColor(s){return{critical:'red',high:'amber',medium:'blue',monitor:'green',emerging:'purple',caution:'amber'}[s]||'blue';}
-function sevLabel(s){return{critical:'Critical',high:'High',medium:'Medium',monitor:'Monitoring',emerging:'Emerging',caution:'Caution'}[s]||s;}
-
+// ── Generate HTML ────────────────────────────────────────────
 function generateHTML(){
   const date=v('f-date')||'[Date]';
   const time=v('f-time')||'[Time]';
   const summary=v('f-summary')||'';
-  const aItems=getEntries('action-list');
-  const dItems=getEntries('decisions-list');
-  const mItems=getEntries('monitoring-list');
-  const eItems=getEntries('emerging-list');
-  const cA=aItems.length,cD=dItems.length,cM=mItems.length,cE=eItems.length;
 
-  const borderCol={red:'#EF4444',amber:'#F59E0B',blue:'#4A9EFF',green:'#10B981',purple:'#8B5CF6'};
-  const sevStyle={
-    red:'background:#1A0505;color:#EF4444;border:1px solid #450A0A',
-    amber:'background:#1C1208;color:#F59E0B;border:1px solid #451A00',
-    blue:'background:#0C1A2E;color:#60A5FA;border:1px solid #1E3A5F',
-    green:'background:#0A1F0A;color:#10B981;border:1px solid #0F3A0F',
-    purple:'background:#1A1330;color:#8B5CF6;border:1px solid #2D1F5E',
-  };
+  // Parse sections
+  const actionLines=parseLines(v('f-action'),['loc','title','body']);
+  const decisionLines=parseLines(v('f-decisions'),['loc','title','body']);
+  const monitorLines=parseLines(v('f-monitoring'),['loc','title']);
+  const emergingLines=parseLines(v('f-emerging'),['date','loc','title','body','flag']);
+  const streamLines=parseLines(v('f-stream'),['region','loc','status','desc','id']);
 
-  function card(i,defCol){
-    if(!i.loc&&!i.title) return '';
-    const col=sevColor(i.sev)||defCol;
-    const tags=i.tags?i.tags.split(',').map(t=>`<span style="font-size:9px;color:#4B5563;background:#0A0F1A;border:1px solid #1F2937;border-radius:3px;padding:1px 6px;margin-right:4px">${t.trim()}</span>`).join(''):'';
-    const body=i.body?`<div style="font-size:12px;color:#9CA3AF;line-height:1.6;margin:6px 0 8px">${i.body}</div>`:'';
-    return `<div style="background:#111827;border:1px solid #1F2937;border-left:3px solid ${borderCol[col]};border-radius:5px;padding:14px 16px;margin-bottom:8px">
-  <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:10px;margin-bottom:6px">
-    <div><div style="font-size:10px;font-weight:700;color:#fff;margin-bottom:3px">${i.loc}</div><div style="font-size:12px;font-weight:600;color:#D1D5DB;line-height:1.4">${i.title}</div></div>
-    <span style="display:inline-flex;align-items:center;gap:4px;font-size:8px;font-weight:700;letter-spacing:1px;text-transform:uppercase;padding:3px 8px;border-radius:3px;white-space:nowrap;${sevStyle[col]}"><span style="width:5px;height:5px;border-radius:50%;background:currentColor;display:inline-block;flex-shrink:0"></span>${sevLabel(i.sev)}</span>
-  </div>
-  ${body}
-  <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap"><a href="https://dash.samdesk.io" style="font-size:10px;color:#4A9EFF;font-weight:700;text-decoration:none">Review on samdesk →</a>${tags}</div>
-</div>`;}
+  const cA=actionLines.length,cD=decisionLines.length,cM=monitorLines.length,cE=emergingLines.length;
 
-  function monitorGrid(items){
-    const cells=items.filter(i=>i.loc||i.title).map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('');
-    return cells?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${cells}</div>`:'';
-  }
+  // Action cards
+  const actionHTML=actionLines.map((i,idx)=>buildCard(i.loc,i.title,i.body,idx===0&&cA>=2?'critical':'critical','')).join('');
 
-  function emergingList(items){
-    return items.filter(i=>i.loc||i.title).map(i=>`<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E"><div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:76px;padding-top:1px">${i.date||'TBD'}</div><div><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${i.alert?`<div style="font-size:9px;color:#F59E0B;font-weight:600;margin-top:3px">${i.alert}</div>`:''}</div></div>`).join('');}
+  // Decision cards
+  const decisionsHTML=decisionLines.map(i=>buildCard(i.loc,i.title,i.body,'high','')).join('');
 
+  // Monitor grid
+  const monitorHTML=monitorLines.length?`<div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">${
+    monitorLines.map(i=>`<div style="background:#111827;border:1px solid #1F2937;border-left:2px solid #10B981;border-radius:4px;padding:8px 10px"><div style="font-size:9px;font-weight:700;color:#10B981;text-transform:uppercase;letter-spacing:1px;margin-bottom:3px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.4">${i.title}</div></div>`).join('')
+  }</div>`:'';
+
+  // Emerging list
+  const emergingHTML=emergingLines.map(i=>{
+    const hasCaution=/^caution$/i.test((i.flag||'').trim());
+    const cautionBtn=hasCaution?`<div style="margin-top:4px"><a href="https://dash.samdesk.io/alerts" style="font-size:9px;color:#F59E0B;font-weight:700;text-decoration:none;background:#1C1208;border:1px solid #451A00;border-radius:3px;padding:2px 7px">⚠ See Caution Alert →</a></div>`:'';
+    return `<div style="display:flex;gap:14px;padding:10px 0;border-bottom:1px solid #1A1F2E">
+  <div style="font-size:10px;color:#8B5CF6;font-weight:700;white-space:nowrap;min-width:80px;padding-top:2px">${i.date||'TBD'}</div>
+  <div style="flex:1"><div style="font-size:10px;font-weight:700;color:#D1D5DB;margin-bottom:2px">${i.loc}</div><div style="font-size:11px;color:#9CA3AF;line-height:1.5">${i.title}${i.body?' — '+i.body:''}</div>${cautionBtn}</div>
+</div>`;}).join('');
+
+  // Stream — group by region
+  const regions={};
+  streamLines.forEach(i=>{
+    const r=(i.region||'Other').trim();
+    if(!regions[r]) regions[r]=[];
+    regions[r].push(i);
+  });
+  const streamHTML=Object.entries(regions).map(([region,items])=>`
+  <div style="font-size:9px;font-weight:700;letter-spacing:2px;text-transform:uppercase;color:#4B5563;margin-bottom:6px">${region}</div>
+  <div style="display:flex;flex-direction:column;gap:3px;margin-bottom:14px">
+    ${items.map((i,idx)=>buildStreamRow(i.loc,i.status,i.desc,i.id,idx%2===0)).join('')}
+  </div>`).join('');
+
+  // Section wrapper
   function section(col,title,desc,content){
     if(!content.trim()) return '';
-    return `<div style="padding:20px 28px 0"><div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${borderCol[col]};margin-bottom:12px"><span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${borderCol[col]}">${title}</span><span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span></div>${content}</div>`;}
-
-  const ac=section('red','Immediate Action Required','Events requiring immediate operational response or mitigation',aItems.map(i=>card(i,'red')).join(''));
-  const dc=section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness, judgment, or escalation',dItems.map(i=>card(i,'amber')).join(''));
-  const mc=section('green','Active Monitoring','Incidents being tracked for potential escalation or operational disruption',monitorGrid(mItems));
-  const ec=section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators that may lead to disruption',emergingList(eItems));
+    const cols={red:'#EF4444',amber:'#F59E0B',green:'#10B981',purple:'#8B5CF6',blue:'#4A9EFF'};
+    return `<div style="padding:20px 28px 0">
+  <div style="display:flex;align-items:baseline;gap:10px;padding-bottom:8px;border-bottom:2px solid ${cols[col]};margin-bottom:12px">
+    <span style="font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:${cols[col]}">${title}</span>
+    <span style="font-size:10px;color:#4B5563;margin-left:auto">${desc}</span>
+  </div>${content}</div>`;}
 
   return `<!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"><title>samdesk Brief – ${date}</title></head>
 <body style="margin:0;padding:0;background:#0F1117;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Arial,sans-serif;color:#E5E7EB">
 <div style="max-width:680px;margin:0 auto;background:#0F1117">
+
   <div style="background:#060810;border-bottom:1px solid #1E3A5F;padding:18px 28px;display:flex;justify-content:space-between;align-items:center">
     <div><div style="font-size:15px;font-weight:700;color:#4A9EFF;letter-spacing:1px">samdesk</div><div style="font-size:8px;letter-spacing:2px;text-transform:uppercase;color:#374151;margin-top:3px">⚠ unclassified daily brief</div></div>
     <div style="text-align:right"><div style="font-size:13px;font-weight:600;color:#E5E7EB">${date}</div><div style="font-size:10px;color:#6B7280;margin-top:2px">${time}</div></div>
   </div>
+
   <div style="background:#111827;border-bottom:1px solid #1F2937;padding:12px 28px;display:flex;align-items:center;gap:16px">
     <div style="display:flex;gap:14px;flex-shrink:0">
       <div style="text-align:center"><div style="font-size:20px;font-weight:800;color:#EF4444;line-height:1">${cA}</div><div style="font-size:8px;letter-spacing:1px;text-transform:uppercase;color:#4B5563;margin-top:1px">Action</div></div>
@@ -515,331 +355,116 @@ function generateHTML(){
     <div style="width:1px;height:40px;background:#1F2937;flex-shrink:0"></div>
     <div style="font-size:11px;color:#9CA3AF;line-height:1.6;flex:1">${summary}</div>
   </div>
-  ${ac}${dc}${mc}${ec}
-  <div style="padding:20px 28px">
-    <div style="background:#0A0F1A;border:1px solid #1E3A5F;border-radius:6px;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
-      <div style="font-size:11px;color:#9CA3AF;line-height:1.5"><strong style="color:#E5E7EB;display:block;margin-bottom:2px">High-volume incident activity is now in the samdesk platform.</strong>Access the full live incident stream directly in samdesk.</div>
-      <a href="https://dash.samdesk.io" style="background:#4A9EFF;color:#060810;font-size:10px;font-weight:700;padding:8px 16px;border-radius:4px;text-decoration:none;white-space:nowrap">Open samdesk →</a>
-    </div>
-  </div>
-  <div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center">
-    <div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div>
-    <div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk dashboard →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div>
-  </div>
-</div>
-</body></html>`;}
 
-// ── Render ──────────────────────────────────────────────────
+  ${section('red','Immediate Action Required','Events requiring immediate operational response',actionHTML)}
+  ${section('amber','Decisions &amp; Impact Assessment','Developments requiring leadership awareness or escalation',decisionsHTML)}
+  ${section('green','Active Monitoring','Incidents tracked for potential escalation',monitorHTML)}
+  ${section('purple','Emerging Risks &amp; Early Signals','Upcoming events and early indicators of disruption',emergingHTML)}
+  ${streamHTML?section('blue','Global Incident Stream','24h activity log',streamHTML):''}
+
+  <div style="padding:14px 28px;border-top:1px solid #1F2937;background:#060810;display:flex;justify-content:space-between;align-items:center;margin-top:20px">
+    <div style="font-size:10px;color:#4B5563;line-height:1.7"><div style="font-size:11px;color:#4A9EFF;font-weight:700;margin-bottom:1px">samdesk</div>Edmonton, Canada · <a href="mailto:hello@samdesk.io" style="color:#4A9EFF;text-decoration:none">hello@samdesk.io</a><br><span>What did we miss? Hit reply.</span></div>
+    <div style="text-align:right;font-size:10px"><a href="https://dash.samdesk.io" style="color:#4A9EFF;text-decoration:none;display:block;margin-bottom:4px">Open samdesk →</a><span style="color:#374151">Manage preferences · Unsubscribe</span></div>
+  </div>
+
+</div></body></html>`;}
+
+// ── Render ───────────────────────────────────────────────────
 function render(){
   const html=generateHTML();
   if(currentTab==='email') document.getElementById('email-preview').innerHTML=html;
   else document.getElementById('html-output').textContent=html;
 }
 
-// ── Copy HTML ───────────────────────────────────────────────
-function copyHTML(){
-  navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied to clipboard!','#10B981')).catch(()=>showToast('Copy failed — use HTML tab','#F59E0B'));
-}
-
-// ── Open web page ───────────────────────────────────────────
-function openWebPage(){
-  const blob=new Blob([generateHTML()],{type:'text/html'});
-  window.open(URL.createObjectURL(blob),'_blank');
-}
-
-// ── Toast ───────────────────────────────────────────────────
-function showToast(msg,color='#10B981'){
-  const t=document.getElementById('toast');
-  t.textContent=msg;
-  t.style.background=color;
-  t.style.opacity=1;
-  setTimeout(()=>t.style.opacity=0,2500);
-}
-
-// ── Paste & Parse ───────────────────────────────────────────
-function parseAndImport(){
-  const raw=document.getElementById('paste-input').value.trim();
-  if(!raw) return showToast('Nothing to parse — paste your email first','#F59E0B');
-
-  const lines=raw.split('\n').map(l=>l.trim()).filter(Boolean);
-  let parsed={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[]};
-  let stats={action:0,decisions:0,monitoring:0,emerging:0};
-
-  // ── Date / time ──
-  // Look for patterns like "Mar 16, 2026 12:00 GMT" or "UNCLASSIFIED - Mar 16:"
-  for(const l of lines){
-    const m=l.match(/([A-Z][a-z]+ \d{1,2},?\s*\d{4})\s*(\d{1,2}:\d{2}\s*GMT)?/);
-    if(m){
-      parsed.date=m[1];
-      // Try to find full time string on same line
-      const tm=l.match(/(\d{1,2}:\d{2}\s*GMT.*)/);
-      if(tm) parsed.time=tm[1].replace(/,\s*/g,' · ');
-      break;
-    }
-  }
-
-  // ── Locate section boundaries ──
-  const sectionMap={
-    notable:    /^(Notable Developments|Situational Awareness)/i,
-    active:     /^(Active and Monitoring|Active & Monitoring)/i,
-    forward:    /^(Forward Planning)/i,
-    higheng:    /^(High Engagement Events)/i,
-  };
-
-  let currentSection=null;
-  let summaryLines=[];
-  let seenSections=new Set();
-  let i=0;
-
-  while(i<lines.length){
-    const l=lines[i];
-
-    // Detect section header
-    let matched=false;
-    for(const [key,re] of Object.entries(sectionMap)){
-      if(re.test(l)){
-        currentSection=key;
-        seenSections.add(key);
-        matched=true;
-        break;
-      }
-    }
-    if(matched){i++;continue;}
-
-    // Skip samdesk monitoring lines
-    if(/^\|\s*samdesk monitoring/i.test(l)){i++;continue;}
-    // Skip footer lines
-    if(/samdesk,|Manage preferences|What did we miss/i.test(l)){i++;continue;}
-    // Skip classification header lines
-    if(/^UNCLASSIFIED/i.test(l)){i++;continue;}
-
-    if(!currentSection){
-      // Anything before first section = potential summary material
-      if(l.length>20 && !/^\d{2}:\d{2}/.test(l)) summaryLines.push(l);
-      i++;continue;
-    }
-
-    // ── Notable Developments → Immediate Action + Decisions ──
-    if(currentSection==='notable'){
-      // Format: "Region | Content. REVIEW: ..." or "Region | Content"
-      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-      if(m){
-        const region=m[1].trim();
-        let content=m[2].trim();
-        // Gather continuation lines
-        let j=i+1;
-        while(j<lines.length && !lines[j].match(/^[A-Z][^|]{1,40}\|/) && !Object.values(sectionMap).some(r=>r.test(lines[j])) && !/^\|\s*samdesk/i.test(lines[j])){
-          if(lines[j].length>2) content+=' '+lines[j];
-          j++;
-        }
-        i=j;
-        // Extract TRACK stream type before stripping
-        const trackM=content.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
-        const streamTag=trackM?(trackM[1].trim()+' stream'):'';
-        // Extract Caution Alert URL — grab full dash.samdesk.io URL if present, else fallback
-        const cautionUrlM=content.match(/See Caution Alert[.\s]*\(?(https?:\/\/dash\.samdesk\.io[^\s)]*)\)?/i)
-          || content.match(/(https?:\/\/dash\.samdesk\.io\/alerts[^\s)]*)/i)
-          || content.match(/See Caution Alert[.\s]*(dash\.samdesk\.io[^\s)]*)/i);
-        const cautionUrl=cautionUrlM
-          ? (cautionUrlM[1].startsWith('http') ? cautionUrlM[1] : 'https://'+cautionUrlM[1])
-          : (content.match(/See Caution Alert/i) ? 'https://dash.samdesk.io/alerts' : null);
-        const hasCaution=!!cautionUrl;
-        // Strip REVIEW/TRACK/See suffixes
-        content=content.replace(/\s*REVIEW:.*$/i,'').replace(/\s*TRACK via.*$/i,'').replace(/\s*See (also )?Caution Alert\.?/i,'').trim();
-        // Split into title (first sentence) and body (rest)
-        const sentEnd=content.search(/[.!?]\s+[A-Z]/);
-        let title=sentEnd>0?content.substring(0,sentEnd+1):content.substring(0,120);
-        let body=sentEnd>0?content.substring(sentEnd+2):'';
-        // Build tags — inferred + stream type
-        let tags=inferTags(content);
-        if(streamTag) tags=tags?tags+', '+streamTag:streamTag;
-        // Assign severity heuristically
-        const isCritical=/killed|fatalities|attack|explosion|crash|fire|strike|crisis|critical|mining|drone/i.test(content);
-        const sev=isCritical?'critical':'high';
-        const dest=isCritical?'action':'decisions';
-        parsed[dest].push({sev,loc:flagEmoji(region)+' '+region,title:title.trim(),body:body.trim(),tags,caution:hasCaution,cautionUrl:cautionUrl||''});
-        stats[dest]++;
-        continue;
-      }
-    }
-
-    // ── Active and Monitoring → monitoring section ──
-    if(currentSection==='active'){
-      // Format: "Region | Short description"
-      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-      if(m){
-        parsed.monitoring.push({loc:flagEmoji(m[1].trim())+' '+m[1].trim(),title:m[2].trim()});
-        stats.monitoring++;
-      }
-      i++;continue;
-    }
-
-    // ── Forward Planning → emerging risks ──
-    if(currentSection==='forward'){
-      // Format: "Region | Event title - DateRange. Description. See Caution Alert."
-      const m=l.match(/^([A-Z][^|]{1,40})\s*\|\s*(.+)/);
-      if(m){
-        const region=m[1].trim();
-        let content=m[2].trim();
-        // Gather continuation lines
-        let j=i+1;
-        while(j<lines.length && !lines[j].match(/^[A-Z][^|]{1,40}\|/) && !Object.values(sectionMap).some(r=>r.test(lines[j])) && !/^\|\s*samdesk/i.test(lines[j])){
-          if(lines[j].length>2) content+=' '+lines[j];
-          j++;
-        }
-        i=j;
-        // Extract date range from start of content
-        const dateM=content.match(/^(.*?)\s*[-–]\s*(through\s+)?([A-Z][a-z]+ \d{1,2}(?:\s+to\s+[A-Z][a-z]+ \d{1,2})?)\.\s*/i);
-        let eventTitle=content, dateStr='', body='', alert='';
-        if(dateM){
-          eventTitle=dateM[1].trim();
-          dateStr=dateM[3];
-          body=content.substring(dateM[0].length).trim();
-        } else {
-          // Try just pulling first sentence as title
-          const s=content.search(/\.\s/);
-          if(s>0){eventTitle=content.substring(0,s);body=content.substring(s+2);}
-        }
-        // Extract caution alert
-        // Extract caution alert URL from forward planning too
-        const cautionFwdUrlM=body.match(/See Caution Alert[.\s]*\(?(https?:\/\/dash\.samdesk\.io[^\s)]*)\)?/i)
-          || body.match(/(https?:\/\/dash\.samdesk\.io\/alerts[^\s)]*)/i)
-          || body.match(/See Caution Alert[.\s]*(dash\.samdesk\.io[^\s)]*)/i);
-        const fwdCautionUrl=cautionFwdUrlM
-          ? (cautionFwdUrlM[1].startsWith('http') ? cautionFwdUrlM[1] : 'https://'+cautionFwdUrlM[1])
-          : (body.match(/See Caution Alert/i) ? 'https://dash.samdesk.io/alerts' : null);
-        const cautionFwdM=fwdCautionUrl;
-        if(cautionFwdM){alert='⚠ Caution Alert';body=body.replace(/See Caution Alert[^.]*\.?/i,'').trim();}
-        // Extract TRACK stream from forward planning too
-        const fwdTrackM=body.match(/TRACK via an? ([A-Za-z ]+?) stream/i);
-        const fwdStream=fwdTrackM?(fwdTrackM[1].trim()+' stream'):'';
-        if(fwdStream) body=body.replace(fwdTrackM[0],'').trim();
-        body=body.replace(/\s*-\s*New\s*$/i,'').trim();
-        parsed.emerging.push({date:dateStr,loc:flagEmoji(region)+' '+region,title:eventTitle,body,alert,stream:fwdStream,cautionUrl:fwdCautionUrl||''});
-        stats.emerging++;
-        continue;
-      }
-    }
-
-    // Skip High Engagement Events entirely (goes to platform)
-    if(currentSection==='higheng'){i++;continue;}
-
-    i++;
-  }
-
-  // Build situation summary from summaryLines if not already set
-  if(!parsed.summary && summaryLines.length){
-    parsed.summary=summaryLines.slice(0,2).join(' ').substring(0,200);
-  }
-
-  // ── Apply to form ──
-  if(!parsed.date&&!stats.action&&!stats.decisions&&!stats.monitoring&&!stats.emerging){
-    showToast('Could not parse — check format and try again','#EF4444');
-    return;
-  }
-
-  // Clear existing entries
-  ['action','decisions','monitoring','emerging'].forEach(t=>{
-    document.getElementById(`${t}-list`).innerHTML='';
-    entryCounters[`${t}-list`]=0;
-  });
-
-  if(parsed.date) set('f-date',parsed.date);
-  if(parsed.time) set('f-time',parsed.time);
-
-  parsed.action.forEach(d=>addIncident('action-list','action',d));
-  parsed.decisions.forEach(d=>addIncident('decisions-list','decisions',d));
-  parsed.monitoring.forEach(d=>addIncident('monitoring-list','monitoring',d));
-  parsed.emerging.forEach(d=>addIncident('emerging-list','emerging',d));
-
-  // Open all populated sections
-  if(parsed.action.length) document.getElementById('sec-action').classList.remove('collapsed');
-  if(parsed.decisions.length) document.getElementById('sec-decisions').classList.remove('collapsed');
-  if(parsed.monitoring.length) document.getElementById('sec-monitoring').classList.remove('collapsed');
-  if(parsed.emerging.length) document.getElementById('sec-emerging').classList.remove('collapsed');
-
-  // Collapse paste panel
-  document.getElementById('sec-paste').classList.add('collapsed');
-
-  const total=stats.action+stats.decisions+stats.monitoring+stats.emerging;
-  const fb=document.getElementById('parse-feedback');
-  fb.style.display='block';
-  fb.textContent=`✓ Imported ${total} items — ${stats.action} action, ${stats.decisions} decisions, ${stats.monitoring} monitoring, ${stats.emerging} emerging`;
-
-  updateCounts();
-  onEdit();
-  showToast(`Imported ${total} items from email`,'#10B981');
-}
-
-// ── Helpers ─────────────────────────────────────────────────
-function flagEmoji(region){
-  const flags={
-    'US':'🇺🇸','United States':'🇺🇸','USA':'🇺🇸',
-    'UK':'🇬🇧','United Kingdom':'🇬🇧',
-    'Iran':'🇮🇷','UAE':'🇦🇪','United Arab Emirates':'🇦🇪',
-    'Iraq':'🇮🇶','Israel':'🇮🇱','Pakistan':'🇵🇰',
-    'India':'🇮🇳','China':'🇨🇳','Russia':'🇷🇺',
-    'Philippines':'🇵🇭','Australia':'🇦🇺','Japan':'🇯🇵',
-    'Canada':'🇨🇦','Germany':'🇩🇪','France':'🇫🇷',
-    'Netherlands':'🇳🇱','Belgium':'🇧🇪','Switzerland':'🇨🇭',
-    'Poland':'🇵🇱','Ukraine':'🇺🇦','South Korea':'🇰🇷',
-    'Brazil':'🇧🇷','Mexico':'🇲🇽','Argentina':'🇦🇷',
-    'Gulf States':'🌍','Global':'🌍','Middle East':'🌍',
-    'Tennessee':'🇺🇸','Georgia':'🇺🇸','Michigan':'🇺🇸',
-    'Nebraska':'🇺🇸','Hawaii':'🇺🇸','Texas':'🇺🇸',
-    'California':'🇺🇸','Virginia':'🇺🇸','Florida':'🇺🇸',
-    'New York':'🇺🇸','Illinois':'🇺🇸','Arizona':'🇺🇸',
-    'DC':'🇺🇸','North Carolina':'🇺🇸',
-    'Democratic Republic of the Congo':'🇨🇩','DR Congo':'🇨🇩',
-    'Republic of the Congo':'🇨🇬','Cyprus':'🇨🇾',
-  };
-  for(const [k,v] of Object.entries(flags)){
-    if(region.toLowerCase().includes(k.toLowerCase())) return v;
-  }
-  return '🌍';
-}
-
-function inferTags(text){
-  const tagMap=[
-    [/shipping|vessel|cargo|maritime/i,'Shipping'],
-    [/aviation|airport|flight|airline/i,'Aviation'],
-    [/energy|oil|gas|fuel|pipeline/i,'Energy'],
-    [/personnel|staff|employee|traveler/i,'Personnel safety'],
-    [/infrastructure|power|utility/i,'Infrastructure'],
-    [/supply chain/i,'Supply chain'],
-    [/protest|demonstration|civil/i,'Civil unrest'],
-    [/terror|attack|bomb|explosive/i,'Security threat'],
-    [/weather|storm|flood|wildfire|tornado/i,'Weather'],
-    [/operations|operational/i,'Operations'],
-  ];
-  return tagMap.filter(([re])=>re.test(text)).map(([,t])=>t).slice(0,3).join(', ');
-}
-
-// ── Clear form ──────────────────────────────────────────────
-function clearForm(){
-  if(!confirm('Clear the form and start fresh? Your saved draft will not be affected.')) return;
-  set('f-date',''); set('f-time',''); set('f-summary','');
-  ['action','decisions','monitoring','emerging'].forEach(t=>{
-    document.getElementById(`${t}-list`).innerHTML='';
-    entryCounters[`${t}-list`]=0;
-  });
-  updateCounts();
-  document.getElementById('save-status').className='status-pill unsaved';
+function onEdit(){
+  document.getElementById('save-status').className='status unsaved';
   document.getElementById('save-status').textContent='Unsaved';
+  clearTimeout(autoSaveTimer);
+  autoSaveTimer=setTimeout(()=>saveDraft(true),2000);
   render();
-  showToast('Form cleared — ready for a new brief','#4A9EFF');
 }
 
-// ── Init: try to load draft ─────────────────────────────────
-(function init(){
+// ── Tab switch ───────────────────────────────────────────────
+function switchTab(t){
+  currentTab=t;
+  document.getElementById('email-preview').style.display=t==='email'?'block':'none';
+  document.getElementById('html-output').style.display=t==='html'?'block':'none';
+  document.querySelectorAll('.tab').forEach(b=>b.className='tab '+(b.textContent.toLowerCase()===t?'active':'inactive'));
+  if(t==='html') document.getElementById('html-output').textContent=generateHTML();
+}
+
+// ── Draft ────────────────────────────────────────────────────
+function collectState(){
+  return{date:v('f-date'),time:v('f-time'),summary:v('f-summary'),action:v('f-action'),decisions:v('f-decisions'),monitoring:v('f-monitoring'),emerging:v('f-emerging'),stream:v('f-stream'),savedAt:new Date().toLocaleTimeString()};}
+
+function saveDraft(auto=false){
+  const s=collectState();
+  try{localStorage.setItem('samdesk_brief_v2',JSON.stringify(s));}catch(e){}
+  document.getElementById('save-status').className='status saved';
+  document.getElementById('save-status').textContent='Saved';
+  document.getElementById('draft-info').textContent=`Draft saved at ${s.savedAt}`;
+  document.getElementById('load-draft-btn').style.display='block';
+  if(!auto) showToast('Draft saved','#10B981');
+}
+
+function loadDraft(){
   try{
-    const raw=localStorage.getItem('samdesk_brief_draft');
-    if(raw){
-      const s=JSON.parse(raw);
-      document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown time'}`;
-      document.getElementById('load-draft-btn').style.display='block';
-    }
-  }catch(e){}
+    const raw=localStorage.getItem('samdesk_brief_v2');
+    if(!raw) return showToast('No draft found','#F59E0B');
+    const s=JSON.parse(raw);
+    set('f-date',s.date);set('f-time',s.time);set('f-summary',s.summary);
+    set('f-action',s.action);set('f-decisions',s.decisions);
+    set('f-monitoring',s.monitoring);set('f-emerging',s.emerging);set('f-stream',s.stream);
+    render();showToast('Draft loaded','#10B981');
+  }catch(e){showToast('No saved draft','#F59E0B');}
+}
+
+function clearForm(){
+  if(!confirm('Clear the form?')) return;
+  ['f-date','f-time','f-summary','f-action','f-decisions','f-monitoring','f-emerging','f-stream'].forEach(id=>set(id,''));
+  render();showToast('Form cleared','#4A9EFF');
+}
+
+// ── Example ──────────────────────────────────────────────────
+function loadExample(){
+  set('f-date','Tuesday, March 18, 2026');
+  set('f-time','12:00 GMT · 08:00 EDT · 05:00 PDT');
+  set('f-summary','Eid al-Fitr security elevated globally amid Iran conflict tensions. US embassy attacked in Baghdad. Active shooter at Holloman AFB, New Mexico. Travel disruption across Germany and Italy due to airport strikes today.');
+  set('f-action',`🌍 Global | Eid al-Fitr security elevated — US issues domestic threat warning | DHS and State Dept warn of potential threats tied to Iran conflict. Heightened security at religious sites March 19–22.
+🇮🇶 Iraq | US embassy attacked in Baghdad — worldwide security reviews ordered | Iran-backed militants downed by US forces. Fires reported in Green Zone. Second strike near Baghdad airport.
+🇺🇸 New Mexico | Active shooting at Holloman Air Force Base — 1 dead, 1 injured | Base placed into lockdown at 5:30pm local. Details not yet released.`);
+  set('f-decisions',`🇮🇷 Iran | Israel reports assassination of Iran intelligence minister Ismail Khatib | Significant regional escalation risk. Monitor for retaliatory action across Middle East.`);
+  set('f-monitoring',`🇮🇹 Italy | Bomb threat at city hall in Palermo
+🇯🇵 Japan | Suspicious object prompts evacuation at Katata Station in Yamashina
+🇮🇳 India | Bomb threat prompts evacuations at hospitals in Bhopal`);
+  set('f-emerging',`Mar 18 | 🇩🇪 Germany | Brandenburg Airport warning strike | All passenger flights suspended. ~2,000 Verdi union employees participating. | caution
+Mar 18 | 🇮🇹 Italy | 24-hour airport strike across Italy | Check-in, baggage, and ramp assistance affected across multiple airlines. | caution
+Mar 19–22 | 🌍 Global | Eid al-Fitr | Large gatherings globally. Heightened security near major celebration sites. | caution
+Mar 23 | 🇺🇸 Texas | Protest at CERAWeek energy conference in Houston | Hundreds of climate advocates and student groups expected. | caution
+Mar 28 | 🇬🇧 UK | London anti-racism march | Broad coalition mobilizing supporters nationally.
+Mar 28 | 🇺🇸 United States | No Kings protests nationwide | ~9 million expected across major US cities.`);
+  set('f-stream',`Americas | 🇺🇸 New York | allclear | Fire in New York City | sd-26031801
+Americas | 🇺🇸 Oregon | allclear | Suspicious package near Moda Center in Portland | sd-26031802
+Americas | 🇺🇸 Maryland | active | Shooting investigation in Camp Springs | sd-26031803
+Americas | 🇺🇸 Virginia | allclear | Bomb threat at hospital in Richmond | sd-26031804
+Americas | 🇺🇸 Tennessee | monitoring | Fire prompts road closures in Nashville | sd-26031807
+Americas | 🇺🇸 DC | allclear | Vehicle fire near Washington Monument | sd-26031808
+Americas | 🇺🇸 Florida | resolved | Suspects in custody following shooting in Alachua | sd-26031809
+EMEA | 🇮🇱 Israel | active | Missile strikes kill at least 2 in Tel Aviv | sd-26031812
+EMEA | 🇮🇷 Iran | active | Strike kills senior Iranian security chief Ali Larijani | sd-26031813
+EMEA | 🇱🇧 Lebanon | active | Missile strikes kill at least 6 in Beirut | sd-26031814
+EMEA | 🇸🇪 Sweden | allclear | Suspected dangerous object in Malmo | sd-26031815
+EMEA | 🇮🇱 Israel | resolved | Missile shrapnel prompts closure at train station in Holon | sd-26031816`);
+  render();showToast('Example loaded — Mar 18, 2026','#4A9EFF');
+}
+
+// ── Copy / Open ──────────────────────────────────────────────
+function copyHTML(){navigator.clipboard.writeText(generateHTML()).then(()=>showToast('HTML copied','#10B981')).catch(()=>showToast('Use HTML tab to copy','#F59E0B'));}
+function openWebPage(){const blob=new Blob([generateHTML()],{type:'text/html'});window.open(URL.createObjectURL(blob),'_blank');}
+
+// ── Init ─────────────────────────────────────────────────────
+(function(){
+  try{const raw=localStorage.getItem('samdesk_brief_v2');if(raw){const s=JSON.parse(raw);document.getElementById('draft-info').textContent=`Draft available — saved at ${s.savedAt||'unknown'}`;document.getElementById('load-draft-btn').style.display='block';}}catch(e){}
   render();
 })();
 </script>
