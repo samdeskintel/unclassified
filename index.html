@@ -85,7 +85,7 @@ input[type=text]:focus{border-color:var(--blue)}
 <div id="left">
   <div class="panel-hdr">
     <span class="panel-title">Brief Composer</span>
-    <span style="font-size:9px;color:#374151;letter-spacing:.5px">v1.4.5</span>
+    <span style="font-size:9px;color:#374151;letter-spacing:.5px">v1.4.6</span>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="loadDraft()">Load Draft</button>
     <button class="btn btn-ghost" style="font-size:9px;padding:4px 9px" onclick="clearAll()">Clear</button>
   </div>
@@ -444,9 +444,20 @@ function parseSource(){
     saveDraft(true);
     const total=data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length;
     if(total===0){
-      const extracted=(doc.body.innerText||doc.body.textContent||'').substring(0,800);
+      // Show parsed lines around the Notable Developments section
+      const allLinesDebug=rawText
+        .split('\n')
+        .map(l=>l.replace(/\s+/g,' ').trim())
+        .filter(l=>l.length>1);
+      const notableIdx=allLinesDebug.findIndex(l=>/Notable Developments/i.test(l));
+      const debugSlice=notableIdx>=0
+        ? allLinesDebug.slice(Math.max(0,notableIdx-2), notableIdx+10)
+        : allLinesDebug.slice(0,20);
       document.getElementById('diag-box').style.display='block';
-      document.getElementById('diag-text').textContent=extracted;
+      document.getElementById('diag-text').textContent=
+        'Total lines: '+allLinesDebug.length+'\n'+
+        'Notable Developments at line: '+notableIdx+'\n\n'+
+        debugSlice.map((l,i)=>`[${notableIdx-2+i}] ${l}`).join('\n');
       showToast('Parsed but no incidents — see diagnostic below','#F59E0B');
     } else {
       showToast(`Parsed — ${total} items found`,'#10B981');
