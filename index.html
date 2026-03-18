@@ -219,7 +219,10 @@ function parseSource(){
     function decodeQP(str){
       return str
         .replace(/=\r?\n/g,'')           // soft line breaks
-        .replace(/=([0-9A-Fa-f]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)));
+        .replace(/=([0-9A-Fa-f]{2})/g,(_,h)=>String.fromCharCode(parseInt(h,16)))
+        .replace(/\u2019/g,"'")          // curly apostrophe
+        .replace(/\u201c|\u201d/g,'"')   // curly quotes
+        .replace(/\u2013|\u2014/g,'-');  // em/en dash
     }
 
     // ── Step 2: Extract the HTML part from multipart MIME ──
