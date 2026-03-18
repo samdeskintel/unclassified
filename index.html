@@ -204,14 +204,36 @@ function onSourceInput(){
 
 // ── HTML SOURCE PARSER ───────────────────────────────────────
 function parseSource(){
-  const source=v('html-source');
+  let source=v('html-source');
   if(!source) return showToast('Paste the HTML source first','#F59E0B');
 
-  // Parse HTML into a DOM
-  const parser=new DOMParser();
-  const doc=parser.parseFromString(source,'text/html');
+  try{
+    // ── Strip Gmail email headers ──
+    // "Show original" prepends headers like From:, To:, Subject:, MIME-Version: etc.
+    // Find the start of the actual HTML content
+    const htmlStart=source.search(/<html|<!DOCTYPE|<div|<table|<body/i);
+    if(htmlStart>0) source=source.substring(htmlStart);
 
-  const data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
+    // If no HTML tags found at all, try treating as plain text fallback
+    if(!/[<>]/.test(source)){
+      return showToast('No HTML found — try plain text paste instead','#F59E0B');
+    }
+
+    // ── Parse HTML into a DOM ──
+    const parser=new DOMParser();
+    let doc;
+    try{
+      doc=parser.parseFromString(source,'text/html');
+    }catch(e){
+      return showToast('Could not parse HTML — try again','#EF4444');
+    }
+
+    // Check parse worked
+    if(!doc||!doc.body){
+      return showToast('Could not read email body — try again','#EF4444');
+    }
+
+    const data={date:'',time:'',action:[],decisions:[],monitoring:[],emerging:[],stream:[]};
 
   // ── Extract full text with link preservation ──
   // Get all text nodes and anchor tags
@@ -376,29 +398,39 @@ function parseSource(){
     data.stream.push({region,loc,desc:cleanDesc(desc),status,id:''});
   });
 
-  parsedData=data;
+    parsedData=data;
 
-  // ── Update result panel ──
-  document.getElementById('r-date').textContent=data.date||'Not found';
-  document.getElementById('r-action').textContent=data.action.length+' incidents';
-  document.getElementById('r-decisions').textContent=data.decisions.length+' incidents';
-  document.getElementById('r-monitoring').textContent=data.monitoring.length+' items';
-  document.getElementById('r-emerging').textContent=data.emerging.length+' items';
-  document.getElementById('r-stream').textContent=data.stream.length+' incidents';
-  document.getElementById('parse-result').style.display='block';
-  document.getElementById('summary-wrap').style.display='block';
+    // ── Update result panel ──
+    document.getElementById('r-date').textContent=data.date||'Not found';
+    document.getElementById('r-action').textContent=data.action.length+' incidents';
+    document.getElementById('r-decisions').textContent=data.decisions.length+' incidents';
+    document.getElementById('r-monitoring').textContent=data.monitoring.length+' items';
+    document.getElementById('r-emerging').textContent=data.emerging.length+' items';
+    document.getElementById('r-stream').textContent=data.stream.length+' incidents';
+    document.getElementById('parse-result').style.display='block';
+    document.getElementById('summary-wrap').style.display='block';
 
-  markDone(1);markDone(2);markDone(3);
+    markDone(1);markDone(2);markDone(3);
 
-  // Auto-generate summary
-  const sumParts=[];
-  if(data.action.length) sumParts.push(data.action[0].title);
-  if(data.action.length>1) sumParts.push(data.action[1].title);
-  set('f-summary',sumParts.join('. ')+'.');
+    // Auto-generate summary
+    const sumParts=[];
+    if(data.action.length) sumParts.push(data.action[0].title);
+    if(data.action.length>1) sumParts.push(data.action[1].title);
+    set('f-summary',sumParts.join('. ')+(sumParts.length?'.':''));
 
-  render();
-  saveDraft(true);
-  showToast(`Parsed — ${data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length} items found`,'#10B981');
+    render();
+    saveDraft(true);
+    const total=data.action.length+data.decisions.length+data.monitoring.length+data.emerging.length+data.stream.length;
+    if(total===0){
+      showToast('Parsed but no incidents found — check source format','#F59E0B');
+    } else {
+      showToast(`Parsed — ${total} items found`,'#10B981');
+    }
+
+  } catch(err){
+    console.error('Parse error:',err);
+    showToast('Parse error: '+err.message,'#EF4444');
+  }
 }
 
 // ── Infer tags ───────────────────────────────────────────────
